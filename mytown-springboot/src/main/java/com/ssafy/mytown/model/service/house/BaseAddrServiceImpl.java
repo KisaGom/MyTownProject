@@ -20,7 +20,7 @@ public class BaseAddrServiceImpl implements BaseAddrService {
 	
 	@Override
 	public List<BaseAddrDto> getSido() throws Exception {
-		System.out.println("SERVICE GET SIDO : " + baseAddrMapper.getSido());
+//		logger.debug("sido service: {}",baseAddrMapper.getSido());
 		return baseAddrMapper.getSido();
 	}
 

@@ -1,6 +1,5 @@
 package com.ssafy.mytown.model.dto.house;
 
-
 public class BaseAddrDto {
 	private String sidoCode;
 	private String gugunCode;
@@ -10,15 +9,6 @@ public class BaseAddrDto {
 	private String gugunName;
 	private String dongName;
 	
-	public BaseAddrDto(String sidoCode, String gugunCode, String dongCode, String sidoName, String gugunName, String dongName) {
-		super();
-		this.sidoCode = sidoCode;
-		this.gugunCode = gugunCode;
-		this.dongCode = dongCode;
-		this.sidoName = sidoName;
-		this.gugunName = gugunName;
-		this.dongName = dongName;
-	}
 	public String getSidoCode() {
 		return sidoCode;
 	}

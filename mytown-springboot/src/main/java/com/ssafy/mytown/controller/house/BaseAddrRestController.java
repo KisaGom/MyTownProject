@@ -26,12 +26,12 @@ public class BaseAddrRestController {
 	private static final String FAIL = "fail";
 	
 	@Autowired
-	BaseAddrService baseAddrService;
+	private BaseAddrService baseAddrService;
 
 	@GetMapping("/sido")
-	public ResponseEntity<?> getSido() {
-		logger.info("getSido - 호출");
+	public ResponseEntity<?> getSido() throws Exception{
 		try {
+			logger.debug("sido: {}",baseAddrService.getSido());
 			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,9 +40,9 @@ public class BaseAddrRestController {
 	
 	@GetMapping("/gugun/{sido}")
 	public ResponseEntity<?> getGugun(@PathVariable String sido) {
-		logger.info("getGugun - 호출");
 		try {
-			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
+			logger.debug("gugun: {}",baseAddrService.getSido());
+			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getGugun(sido), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -50,9 +50,9 @@ public class BaseAddrRestController {
 	
 	@GetMapping("/dong/{gugun}")
 	public ResponseEntity<?> getDong(@PathVariable String gugun) {
-		logger.info("getDong - 호출");
 		try {
-			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
+			logger.debug("dong: {}",baseAddrService.getSido());
+			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getDong(gugun), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
