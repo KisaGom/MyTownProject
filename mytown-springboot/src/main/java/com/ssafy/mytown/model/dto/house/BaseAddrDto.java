@@ -55,4 +55,10 @@ public class BaseAddrDto {
 	public void setDongName(String dongName) {
 		this.dongName = dongName;
 	}
+	@Override
+	public String toString() {
+		return "BaseAddrDto [sidoCode=" + sidoCode + ", gugunCode=" + gugunCode + ", dongCode=" + dongCode + ", sidoName=" + sidoName + ", gugunName=" + gugunName + ", dongName=" + dongName + "]";
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package com.ssafy.mytown.controller.house;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,7 @@ public class BaseAddrRestController {
 	public ResponseEntity<?> getSido() {
 		logger.info("getSido - 호출");
 		try {
-			logger.debug("get sido - {}", baseAddrService.getSido());
-			return new ResponseEntity<BaseAddrDto> (baseAddrService.getSido(), HttpStatus.OK);
+			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -41,7 +42,7 @@ public class BaseAddrRestController {
 	public ResponseEntity<?> getGugun(@PathVariable String sido) {
 		logger.info("getGugun - 호출");
 		try {
-			return new ResponseEntity<BaseAddrDto> (baseAddrService.getSido(), HttpStatus.OK);
+			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -51,7 +52,7 @@ public class BaseAddrRestController {
 	public ResponseEntity<?> getDong(@PathVariable String gugun) {
 		logger.info("getDong - 호출");
 		try {
-			return new ResponseEntity<BaseAddrDto> (baseAddrService.getSido(), HttpStatus.OK);
+			return new ResponseEntity<List<BaseAddrDto>> (baseAddrService.getSido(), HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

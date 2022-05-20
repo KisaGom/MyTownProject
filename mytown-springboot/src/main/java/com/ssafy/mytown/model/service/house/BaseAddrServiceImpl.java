@@ -1,5 +1,7 @@
 package com.ssafy.mytown.model.service.house;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +19,18 @@ public class BaseAddrServiceImpl implements BaseAddrService {
 	BaseAddrMapper baseAddrMapper;
 	
 	@Override
-	public BaseAddrDto getSido() throws Exception {
-		logger.info("Service getSido - 호출");
+	public List<BaseAddrDto> getSido() throws Exception {
+		System.out.println("SERVICE GET SIDO : " + baseAddrMapper.getSido());
 		return baseAddrMapper.getSido();
 	}
 
 	@Override
-	public BaseAddrDto getGugun(String sido) throws Exception {
+	public List<BaseAddrDto> getGugun(String sido) throws Exception {
 		return baseAddrMapper.getGugun(sido);
 	}
 
 	@Override
-	public BaseAddrDto getDong(String gugun) throws Exception {
+	public List<BaseAddrDto> getDong(String gugun) throws Exception {
 		return baseAddrMapper.getDong(gugun);
 	}
 }

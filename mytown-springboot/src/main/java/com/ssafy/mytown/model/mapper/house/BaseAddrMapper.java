@@ -1,12 +1,14 @@
 package com.ssafy.mytown.model.mapper.house;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.mytown.model.dto.house.BaseAddrDto;
 
 @Mapper
 public interface BaseAddrMapper {
-	BaseAddrDto getSido() throws Exception;
-	BaseAddrDto getGugun(String sido) throws Exception;
-	BaseAddrDto getDong(String gugun) throws Exception;
+	List<BaseAddrDto> getSido() throws Exception;
+	List<BaseAddrDto> getGugun(String sido) throws Exception;
+	List<BaseAddrDto> getDong(String gugun) throws Exception;
 }
