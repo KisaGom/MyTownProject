@@ -42,6 +42,8 @@
           ></b-form-select>
         </b-input-group>
         <!-- <div class="sideopener side">버튼</div> -->
+
+        <life-toolbar></life-toolbar>
       </div>
     </div>
     <map-view></map-view>
@@ -51,9 +53,10 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
+import LifeToolbar from "@/components/life/LifeToolbar.vue";
 
 export default {
-  components: { NavBar, MapView },
+  components: { NavBar, MapView, LifeToolbar },
   data() {
     return {
       selected1: null,
