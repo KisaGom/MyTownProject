@@ -3,19 +3,44 @@
     <div style="position: relative">
       <nav-bar></nav-bar>
       <div class="sidemenu side">
-        <h3>매매</h3>
-        <h3>상권</h3>
-        <h3>구성원</h3>
+        <ul>
+          <li class="isActive">
+            <a href="/life">
+              <b-icon icon="house-fill"></b-icon>
+              <div class="menu-text">매매정보</div>
+            </a>
+          </li>
+          <li>
+            <b-icon icon="house-fill"></b-icon>
+            <div class="menu-text">상권</div>
+          </li>
+          <li>
+            <b-icon icon="house-fill"></b-icon>
+            <div class="menu-text">구성원</div>
+          </li>
+        </ul>
       </div>
       <div class="sidecontent side">
-        <b-form-select
-          v-model="selected1"
-          :options="options1"
-          value-field="sidocode"
-          text-field="sidoname"
-        ></b-form-select>
-        <b-form-select v-model="selected2" :options="options2"></b-form-select>
-        <b-form-select v-model="selected3" :options="options3"></b-form-select>
+        <b-input-group>
+          <b-form-select
+            v-model="selected1"
+            :options="options1"
+            value-field="sidocode"
+            text-field="sidoname"
+          ></b-form-select>
+          <b-form-select
+            v-model="selected2"
+            :options="options2"
+            value-field="guguncode"
+            text-field="gugunname"
+          ></b-form-select>
+          <b-form-select
+            v-model="selected3"
+            :options="options3"
+            value-field="dongcode"
+            text-field="dongname"
+          ></b-form-select>
+        </b-input-group>
         <!-- <div class="sideopener side">버튼</div> -->
       </div>
     </div>
@@ -32,17 +57,21 @@ export default {
   data() {
     return {
       selected1: null,
-      options1: [{ sidocode: null, sidoname: "시" }],
+      options1: [{ sidocode: null, sidoname: "서울특별시" }],
       selected2: null,
-      options2: [{ value: null, text: "군" }],
+      options2: [{ guguncode: null, gugunname: "시작군" }],
       selected3: null,
-      options3: [{ value: null, text: "동" }],
+      options3: [{ dongcode: null, dongname: "구의동로3가" }],
     };
   },
   mounted() {},
 };
 </script>
-<style>
+<style scoped>
+a:hover {
+  text-decoration: none;
+}
+
 .side {
   height: 100vh;
 }
@@ -53,11 +82,33 @@ export default {
   background-color: azure;
 }
 
+.menu-text {
+  font-size: 9pt;
+}
+
 .sidecontent {
   position: absolute;
-  margin-left: 105px;
+  width: 390px;
+  margin-left: 68px;
   z-index: 2;
   background-color: aquamarine;
   transform: translateX(0%);
+}
+
+.sidemenu a.router-link-exact-active {
+  color: black;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+li {
+  padding: 10px;
+}
+
+.isActive {
+  background-color: aqua;
 }
 </style>
