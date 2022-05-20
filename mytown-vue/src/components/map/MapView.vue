@@ -9,6 +9,7 @@ export default {
   data() {
     return {
       map: null,
+      geocoder: null,
     };
   },
   methods: {
@@ -24,10 +25,12 @@ export default {
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
+
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=703da60a86e5e83c5accc64f51991199`;
       document.head.appendChild(script);
+
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
     } else {
       this.initMap();
     }
