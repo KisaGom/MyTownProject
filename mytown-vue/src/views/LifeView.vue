@@ -20,28 +20,30 @@
           </li>
         </ul>
       </div>
-      <div class="sidecontent side">
+      <div class="sidecontent side" v-bind:class="{ leftSided: isLeftSided }">
         <b-input-group>
           <b-form-select
             v-model="selected1"
             :options="options1"
-            value-field="sidocode"
-            text-field="sidoname"
+            value-field="sidoCode"
+            text-field="sidoName"
           ></b-form-select>
           <b-form-select
             v-model="selected2"
             :options="options2"
-            value-field="guguncode"
-            text-field="gugunname"
+            value-field="gugunCode"
+            text-field="gugunName"
           ></b-form-select>
           <b-form-select
             v-model="selected3"
             :options="options3"
-            value-field="dongcode"
-            text-field="dongname"
+            value-field="dongCode"
+            text-field="dongName"
           ></b-form-select>
         </b-input-group>
-        <!-- <div class="sideopener side">버튼</div> -->
+        <div class="side-content-button">
+          <b-icon icon="arrow-right-square-fill"></b-icon>
+        </div>
 
         <life-toolbar></life-toolbar>
       </div>
@@ -60,14 +62,14 @@ export default {
   data() {
     return {
       selected1: null,
-      options1: [{ sidocode: null, sidoname: "서울특별시" }],
+      options1: [{ sidoCode: null, sidoName: "서울특별시" }],
       selected2: null,
-      options2: [{ guguncode: null, gugunname: "시작군" }],
+      options2: [{ gugunCode: null, gugunName: "시작군" }],
       selected3: null,
-      options3: [{ dongcode: null, dongname: "구의동로3가" }],
+      options3: [{ dongCode: null, dongName: "구의동로3가" }],
+      isLeftSided: false,
     };
   },
-  mounted() {},
 };
 </script>
 <style scoped>
@@ -95,7 +97,6 @@ a:hover {
   margin-left: 68px;
   z-index: 2;
   background-color: aquamarine;
-  transform: translateX(0%);
 }
 
 .sidemenu a.router-link-exact-active {
@@ -111,7 +112,15 @@ li {
   padding: 10px;
 }
 
+.side-content-button {
+  vertical-align: middle;
+}
+
 .isActive {
   background-color: aqua;
+}
+
+.leftSided {
+  transform: translateX(-100%);
 }
 </style>
