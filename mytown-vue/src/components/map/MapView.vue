@@ -5,6 +5,10 @@
       <div>지도중심기준 행정동 주소정보</div>
       <div id="centerAddr"></div>
     </div>
+    <div>
+      <b-button @click="showPosMarkers">마커 보이기</b-button>
+      <b-button @click="removePosMarkers">마커 감추기</b-button>
+    </div>
     <div class="map_wrap">
       <div
         id="map"
@@ -70,6 +74,7 @@ export default {
           lng: "126.570738",
         },
       ],
+      posMarkers: [],
       //카테고리별 장소 검색하기------------------------------
       ps: null,
       placeOverlay: null,
@@ -104,14 +109,15 @@ export default {
       //여러개 마커 표시하기--------------------------------
       for (var i = 0; i < this.positions.length; i++) {
         // 마커를 생성합니다
-        new kakao.maps.Marker({
-          map: this.map, // 마커를 표시할 지도
+        let marker = new kakao.maps.Marker({
+          // map: this.map, // 마커를 표시할 지도
           position: new kakao.maps.LatLng(
             this.positions[i].lat,
             this.positions[i].lng
           ), // 마커를 표시할 위치
           title: this.positions[i].apartmentName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
         });
+        this.posMarkers.push(marker);
       }
 
       //카테고리별 장소 검색하기------------------------------
@@ -172,6 +178,23 @@ export default {
             break;
           }
         }
+      }
+    },
+
+    //여러개 마커 표시하기--------------------------------
+    //마커 보이기
+    showPosMarkers() {
+      this.setPosMarkers(this.map);
+    },
+
+    //마커 감추기
+    removePosMarkers() {
+      this.setPosMarkers(null);
+    },
+
+    setPosMarkers(map) {
+      for (var i = 0; i < this.posMarkers.length; i++) {
+        this.posMarkers[i].setMap(map);
       }
     },
 
@@ -322,6 +345,7 @@ export default {
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     onClickCategory() {
       // console.log("called onClickCategory");
+      // console.log("event.currentTarget", event.currentTarget);
       var id = event.currentTarget.id,
         className = event.currentTarget.className;
 
@@ -330,12 +354,14 @@ export default {
       console.log("id, className", id, className);
 
       if (className === "on") {
+        // console.log("className on");
         this.curCategory = "";
         this.changeCategoryClass();
         this.removeMarker();
       } else {
+        // console.log("className undefined");
         this.curCategory = id;
-        this.changeCategoryClass(this);
+        this.changeCategoryClass(event.currentTarget);
         this.searchPlaces();
       }
     },
@@ -352,6 +378,7 @@ export default {
       }
 
       if (el) {
+        console.log("el.className", el.className);
         el.className = "on";
       }
     },
