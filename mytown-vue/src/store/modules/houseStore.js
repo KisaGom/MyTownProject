@@ -1,4 +1,5 @@
 import { sidoList, gugunList, dongList } from "@/api/baseAddr";
+import { commercialListDong } from "@/api/commercialInfo";
 import { houseDealList } from "@/api/houseDeal";
 
 const houseStore = {
@@ -9,6 +10,7 @@ const houseStore = {
     dongs: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
+    comms: [],
   },
   mutations: {
     SET_SIDO_LIST: (state, sidos) => {
@@ -35,6 +37,9 @@ const houseStore = {
     CLEAR_DONG_LIST: (state) => {
       state.dongs = [{ value: null, text: "선택하세요" }];
     },
+    CLEAR_HOUSE_LIST: (state) => {
+      state.houses = null;
+    },
     SET_HOUSE_LIST: (state, houses) => {
       //   console.log(houses);
       state.houses = houses;
@@ -42,6 +47,14 @@ const houseStore = {
     },
     SET_DETAIL_HOUSE: (state, house) => {
       state.house = house;
+    },
+    CLEAR_COMM_LIST: (state) => {
+      state.houses = null;
+    },
+    SET_COMM_LIST: (state, comms) => {
+      //   console.log(houses);
+      state.comms = comms;
+      console.log(state.comms);
     },
   },
   actions: {
@@ -104,6 +117,22 @@ const houseStore = {
     },
     detailHouse: ({ commit }, house) => {
       commit("SET_DETAIL_HOUSE", house);
+    },
+    getCommercialListDong: ({ commit }, dongCode) => {
+      const params = {
+        dongCode,
+      };
+      commercialListDong(
+        params,
+        (response) => {
+          //console.log(response.data);
+          //   console.log(response.data.response.body.items.item);
+          commit("SET_COMM_LIST", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };

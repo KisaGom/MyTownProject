@@ -14,6 +14,11 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    sayhello() {
+      console.log("hello");
+    },
+  },
 };
 </script>
 

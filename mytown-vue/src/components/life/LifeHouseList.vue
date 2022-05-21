@@ -20,6 +20,8 @@
 </template>
 
 <script>
+// 아파트 정보 호출하는 함수는 너무 간단해서 LifeToolbar에 툴바 단에서 호출하는 그대로 둠
+// 다음에 아파트 정보 탭 is activated and dongcode is not null일때 조회하는걸로 수정하긴 해야할듯
 import { mapState } from "vuex";
 
 const houseStore = "houseStore";
@@ -30,7 +32,7 @@ export default {
     return {
       fields: [
         { key: "apartmentName", label: "아파트" },
-        { key: "dealAmount", label: "거래가(만원)" },
+        { key: "dealAmount", label: "거래가" },
         { key: "dealYear", label: "거래일" },
       ],
     };

@@ -33,14 +33,13 @@
           <b-form-select
             v-model="dongCode"
             :options="dongs"
-            @change="searchApt"
+            @change="doSearch"
           ></b-form-select>
         </b-input-group>
-        <div class="side-content-button">
-          <b-icon icon="arrow-right-square-fill"></b-icon>
-        </div>
-
         <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
+        <life-commercial-toolbar
+          v-if="selsectedTab === 2"
+        ></life-commercial-toolbar>
       </div>
     </div>
     <map-view></map-view>
@@ -51,12 +50,13 @@
 import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
+import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
 export default {
   name: "LifeView",
-  components: { NavBar, MapView, LifeToolbar },
+  components: { NavBar, MapView, LifeToolbar, LifeCommercialToolbar },
   data() {
     return {
       sidoCode: null,
@@ -68,7 +68,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses", "house"]),
+    ...mapState(houseStore, [
+      "sidos",
+      "guguns",
+      "dongs",
+      "houses",
+      "house",
+      "comms",
+    ]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
@@ -80,14 +87,18 @@ export default {
       "getGugun",
       "getDong",
       "getHouseList",
+      "getCommList",
+      "getCommercialListDong",
     ]),
     ...mapMutations(houseStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
+      "CLEAR_HOUSE_LIST",
+      "CLEAR_COMM_LIST",
     ]),
     gugunList() {
-      console.log(this.sidoCode);
+      this.CLEAR_HOUSE_LIST();
       this.CLEAR_GUGUN_LIST();
       this.CLEAR_DONG_LIST();
       this.gugunCode = null;
@@ -95,14 +106,17 @@ export default {
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log(this.gugunCode);
+      this.CLEAR_HOUSE_LIST();
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
+
     searchApt() {
-      if (this.dongCode) this.getHouseList(this.gugunCode + this.dongCode);
-      console.log(this.houses);
+      this.getHouseList(this.gugunCode + this.dongCode);
+    },
+    searchComm() {
+      this.getCommercialListDong(this.gugunCode + this.dongCode);
     },
     switchTab(tab) {
       if (tab == this.selsectedTab) {
@@ -111,6 +125,16 @@ export default {
       } else {
         this.selsectedTab = tab;
         this.isHidden = false;
+        this.doSearch();
+      }
+    },
+    doSearch() {
+      if (this.dongCode) {
+        if (this.selsectedTab == "1") {
+          this.searchApt();
+        } else if (this.selsectedTab == "2") {
+          this.searchComm();
+        }
       }
     },
     isActivated(tab) {
