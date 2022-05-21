@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.ssafy.mytown.model.mapper.house.HouseDealMapper">
+	<select id="getHouseDeal" parameterType="string" resultType="houseDealDto">
+		select d.aptCode, d.no, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area, d.floor, 
+			i.dongCode, i.apartmentName, lng, lat from housedeal d
+			natural join houseinfo i
+			where dongCode = #{dongCode}
+			order by dealYear desc, dealMonth desc, dealDay desc;
+	</select>
+
+</mapper>
