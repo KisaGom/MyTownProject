@@ -4,23 +4,21 @@
       <nav-bar></nav-bar>
       <div class="sidemenu side">
         <ul>
-          <li class="isActive">
-            <a href="/life">
-              <b-icon icon="house-fill"></b-icon>
-              <div class="menu-text">매매정보</div>
-            </a>
+          <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
+            <b-icon icon="house-fill"></b-icon>
+            <div class="menu-text">매매정보</div>
           </li>
-          <li>
+          <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
             <b-icon icon="house-fill"></b-icon>
             <div class="menu-text">상권</div>
           </li>
-          <li>
+          <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
             <b-icon icon="house-fill"></b-icon>
             <div class="menu-text">구성원</div>
           </li>
         </ul>
       </div>
-      <div class="sidecontent side" v-bind:class="{ leftSided: isLeftSided }">
+      <div class="sidecontent side" v-bind:class="{ isHidden: isHidden }">
         <b-input-group>
           <b-form-select
             v-model="sidoCode"
@@ -32,13 +30,17 @@
             :options="guguns"
             @change="dongList"
           ></b-form-select>
-          <b-form-select v-model="dongCode" :options="dongs"></b-form-select>
+          <b-form-select
+            v-model="dongCode"
+            :options="dongs"
+            @change="searchApt"
+          ></b-form-select>
         </b-input-group>
         <div class="side-content-button">
           <b-icon icon="arrow-right-square-fill"></b-icon>
         </div>
 
-        <life-toolbar></life-toolbar>
+        <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
       </div>
     </div>
     <map-view></map-view>
@@ -61,17 +63,24 @@ export default {
       gugunCode: null,
       dongCode: null,
       isLeftSided: false,
+      selsectedTab: "0",
+      isHidden: true,
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses", "house"]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
   methods: {
-    ...mapActions(houseStore, ["getSido", "getGugun", "getDong"]),
+    ...mapActions(houseStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+    ]),
     ...mapMutations(houseStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
@@ -80,7 +89,9 @@ export default {
     gugunList() {
       console.log(this.sidoCode);
       this.CLEAR_GUGUN_LIST();
+      this.CLEAR_DONG_LIST();
       this.gugunCode = null;
+      this.dongCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
@@ -88,6 +99,23 @@ export default {
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
+    },
+    searchApt() {
+      if (this.dongCode) this.getHouseList(this.gugunCode + this.dongCode);
+      console.log(this.houses);
+    },
+    switchTab(tab) {
+      if (tab == this.selsectedTab) {
+        this.selsectedTab = 0;
+        this.isHidden = true;
+      } else {
+        this.selsectedTab = tab;
+        this.isHidden = false;
+      }
+    },
+    isActivated(tab) {
+      if (tab == this.selsectedTab) return true;
+      else return false;
     },
   },
 };
@@ -117,8 +145,12 @@ a:hover {
   margin-left: 68px;
   z-index: 2;
   background-color: aquamarine;
+  overflow: auto;
 }
 
+.sidecontent::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 .sidemenu a.router-link-exact-active {
   color: black;
 }
@@ -132,15 +164,19 @@ li {
   padding: 10px;
 }
 
+li:hover {
+  background-color: skyblue;
+}
+
 .side-content-button {
   vertical-align: middle;
 }
 
 .isActive {
-  background-color: aqua;
+  background-color: skyblue;
 }
 
-.leftSided {
+.isHidden {
   transform: translateX(-100%);
 }
 </style>

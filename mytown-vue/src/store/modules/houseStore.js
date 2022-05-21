@@ -1,4 +1,5 @@
 import { sidoList, gugunList, dongList } from "@/api/baseAddr";
+import { houseDealList } from "@/api/houseDeal";
 
 const houseStore = {
   namespaced: true,
@@ -6,6 +7,8 @@ const houseStore = {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
     dongs: [{ value: null, text: "선택하세요" }],
+    houses: [],
+    house: null,
   },
   mutations: {
     SET_SIDO_LIST: (state, sidos) => {
@@ -31,6 +34,14 @@ const houseStore = {
     },
     CLEAR_DONG_LIST: (state) => {
       state.dongs = [{ value: null, text: "선택하세요" }];
+    },
+    SET_HOUSE_LIST: (state, houses) => {
+      //   console.log(houses);
+      state.houses = houses;
+      console.log(houses);
+    },
+    SET_DETAIL_HOUSE: (state, house) => {
+      state.house = house;
     },
   },
   actions: {
@@ -73,6 +84,26 @@ const houseStore = {
           console.log(error);
         }
       );
+    },
+    getHouseList: ({ commit }, dongCode) => {
+      const params = {
+        dongCode,
+      };
+      console.log("dongCode -> " + dongCode);
+      houseDealList(
+        params,
+        (response) => {
+          //console.log(response.data);
+          //   console.log(response.data.response.body.items.item);
+          commit("SET_HOUSE_LIST", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    detailHouse: ({ commit }, house) => {
+      commit("SET_DETAIL_HOUSE", house);
     },
   },
 };
