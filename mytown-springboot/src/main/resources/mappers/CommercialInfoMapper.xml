@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mytown.model.mapper.house.CommercialInfoMapper">
+	<select id="getComInfoDong" resultType="commercialInfoDto">
+		select storeName, storePosition, majorClass, detailClass, standardClass, 
+		sidoCode, sidoName, gugunCode, gugunName, dongCode, dongName, 
+		concat(streetAddress, if(mainAddrNumber, concat(' ', mainAddrNumber, if(subAddrNumber, concat("-", subAddrNumber), '')), '')) as "streetAddress",  
+		lng, lat from commercialinfo
+		where dongCode = #{dongCode};
+	</select>
+ 
+</mapper>
