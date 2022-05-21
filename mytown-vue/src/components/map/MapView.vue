@@ -1,6 +1,10 @@
 <template>
   <div>
     <div id="map"></div>
+    <div>
+      <span>지도중심기준 행정동 주소정보</span>
+      <span id="centerAddr"></span>
+    </div>
   </div>
 </template>
 
@@ -9,27 +13,31 @@ export default {
   data() {
     return {
       map: null,
+      geocoder: null,
     };
   },
   methods: {
     initMap() {
-      const mapContainer = document.getElementById("map"); // 지도를 표시할 div
-      const mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+      var container = document.getElementById("map");
+      var options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3,
       };
-      this.map = new kakao.maps.Map(mapContainer, mapOption);
+
+      this.map = new kakao.maps.Map(container, options);
+      this.geocoder = new kakao.maps.services.Geocoder();
     },
   },
   mounted() {
-    if (!window.kakao || !window.kakao.maps) {
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+    } else {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=703da60a86e5e83c5accc64f51991199`;
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&libraries=services&appkey=703da60a86e5e83c5accc64f51991199";
       document.head.appendChild(script);
-    } else {
-      this.initMap();
     }
   },
 };
