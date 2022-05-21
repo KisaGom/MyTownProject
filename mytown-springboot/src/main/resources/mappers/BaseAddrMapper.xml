@@ -12,13 +12,13 @@
 	<select id="getGugun" resultType="baseAddrDto" parameterType="string">
 		select distinct left(dongCode, 5) gugunCode, gugunName 
 		from dongcode 
-		where left(dongCode, 2) = #{sido}
+		where left(dongCode, 2) = #{sido} and gugunName is not null
 	</select>
 	
 	<select id="getDong" resultType="baseAddrDto"  parameterType="string">
 		select right(dongCode, 5) dongCode, dongName 
 		from dongcode 
-		where left(dongCode, 5) = #{gugun}
+		where left(dongCode, 5) = #{gugun} and dongName is not null
 	</select>
 	
 </mapper>
