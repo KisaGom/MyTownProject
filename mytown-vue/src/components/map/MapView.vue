@@ -1,11 +1,11 @@
 <template>
   <div>
     <div id="map"></div>
-    <div>
+    <div class="centerAddr">
       <div>지도중심기준 행정동 주소정보</div>
       <div id="centerAddr"></div>
     </div>
-    <div>
+    <div class="posMarkers">
       <b-button @click="showPosMarkers">마커 보이기</b-button>
       <b-button @click="removePosMarkers">마커 감추기</b-button>
     </div>
@@ -404,6 +404,26 @@ export default {
   height: 100vh;
 }
 
+div.centerAddr {
+  position: absolute;
+  width: auto;
+  height: auto;
+  right: 5px;
+  bottom: 5px;
+  z-index: 3;
+  background-color: white;
+  padding: 5px;
+}
+
+div.posMarkers {
+  position: absolute;
+  width: auto;
+  height: auto;
+  right: 5px;
+  bottom: 70px;
+  z-index: 3;
+}
+
 .map_wrap,
 .map_wrap * {
   margin: 0;
@@ -412,9 +432,11 @@ export default {
   font-size: 12px;
 }
 .map_wrap {
-  position: relative;
-  width: 100%;
-  height: 350px;
+  position: absolute;
+  width: auto;
+  height: auto;
+  left: 455px;
+  top: 50px;
 }
 #category {
   position: absolute;
