@@ -44,4 +44,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+table {
+  font-size: 0.9rem;
+}
+
+.col {
+  font-size: 0.9rem;
+}
+</style>

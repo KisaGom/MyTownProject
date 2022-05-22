@@ -1,46 +1,44 @@
 <template>
-  <div class="life-parent">
-    <div style="position: relative">
-      <nav-bar></nav-bar>
-      <div class="sidemenu side">
-        <ul>
-          <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
-            <b-icon icon="house-fill"></b-icon>
-            <div class="menu-text">매매정보</div>
-          </li>
-          <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
-            <b-icon icon="house-fill"></b-icon>
-            <div class="menu-text">상권</div>
-          </li>
-          <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
-            <b-icon icon="house-fill"></b-icon>
-            <div class="menu-text">구성원</div>
-          </li>
-        </ul>
-      </div>
-      <div class="sidecontent side" v-bind:class="{ isHidden: isHidden }">
-        <b-input-group>
-          <b-form-select
-            v-model="sidoCode"
-            :options="sidos"
-            @change="gugunList"
-          ></b-form-select>
-          <b-form-select
-            v-model="gugunCode"
-            :options="guguns"
-            @change="dongList"
-          ></b-form-select>
-          <b-form-select
-            v-model="dongCode"
-            :options="dongs"
-            @change="doSearch"
-          ></b-form-select>
-        </b-input-group>
-        <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
-        <life-commercial-toolbar
-          v-if="selsectedTab === 2"
-        ></life-commercial-toolbar>
-      </div>
+  <div class="life">
+    <nav-bar class="nav-bar"></nav-bar>
+    <div class="sidemenu side">
+      <ul>
+        <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
+          <b-icon icon="house-door"></b-icon>
+          <div class="menu-text">매매정보</div>
+        </li>
+        <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
+          <b-icon icon="cart3"></b-icon>
+          <div class="menu-text">상권</div>
+        </li>
+        <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
+          <b-icon icon="emoji-smile"></b-icon>
+          <div class="menu-text">구성원</div>
+        </li>
+      </ul>
+    </div>
+    <div class="sidecontent side" v-bind:class="{ isHidden: isHidden }">
+      <b-input-group>
+        <b-form-select
+          v-model="sidoCode"
+          :options="sidos"
+          @change="gugunList"
+        ></b-form-select>
+        <b-form-select
+          v-model="gugunCode"
+          :options="guguns"
+          @change="dongList"
+        ></b-form-select>
+        <b-form-select
+          v-model="dongCode"
+          :options="dongs"
+          @change="doSearch"
+        ></b-form-select>
+      </b-input-group>
+      <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
+      <life-commercial-toolbar
+        v-if="selsectedTab === 2"
+      ></life-commercial-toolbar>
     </div>
     <map-view></map-view>
   </div>
@@ -151,16 +149,31 @@ a:hover {
 
 .side {
   height: 100vh;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .sidemenu {
   position: absolute;
   z-index: 3;
-  background-color: azure;
+  background-color: #fff;
 }
 
 .menu-text {
-  font-size: 9pt;
+  font-size: 0.75rem;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+li:hover {
+  color: blue;
 }
 
 .sidecontent {
@@ -168,7 +181,7 @@ a:hover {
   width: 390px;
   margin-left: 68px;
   z-index: 2;
-  background-color: aquamarine;
+  background-color: #fff;
   overflow: auto;
 }
 
@@ -179,17 +192,13 @@ a:hover {
   color: black;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0px;
+.input-group {
+  margin: 5px;
+  width: 98%;
 }
 
-li {
-  padding: 10px;
-}
-
-li:hover {
-  background-color: skyblue;
+.input-group select {
+  font-size: 0.85rem;
 }
 
 .side-content-button {
@@ -197,7 +206,7 @@ li:hover {
 }
 
 .isActive {
-  background-color: skyblue;
+  background-color: #c2e0f5;
 }
 
 .isHidden {

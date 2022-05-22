@@ -256,9 +256,11 @@ export default {
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
         // (function (marker, place) {
-        //   kakao.maps.event.addListener(marker, "click", function () {
-        //     this.displayPlaceInfo(place);
-        //   });
+        let placeParam = places[i];
+        kakao.maps.event.addListener(this.markers[i], "click", () => {
+          console.log("placeParam", placeParam);
+          this.displayPlaceInfo(placeParam);
+        });
         // })(marker, places[i]);
       }
       console.log("markers len", this.markers.length);
@@ -298,49 +300,50 @@ export default {
 
     // TODO: 마커에 오버레이 등록
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-    // displayPlaceInfo(place) {
-    //   var content =
-    //     '<div class="placeinfo">' +
-    //     '   <a class="title" href="' +
-    //     place.place_url +
-    //     '" target="_blank" title="' +
-    //     place.place_name +
-    //     '">' +
-    //     place.place_name +
-    //     "</a>";
+    displayPlaceInfo(place) {
+      var content =
+        '<div class="placeinfo">' +
+        '   <a class="title" href="' +
+        place.place_url +
+        '" target="_blank" title="' +
+        place.place_name +
+        '">' +
+        place.place_name +
+        "</a>";
 
-    //   if (place.road_address_name) {
-    //     content +=
-    //       '    <span title="' +
-    //       place.road_address_name +
-    //       '">' +
-    //       place.road_address_name +
-    //       "</span>" +
-    //       '  <span class="jibun" title="' +
-    //       place.address_name +
-    //       '">(지번 : ' +
-    //       place.address_name +
-    //       ")</span>";
-    //   } else {
-    //     content +=
-    //       '    <span title="' +
-    //       place.address_name +
-    //       '">' +
-    //       place.address_name +
-    //       "</span>";
-    //   }
+      if (place.road_address_name) {
+        content +=
+          '    <span title="' +
+          place.road_address_name +
+          '">' +
+          place.road_address_name +
+          "</span>" +
+          '  <span class="jibun" title="' +
+          place.address_name +
+          '">(지번 : ' +
+          place.address_name +
+          ")</span>";
+      } else {
+        content +=
+          '    <span title="' +
+          place.address_name +
+          '">' +
+          place.address_name +
+          "</span>";
+      }
 
-    //   content +=
-    //     '    <span class="tel">' +
-    //     place.phone +
-    //     "</span>" +
-    //     "</div>" +
-    //     '<div class="after"></div>';
+      content +=
+        '    <span class="tel">' +
+        place.phone +
+        "</span>" +
+        "</div>" +
+        '<div class="after"></div>';
 
-    //   this.contentNode.innerHTML = content;
-    //   this.placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
-    //   this.placeOverlay.setMap(this.map);
-    // },
+      this.contentNode.innerHTML = content;
+      // console.log("this.contentNode", this.contentNode);
+      this.placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+      this.placeOverlay.setMap(this.map);
+    },
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     onClickCategory() {
@@ -398,7 +401,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #map {
   width: 100%;
   height: 100vh;
@@ -554,8 +557,8 @@ div.posMarkers {
   margin: -1px -1px 0 -1px;
   padding: 10px;
   color: #fff;
-  background: #d95050;
-  background: #d95050
+  background: #44d8e5;
+  background: #44d8e5
     url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
     no-repeat right 14px center;
 }
