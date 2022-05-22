@@ -5,9 +5,9 @@ import { houseDealList } from "@/api/houseDeal";
 const houseStore = {
   namespaced: true,
   state: {
-    sidos: [{ value: null, text: "선택하세요" }],
-    guguns: [{ value: null, text: "선택하세요" }],
-    dongs: [{ value: null, text: "선택하세요" }],
+    sidos: [{ value: null, text: "시/도" }],
+    guguns: [{ value: null, text: "구/군" }],
+    dongs: [{ value: null, text: "읍/면/동" }],
     houses: [],
     house: null,
     comms: [],
@@ -29,13 +29,13 @@ const houseStore = {
       });
     },
     CLEAR_SIDO_LIST: (state) => {
-      state.sidos = [{ value: null, text: "선택하세요" }];
+      state.sidos = [{ value: null, text: "시/도" }];
     },
     CLEAR_GUGUN_LIST: (state) => {
-      state.guguns = [{ value: null, text: "선택하세요" }];
+      state.guguns = [{ value: null, text: "구/군" }];
     },
     CLEAR_DONG_LIST: (state) => {
-      state.dongs = [{ value: null, text: "선택하세요" }];
+      state.dongs = [{ value: null, text: "읍/면/동" }];
     },
     CLEAR_HOUSE_LIST: (state) => {
       state.houses = null;
