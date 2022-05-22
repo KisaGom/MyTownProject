@@ -18,29 +18,36 @@
       </ul>
     </div>
     <div class="sidecontent side" v-bind:class="{ isHidden: isHidden }">
-      <b-input-group>
-        <b-form-select
-          v-model="sidoCode"
-          :options="sidos"
-          @change="gugunList"
-        ></b-form-select>
-        <b-form-select
-          v-model="gugunCode"
-          :options="guguns"
-          @change="dongList"
-        ></b-form-select>
-        <b-form-select
-          v-model="dongCode"
-          :options="dongs"
-          @change="doSearch"
-        ></b-form-select>
-      </b-input-group>
-      <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
-      <life-commercial-toolbar
-        v-if="selsectedTab === 2"
-      ></life-commercial-toolbar>
+      <div class="b-input-group">
+        <b-input-group>
+          <b-form-select
+            v-model="sidoCode"
+            :options="sidos"
+            @change="gugunList"
+          ></b-form-select>
+          <b-form-select
+            v-model="gugunCode"
+            :options="guguns"
+            @change="dongList"
+          ></b-form-select>
+          <b-form-select
+            v-model="dongCode"
+            :options="dongs"
+            @change="doSearch"
+          ></b-form-select>
+        </b-input-group>
+        <b-input-group>
+          <b-form-select v-model="dealYear" :options="year"> </b-form-select>
+          <b-form-select v-model="dealMonth" :options="month"> </b-form-select>
+          <b-button>검색</b-button>
+        </b-input-group>
+        <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
+        <life-commercial-toolbar
+          v-if="selsectedTab === 2"
+        ></life-commercial-toolbar>
+      </div>
     </div>
-    <map-view></map-view>
+    <map-view ref="childMap"></map-view>
   </div>
 </template>
 
@@ -60,6 +67,24 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      dealYear: 2022,
+      dealMonth: null,
+      year: [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015],
+      month: [
+        { value: null, text: "전체" },
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+      ],
       isLeftSided: false,
       selsectedTab: "0",
       isHidden: true,
@@ -190,11 +215,6 @@ li:hover {
 }
 .sidemenu a.router-link-exact-active {
   color: black;
-}
-
-.input-group {
-  margin: 5px;
-  width: 98%;
 }
 
 .input-group select {

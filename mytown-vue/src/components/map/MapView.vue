@@ -58,15 +58,13 @@ export default {
       ps: null,
       placeOverlay: null,
       contentNode: null,
+      curCategory: "",
       markers: [],
-      //여러개 마커 표시하기--------------------------------
-      posMarkers: [],
       //여러개 오버레이 표시하기--------------------------------
       overlays: [],
-      curCategory: "",
     };
   },
-  //여러개 마커 표시하기--------------------------------
+  //여러개 오버레이 표시하기--------------------------------
   computed: {
     ...mapState(houseStore, ["houses"]),
   },
@@ -154,50 +152,15 @@ export default {
       }
     },
 
-    //여러개 마커 표시하기--------------------------------
-    //마커 생성
-    // makePosMarkers() {
-    //   // for (var i = 0; i < this.houses.length; i++) {
-    //   for (var i = 0; i < 20; i++) {
-    //     // 마커를 표시할 위치 & 마커의 타이틀(마커에 마우스를 올리면 타이틀이 표시됩니다)
-    //     var position = new kakao.maps.LatLng(
-    //         this.houses[i].lat,
-    //         this.houses[i].lng
-    //       ),
-    //       title = this.houses[i].apartmentName;
-    //     // 마커를 생성합니다
-    //     let marker = new kakao.maps.Marker({
-    //       position: position,
-    //       title: title,
-    //     });
-    //     this.posMarkers.push(marker);
-    //   }
-    // },
-
-    // //마커 보이기
-    // showPosMarkers() {
-    //   this.makePosMarkers();
-    //   this.setPosMarkers(this.map);
-    // },
-
-    // //마커 감추기
-    // removePosMarkers() {
-    //   this.setPosMarkers(null);
-    // },
-
-    // //마커 표시 여부 설정
-    // setPosMarkers(map) {
-    //   for (var i = 0; i < this.posMarkers.length; i++) {
-    //     this.posMarkers[i].setMap(map);
-    //   }
-    // },
-
     //여러개 오버레이 표시하기--------------------------------
     //오버레이 생성
     makeOverlay() {
+      console.log("called makeOverlay");
       //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
       // for (var i = 0; i < this.houses.length; i++) {
-      for (var i = 0; i < 20; i++) {
+      console.log("this.houses", this.houses);
+      var len = 20 < this.houses.length ? 20 : this.houses.length;
+      for (var i = 0; i < len; i++) {
         var position = new kakao.maps.LatLng(
             this.houses[i].lat,
             this.houses[i].lng
@@ -215,13 +178,23 @@ export default {
 
     //오버레이 보이기
     showOverlay() {
+      console.log("called showOverlay");
+      this.removeOverlay();
       this.makeOverlay();
+      console.log("overlays", this.overlays);
+      console.log("houses", this.houses[0].lat);
+      if (this.houses) {
+        this.map.panTo(
+          new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng)
+        );
+      }
       this.setOverlay(this.map);
     },
 
     //오버레이 감추기
     removeOverlay() {
       this.setOverlay(null);
+      this.overlays = [];
     },
 
     //오버레이 표시 여부 설정
