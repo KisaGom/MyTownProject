@@ -5,9 +5,9 @@
       <div>지도중심기준 행정동 주소정보</div>
       <div id="centerAddr"></div>
     </div>
-    <div class="posMarkers">
-      <b-button @click="showPosMarkers">마커 보이기</b-button>
-      <b-button @click="removePosMarkers">마커 감추기</b-button>
+    <div class="overlay">
+      <b-button @click="showOverlay">마커 보이기</b-button>
+      <b-button @click="removeOverlay">마커 감추기</b-button>
     </div>
     <div class="map_wrap">
       <div
@@ -45,52 +45,39 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+const houseStore = "houseStore";
+
 export default {
   data() {
     return {
       map: null,
       //좌표로 주소를 얻어내기------------------------------
       geocoder: null,
-      //여러개 마커 표시하기--------------------------------
-      positions: [
-        {
-          apartmentName: "카카오",
-          lat: "33.450705",
-          lng: "126.570677",
-        },
-        {
-          apartmentName: "생태연못",
-          lat: "33.450936",
-          lng: "126.569477",
-        },
-        {
-          apartmentName: "텃밭",
-          lat: "33.450879",
-          lng: "126.56994",
-        },
-        {
-          apartmentName: "근린공원",
-          lat: "33.451393",
-          lng: "126.570738",
-        },
-      ],
-      posMarkers: [],
       //카테고리별 장소 검색하기------------------------------
       ps: null,
       placeOverlay: null,
       contentNode: null,
       markers: [],
+      //여러개 마커 표시하기--------------------------------
+      posMarkers: [],
+      //여러개 오버레이 표시하기--------------------------------
+      overlays: [],
       curCategory: "",
     };
+  },
+  //여러개 마커 표시하기--------------------------------
+  computed: {
+    ...mapState(houseStore, ["houses"]),
   },
   methods: {
     initMap() {
       var container = document.getElementById("map");
       var options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        //TODO 테이블 첫 아파트 위치가 센터가 되게 바꾸기
+        center: new kakao.maps.LatLng(35.8383244008836, 128.598409092694),
         level: 3,
       };
-
       //지도 객체 생성
       this.map = new kakao.maps.Map(container, options);
 
@@ -105,20 +92,6 @@ export default {
       kakao.maps.event.addListener(this.map, "idle", () => {
         this.searchAddrFromCoords(this.map.getCenter(), this.displayCenterInfo);
       });
-
-      //여러개 마커 표시하기--------------------------------
-      for (var i = 0; i < this.positions.length; i++) {
-        // 마커를 생성합니다
-        let marker = new kakao.maps.Marker({
-          // map: this.map, // 마커를 표시할 지도
-          position: new kakao.maps.LatLng(
-            this.positions[i].lat,
-            this.positions[i].lng
-          ), // 마커를 표시할 위치
-          title: this.positions[i].apartmentName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        });
-        this.posMarkers.push(marker);
-      }
 
       //카테고리별 장소 검색하기------------------------------
       // 장소 검색 객체를 생성합니다
@@ -182,19 +155,79 @@ export default {
     },
 
     //여러개 마커 표시하기--------------------------------
-    //마커 보이기
-    showPosMarkers() {
-      this.setPosMarkers(this.map);
+    //마커 생성
+    // makePosMarkers() {
+    //   // for (var i = 0; i < this.houses.length; i++) {
+    //   for (var i = 0; i < 20; i++) {
+    //     // 마커를 표시할 위치 & 마커의 타이틀(마커에 마우스를 올리면 타이틀이 표시됩니다)
+    //     var position = new kakao.maps.LatLng(
+    //         this.houses[i].lat,
+    //         this.houses[i].lng
+    //       ),
+    //       title = this.houses[i].apartmentName;
+    //     // 마커를 생성합니다
+    //     let marker = new kakao.maps.Marker({
+    //       position: position,
+    //       title: title,
+    //     });
+    //     this.posMarkers.push(marker);
+    //   }
+    // },
+
+    // //마커 보이기
+    // showPosMarkers() {
+    //   this.makePosMarkers();
+    //   this.setPosMarkers(this.map);
+    // },
+
+    // //마커 감추기
+    // removePosMarkers() {
+    //   this.setPosMarkers(null);
+    // },
+
+    // //마커 표시 여부 설정
+    // setPosMarkers(map) {
+    //   for (var i = 0; i < this.posMarkers.length; i++) {
+    //     this.posMarkers[i].setMap(map);
+    //   }
+    // },
+
+    //여러개 오버레이 표시하기--------------------------------
+    //오버레이 생성
+    makeOverlay() {
+      //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+      // for (var i = 0; i < this.houses.length; i++) {
+      for (var i = 0; i < 20; i++) {
+        var position = new kakao.maps.LatLng(
+            this.houses[i].lat,
+            this.houses[i].lng
+          ),
+          content = `<div class ="label"><span class="left"></span><span class="center">${this.houses[i].apartmentName}</span><span class="right"></span></div>`;
+
+        // 오버레이를 생성합니다
+        let overlay = new kakao.maps.CustomOverlay({
+          position: position, // 오버레이를 표시할 위치
+          content: content,
+        });
+        this.overlays.push(overlay);
+      }
     },
 
-    //마커 감추기
-    removePosMarkers() {
-      this.setPosMarkers(null);
+    //오버레이 보이기
+    showOverlay() {
+      this.makeOverlay();
+      this.setOverlay(this.map);
     },
 
-    setPosMarkers(map) {
-      for (var i = 0; i < this.posMarkers.length; i++) {
-        this.posMarkers[i].setMap(map);
+    //오버레이 감추기
+    removeOverlay() {
+      this.setOverlay(null);
+    },
+
+    //오버레이 표시 여부 설정
+    setOverlay(map) {
+      for (var i = 0; i < this.overlays.length; i++) {
+        this.overlays[i].setMap(map);
       }
     },
 
@@ -252,16 +285,13 @@ export default {
         // 마커를 생성하고 지도에 표시합니다
         this.addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
-        // TODO: 마커에 오버레이 클릭 이벤트 등록
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        // (function (marker, place) {
         let placeParam = places[i];
         kakao.maps.event.addListener(this.markers[i], "click", () => {
           console.log("placeParam", placeParam);
           this.displayPlaceInfo(placeParam);
         });
-        // })(marker, places[i]);
       }
       console.log("markers len", this.markers.length);
     },
@@ -298,7 +328,6 @@ export default {
       this.markers = [];
     },
 
-    // TODO: 마커에 오버레이 등록
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     displayPlaceInfo(place) {
       var content =
@@ -407,26 +436,6 @@ export default {
   height: 100vh;
 }
 
-div.centerAddr {
-  position: absolute;
-  width: auto;
-  height: auto;
-  right: 5px;
-  bottom: 5px;
-  z-index: 3;
-  background-color: white;
-  padding: 5px;
-}
-
-div.posMarkers {
-  position: absolute;
-  width: auto;
-  height: auto;
-  right: 5px;
-  bottom: 70px;
-  z-index: 3;
-}
-
 .map_wrap,
 .map_wrap * {
   margin: 0;
@@ -441,6 +450,20 @@ div.posMarkers {
   left: 455px;
   top: 50px;
 }
+
+/* 좌표로 주소를 얻어내기 */
+div.centerAddr {
+  position: absolute;
+  width: auto;
+  height: auto;
+  right: 5px;
+  bottom: 5px;
+  z-index: 3;
+  background-color: white;
+  padding: 5px;
+}
+
+/* 카테고리별 장소 검색하기 */
 #category {
   position: absolute;
   top: 10px;
@@ -569,5 +592,48 @@ div.posMarkers {
   color: #999;
   font-size: 11px;
   margin-top: 0;
+}
+
+/* 여러개 오버레이 표시하기 */
+div.overlay {
+  position: absolute;
+  width: auto;
+  height: auto;
+  right: 5px;
+  bottom: 70px;
+  z-index: 3;
+}
+
+.label {
+  margin-bottom: 96px;
+}
+.label * {
+  display: inline-block;
+  vertical-align: top;
+}
+.label .left {
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
+    no-repeat;
+  display: inline-block;
+  height: 24px;
+  overflow: hidden;
+  vertical-align: top;
+  width: 7px;
+}
+.label .center {
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
+    repeat-x;
+  display: inline-block;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.label .right {
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px
+    0 no-repeat;
+  display: inline-block;
+  height: 24px;
+  overflow: hidden;
+  width: 6px;
 }
 </style>

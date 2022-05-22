@@ -4,7 +4,7 @@
     <div class="sidemenu side">
       <ul>
         <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
-          <b-icon icon="house-door"></b-icon>
+          <b-icon icon="house-door-fill"></b-icon>
           <div class="menu-text">매매정보</div>
         </li>
         <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
@@ -12,7 +12,7 @@
           <div class="menu-text">상권</div>
         </li>
         <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
-          <b-icon icon="emoji-smile"></b-icon>
+          <b-icon icon="emoji-smile-fill"></b-icon>
           <div class="menu-text">구성원</div>
         </li>
       </ul>
@@ -173,7 +173,7 @@ li {
 }
 
 li:hover {
-  color: blue;
+  color: #0475f4;
 }
 
 .sidecontent {
@@ -206,7 +206,8 @@ li:hover {
 }
 
 .isActive {
-  background-color: #c2e0f5;
+  background-color: #0475f4;
+  color: white !important;
 }
 
 .isHidden {
