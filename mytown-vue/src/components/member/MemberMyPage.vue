@@ -18,31 +18,37 @@
           <b-container class="mt-4">
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">아이디</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.userid }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="3" align-self="end">아이디</b-col
+              ><b-col cols="6" align-self="start">{{ userInfo.userid }}</b-col>
+              <b-col cols="1"></b-col>
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">이름</b-col
-              ><b-col cols="4" align-self="start">{{
+              <b-col cols="3" align-self="end">이름</b-col
+              ><b-col cols="6" align-self="start">{{
                 userInfo.username
               }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="1"></b-col>
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">지역</b-col
-              ><b-col cols="4" align-self="start">{{
+              <b-col cols="3" align-self="end">지역</b-col
+              ><b-col cols="6" align-self="start">{{
                 userInfo.dongCode
               }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="1"></b-col>
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">가입일</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.regtime }}</b-col>
+              <b-col cols="3" align-self="end">이메일</b-col
+              ><b-col cols="6" align-self="start">{{ userInfo.email }}</b-col>
+              <b-col cols="1"></b-col>
+            </b-row>
+            <b-row>
               <b-col cols="2"></b-col>
+              <b-col cols="3" align-self="end">가입일</b-col
+              ><b-col cols="6" align-self="start">{{ userInfo.regtime }}</b-col>
+              <b-col cols="1"></b-col>
             </b-row>
           </b-container>
           <hr class="my-4" />
@@ -52,7 +58,9 @@
             class="mr-1"
             >로그아웃</b-button
           >
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
+          <b-button variant="primary" href="#" class="mr-1" @click="goModify"
+            >정보수정</b-button
+          >
           <b-button variant="danger" href="#">회원탈퇴</b-button>
         </b-jumbotron>
       </b-col>
@@ -80,6 +88,9 @@ export default {
       this.SET_USER_INFO(null);
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "signIn" });
+    },
+    goModify() {
+      this.$router.push("modify");
     },
   },
 };

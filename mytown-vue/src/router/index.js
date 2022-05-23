@@ -3,9 +3,10 @@ import VueRouter from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LifeView from "@/views/LifeView";
 import MemberView from "@/views/MemberView.vue";
-import MemberLogin from "@/components/user/MemberLogin.vue";
-import MemberMyPage from "@/components/user/MemberMyPage";
-import MemberRegister from "@/components/user/MemberRegister";
+import MemberLogin from "@/components/member/MemberLogin.vue";
+import MemberMyPage from "@/components/member/MemberMyPage";
+import MemberRegister from "@/components/member/MemberRegister";
+import MemberModify from "@/components/member/MemberModify";
 import CommunityView from "@/views/CommunityView";
 
 Vue.use(VueRouter);
@@ -22,8 +23,8 @@ const routes = [
     component: LifeView,
   },
   {
-    path: "/user",
-    name: "user",
+    path: "/member",
+    name: "member",
     component: MemberView,
     children: [
       {
@@ -40,6 +41,11 @@ const routes = [
         path: "mypage",
         name: "mypage",
         component: MemberMyPage,
+      },
+      {
+        path: "modify",
+        name: "modify",
+        component: MemberModify,
       },
     ],
   },

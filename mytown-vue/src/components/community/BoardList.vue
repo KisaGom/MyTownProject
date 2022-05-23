@@ -31,6 +31,7 @@
         head-variant="dark"
         :items="items"
         :fields="fields"
+        @row-clicked="row.toggleDetails"
       >
         <template #cell(like_button)="row">
           <b-button size="sm" @click="updateLike(row.item.id)">좋아요</b-button>
