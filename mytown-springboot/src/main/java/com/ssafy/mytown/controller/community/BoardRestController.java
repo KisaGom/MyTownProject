@@ -33,11 +33,11 @@ public class BoardRestController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping
-	public ResponseEntity<?> retrieveBoard(){
+	@GetMapping("{dongCode}")
+	public ResponseEntity<?> retrieveBoard(@PathVariable String dongCode){
 		try {
 			logger.debug("retrieveBoard 호출");
-			return new ResponseEntity<List<BoardDto>>(boardService.retrieveBoard(),HttpStatus.OK);
+			return new ResponseEntity<List<BoardDto>>(boardService.retrieveBoard(dongCode),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -80,4 +80,12 @@ public class BoardRestController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
+	@PutMapping("/like/{id}")
+	public ResponseEntity<String> updateLike(@PathVariable int id){
+		logger.debug("updateLike 호출");
+		if(boardService.updateLike(id)) {
+			return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
 }
