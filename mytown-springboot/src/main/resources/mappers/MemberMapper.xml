@@ -10,9 +10,20 @@
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="memberDto">
-		select username, userid, regtime, dongCode
+		select username, userid, email, left(regtime, 10) as "regtime", dongCode
 		from user
 		where userid = #{userid}
 	</select>
 	
+	<insert id="register" parameterType="memberDto">
+		insert into user(userid, userpwd, username, dongCode, email)
+		values(#{userid}, #{userpwd}, #{username}, #{dongCode}, #{email})
+	</insert>
+	
+	<update id="modify" parameterType="memberDto">
+		update user 
+		set 
+		userpwd = #{userpwd}, username = #{username}, email = #{email}, dongCode = #{dongCode}
+		where userid = #{userid}
+	</update>
 </mapper>

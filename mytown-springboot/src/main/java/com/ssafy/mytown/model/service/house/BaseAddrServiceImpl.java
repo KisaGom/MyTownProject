@@ -33,4 +33,9 @@ public class BaseAddrServiceImpl implements BaseAddrService {
 	public List<BaseAddrDto> getDong(String gugun) throws Exception {
 		return baseAddrMapper.getDong(gugun);
 	}
+
+	@Override
+	public BaseAddrDto getAddrByDongCode(String dongCode) throws Exception {
+		return baseAddrMapper.getAddrByDongCode(dongCode);
+	}
 }

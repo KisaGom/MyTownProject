@@ -8,4 +8,5 @@ public interface BaseAddrService {
 	List<BaseAddrDto> getSido() throws Exception;
 	List<BaseAddrDto> getGugun(String sido) throws Exception;
 	List<BaseAddrDto> getDong(String gugun) throws Exception;
+	BaseAddrDto getAddrByDongCode(String dongCode) throws Exception;
 }
