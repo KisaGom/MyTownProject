@@ -6,6 +6,7 @@ import MemberView from "@/views/MemberView.vue";
 import MemberLogin from "@/components/user/MemberLogin.vue";
 import MemberMyPage from "@/components/user/MemberMyPage";
 import MemberRegister from "@/components/user/MemberRegister";
+import CommunityView from "@/views/CommunityView";
 
 Vue.use(VueRouter);
 
@@ -41,6 +42,11 @@ const routes = [
         component: MemberMyPage,
       },
     ],
+  },
+  {
+    path: "/community",
+    name: "community",
+    component: CommunityView,
   },
 ];
 
