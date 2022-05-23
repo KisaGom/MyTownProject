@@ -24,7 +24,7 @@ export default {
     return {
       fields: [
         { key: "storeName", label: "가게명" },
-        { key: "detailClass", label: "업종" },
+        { key: "storeType", label: "업종" },
         { key: "streetAddress", label: "주소" },
       ],
     };

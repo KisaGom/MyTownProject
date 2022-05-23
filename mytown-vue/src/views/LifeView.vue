@@ -11,10 +11,6 @@
           <b-icon icon="cart3"></b-icon>
           <div class="menu-text">상권</div>
         </li>
-        <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
-          <b-icon icon="emoji-smile-fill"></b-icon>
-          <div class="menu-text">구성원</div>
-        </li>
       </ul>
     </div>
     <div class="sidecontent side" v-bind:class="{ isHidden: isHidden }">
@@ -45,7 +41,6 @@
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
         ></life-commercial-toolbar>
-        <life-member-toolbar v-if="selsectedTab === 3"></life-member-toolbar>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -57,7 +52,6 @@ import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
-import LifeMemberToolbar from "@/components/life/LifeMemberToolbar.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
@@ -68,7 +62,6 @@ export default {
     MapView,
     LifeToolbar,
     LifeCommercialToolbar,
-    LifeMemberToolbar,
   },
   data() {
     return {
