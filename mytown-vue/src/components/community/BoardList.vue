@@ -17,9 +17,6 @@
         @change="doSearch"
       ></b-form-select>
     </b-input-group>
-    <b-button block squared variant="light" v-b-modal.writeModal
-      >방명록 작성하기</b-button
-    >
     <div v-if="items && items.length != 0">
       <b-table
         striped
@@ -31,25 +28,33 @@
         head-variant="dark"
         :items="items"
         :fields="fields"
-        @row-clicked="row.toggleDetails"
+        @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
       >
-        <template #cell(like_button)="row">
-          <b-button size="sm" @click="updateLike(row.item.id)">좋아요</b-button>
-        </template>
-        <template #cell(show_details)="row">
-          <b-button size="sm" @click="row.toggleDetails">
-            댓글 {{ row.detailsShowing ? "숨기기" : "보기" }}
-          </b-button>
-        </template>
+        <!-- <template #cell(userid)>
+          어떻게 이름 맵핑해서 넣지..
+        </template> -->
 
-        <template #row-details="row">
+        <b-button block variant="light" v-b-modal.writeModal
+          >방명록 작성하기</b-button
+        >
+        <template slot="row-details" slot-scope="row">
           <b-card>
-            <board-list-comment :board-id="row.item.id"></board-list-comment>
+            <board-list-comment :board-item="row.item"></board-list-comment>
           </b-card>
         </template>
       </b-table>
     </div>
-    <div v-else>아직 이 지역의 방명록이 존재하지 않아요!</div>
+    <div v-else>아직 이 동네의 방명록이 존재하지 않아요!</div>
+
+    <div v-if="userInfo != null">
+      <b-button block squared variant="light" v-b-modal.writeModal
+        >방명록 작성하기</b-button
+      >
+    </div>
+    <div v-else>
+      <a href="/member/signin">로그인 후 우리 동네 방명록을 작성하세요!</a>
+    </div>
+
     <b-modal id="writeModal" title="방명록 작성">
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
@@ -66,9 +71,10 @@
 
 <script>
 import BoardListComment from "@/components/community/BoardListComment.vue";
-import { listBoard, updateLike } from "@/api/board";
+import { listBoard } from "@/api/board";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
+const memberStore = "memberStore";
 
 export default {
   components: { BoardListComment },
@@ -79,9 +85,6 @@ export default {
         { key: "userid", label: "작성자" },
         { key: "content", label: "내용" },
         { key: "regtime", label: "작성일" },
-        { key: "like", label: "좋아요" },
-        { key: "like_button", label: "" },
-        { key: "show_details", label: "댓글" },
       ],
       items: [],
       sidoCode: null,
@@ -98,6 +101,7 @@ export default {
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
     ...mapActions(houseStore, ["getSido", "getGugun", "getDong"]),
@@ -132,19 +136,6 @@ export default {
           }
         );
       }
-    },
-
-    //todo 실시간으로 반영되게 해주려면??
-    updateLike(id) {
-      updateLike(
-        id,
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
     },
   },
 };
