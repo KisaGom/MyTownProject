@@ -89,5 +89,30 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
+	
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@RequestBody MemberDto memberDto){
+		try {
+			memberService.register(memberDto);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		} catch (Exception e) { 
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/modify")
+	public ResponseEntity<?> modify(@RequestBody MemberDto memberDto, HttpServletRequest request) {
+		if (jwtService.isUsable(request.getHeader("access-token"))) {
+			logger.info("사용 가능한 토큰!!!");
+			try {
+				memberService.modify(memberDto);
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} else {
+			logger.error("사용 불가능 토큰!!!");
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

@@ -21,4 +21,9 @@
 		where left(dongCode, 5) = #{gugun} and dongName is not null
 	</select>
 	
+	<select id="getAddrByDongCode" resultType="baseAddrDto"  parameterType="string">
+		select sidoName, gugunName, dongName 
+		from dongCode 
+		where dongCode = #{dongCode}
+	</select>
 </mapper>

@@ -9,5 +9,7 @@ public interface MemberMapper {
 
 	public MemberDto login(MemberDto memberDto) throws SQLException;
 	public MemberDto userInfo(String userid) throws SQLException;
+	public int register(MemberDto memberDto) throws SQLException;
+	public int modify(MemberDto memberDto) throws SQLException;
 	
 }

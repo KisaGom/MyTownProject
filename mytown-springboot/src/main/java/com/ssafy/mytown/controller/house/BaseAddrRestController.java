@@ -57,4 +57,13 @@ public class BaseAddrRestController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/base/{dongCode}")
+	public ResponseEntity<?> getAddrByCode(@PathVariable String dongCode) {
+		try {
+			return new ResponseEntity<BaseAddrDto> (baseAddrService.getAddrByDongCode(dongCode), HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

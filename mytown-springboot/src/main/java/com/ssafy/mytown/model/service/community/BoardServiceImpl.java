@@ -19,14 +19,9 @@ public class BoardServiceImpl implements BoardService{
 	private BoardMapper boardMapper;
 
 	@Override
-	public List<BoardDto> retrieveBoard() {
-		return boardMapper.selectBoard();
+	public List<BoardDto> retrieveBoard(String dongCode) {
+		return boardMapper.selectBoard(dongCode);
 	}
-
-//	@Override
-//	public BoardDto detailBoard(int id) {
-//		return boardMapper.selectBoardById(id);
-//	}
 
 	@Override
 	@Transactional

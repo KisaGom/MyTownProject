@@ -11,4 +11,5 @@ public interface BaseAddrMapper {
 	List<BaseAddrDto> getSido() throws Exception;
 	List<BaseAddrDto> getGugun(String sido) throws Exception;
 	List<BaseAddrDto> getDong(String gugun) throws Exception;
+	BaseAddrDto getAddrByDongCode(String gugun) throws Exception;
 }

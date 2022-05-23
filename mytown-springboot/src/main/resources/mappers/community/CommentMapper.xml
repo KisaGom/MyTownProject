@@ -9,7 +9,7 @@
 		select *
 		from comment
 		where board_id=#{board_id}
-		order by regtime desc
+		order by regtime
 	</select>
 	
 	<!-- 해당 게시글의 댓글 등록 -->

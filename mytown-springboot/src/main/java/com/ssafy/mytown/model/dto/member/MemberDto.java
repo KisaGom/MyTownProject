@@ -8,6 +8,7 @@ public class MemberDto {
 	private String userpwd;
 	private String regtime;
 	private String dongCode;
+	private String email;
 	public String getUserid() {
 		return userid;
 	}
@@ -38,8 +39,16 @@ public class MemberDto {
 	public void setDongCode(String dongCode) {
 		this.dongCode = dongCode;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	@Override
 	public String toString() {
-		return "MemberDto [userid=" + userid + ", username=" + username + ", userpwd=" + userpwd + ", regtime=" + regtime + ", dongCode=" + dongCode + "]";
+		return "MemberDto [userid=" + userid + ", username=" + username + ", userpwd=" + userpwd + ", regtime=" + regtime + ", dongCode=" + dongCode + ", email=" + email + "]";
 	}
+	
+	
 }
