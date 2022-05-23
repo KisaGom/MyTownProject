@@ -45,6 +45,7 @@
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
         ></life-commercial-toolbar>
+        <life-member-toolbar v-if="selsectedTab === 3"></life-member-toolbar>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -56,12 +57,19 @@ import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
+import LifeMemberToolbar from "@/components/life/LifeMemberToolbar.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
 export default {
   name: "LifeView",
-  components: { NavBar, MapView, LifeToolbar, LifeCommercialToolbar },
+  components: {
+    NavBar,
+    MapView,
+    LifeToolbar,
+    LifeCommercialToolbar,
+    LifeMemberToolbar,
+  },
   data() {
     return {
       sidoCode: null,
@@ -142,6 +150,7 @@ export default {
       this.getCommercialListDong(this.gugunCode + this.dongCode);
     },
     switchTab(tab) {
+      console.log(tab);
       if (tab == this.selsectedTab) {
         this.selsectedTab = 0;
         this.isHidden = true;

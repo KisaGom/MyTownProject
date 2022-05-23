@@ -13,7 +13,24 @@
   </b-container> -->
   <div>
     <b-container v-if="houses && houses.length != 0">
-      <b-table hover :items="this.houses" :fields="fields" small></b-table>
+      <b-table
+        hover
+        fixed
+        :items="this.houses"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :fields="fields"
+        small
+      >
+      </b-table>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+        align="center"
+        limit="3"
+      ></b-pagination>
     </b-container>
     <b-container v-else><b-col>거래 정보가 없습니다.</b-col></b-container>
   </div>
@@ -30,16 +47,19 @@ export default {
   components: {},
   data() {
     return {
+      perPage: 15,
+      currentPage: 1,
       fields: [
         { key: "apartmentName", label: "아파트" },
-        { key: "dealAmount", label: "거래가" },
-        { key: "dealYear", label: "거래일" },
+        { key: "dealAmount", label: "거래가", sortable: "true" },
       ],
     };
   },
-
   computed: {
     ...mapState(houseStore, ["houses"]),
+    rows() {
+      return this.houses.length;
+    },
   },
 };
 </script>
