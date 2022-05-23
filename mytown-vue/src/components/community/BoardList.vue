@@ -32,6 +32,9 @@
         :items="items"
         :fields="fields"
       >
+        <template #cell(like_button)="row">
+          <b-button size="sm" @click="updateLike(row.item.id)">좋아요</b-button>
+        </template>
         <template #cell(show_details)="row">
           <b-button size="sm" @click="row.toggleDetails">
             댓글 {{ row.detailsShowing ? "숨기기" : "보기" }}
@@ -62,7 +65,7 @@
 
 <script>
 import BoardListComment from "@/components/community/BoardListComment.vue";
-import { listBoard } from "@/api/board";
+import { listBoard, updateLike } from "@/api/board";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
@@ -76,12 +79,14 @@ export default {
         { key: "content", label: "내용" },
         { key: "regtime", label: "작성일" },
         { key: "like", label: "좋아요" },
+        { key: "like_button", label: "" },
         { key: "show_details", label: "댓글" },
       ],
       items: [],
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      //방명록 작성(수정 필요)
       name: "",
       submittedNames: [],
     };
@@ -128,7 +133,18 @@ export default {
       }
     },
 
-    writeBoard() {},
+    //todo 실시간으로 반영되게 해주려면??
+    updateLike(id) {
+      updateLike(
+        id,
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
   },
 };
 </script>

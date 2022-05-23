@@ -18,4 +18,8 @@ function deleteBoard(id, success, fail) {
   api.delete(`/board/${id}`).then(success).catch(fail);
 }
 
-export { listBoard, registBoard, modifyBoard, deleteBoard };
+function updateLike(id, success, fail) {
+  api.put(`/board/like/${id}`).then(success).catch(fail);
+}
+
+export { listBoard, registBoard, modifyBoard, deleteBoard, updateLike };
