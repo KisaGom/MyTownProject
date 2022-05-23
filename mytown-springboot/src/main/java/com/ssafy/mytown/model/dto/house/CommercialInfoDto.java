@@ -2,11 +2,7 @@ package com.ssafy.mytown.model.dto.house;
 
 public class CommercialInfoDto {
 	private String storeName; 
-	private String storePosition; 
-	
-	private String majorClass; 
-	private String detailClass; 
-	private String standardClass; 
+	private String storeType; 
 	
 	private String sidoCode; 
 	private String sidoName; 
@@ -25,29 +21,11 @@ public class CommercialInfoDto {
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
 	}
-	public String getStorePosition() {
-		return storePosition;
+	public String getStoreType() {
+		return storeType;
 	}
-	public void setStorePosition(String storePosition) {
-		this.storePosition = storePosition;
-	}
-	public String getMajorClass() {
-		return majorClass;
-	}
-	public void setMajorClass(String majorClass) {
-		this.majorClass = majorClass;
-	}
-	public String getDetailClass() {
-		return detailClass;
-	}
-	public void setDetailClass(String detailClass) {
-		this.detailClass = detailClass;
-	}
-	public String getStandardClass() {
-		return standardClass;
-	}
-	public void setStandardClass(String standardClass) {
-		this.standardClass = standardClass;
+	public void setStoreType(String storeType) {
+		this.storeType = storeType;
 	}
 	public String getSidoCode() {
 		return sidoCode;
@@ -103,6 +81,4 @@ public class CommercialInfoDto {
 	public void setLat(String lat) {
 		this.lat = lat;
 	}
-	
-	
 }
