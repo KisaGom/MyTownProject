@@ -23,10 +23,10 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.selectBoard();
 	}
 
-	@Override
-	public BoardDto detailBoard(int id) {
-		return boardMapper.selectBoardById(id);
-	}
+//	@Override
+//	public BoardDto detailBoard(int id) {
+//		return boardMapper.selectBoardById(id);
+//	}
 
 	@Override
 	@Transactional

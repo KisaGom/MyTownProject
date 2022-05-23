@@ -12,11 +12,13 @@
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
+<!-- 	
 	<select id="selectBoardById" parameterType="int" resultType="boardDto">
 		select *
 		from board
 		where id=#{id}
 	</select>
+-->
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="boardDto">
