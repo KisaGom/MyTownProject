@@ -5,20 +5,13 @@
 <mapper namespace="com.ssafy.mytown.model.mapper.community.BoardMapper">
 
 	<!-- 전체 게시글 조회 -->
-	<select id="selectBoard" resultType="boardDto">
-		select *
-		from board
-		order by regtime desc
+	<select id="selectBoard" parameterType="string" resultType="boardDto">
+		select b.id,b.userid,b.content,b.regtime,b.like
+		from board b
+		join user u on b.userid=u.userid
+		where u.dongCode=#{dongCode}
+		order by b.regtime desc;
 	</select>
-	
-	<!-- 게시글 상세 조회 -->
-<!-- 	
-	<select id="selectBoardById" parameterType="int" resultType="boardDto">
-		select *
-		from board
-		where id=#{id}
-	</select>
--->
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="boardDto">
@@ -46,7 +39,7 @@
 	<!-- 좋아요 증가 -->
 	<update id="updateLike" parameterType="int">
 		update board
-		set like=like+1
+		set `like`=`like`+1
 		where id=#{id}
 	</update>
 
