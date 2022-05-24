@@ -2,6 +2,7 @@ package com.ssafy.mytown.model.service.member;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class JwtServiceImpl implements JwtService {
 
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
-	private static final String SALT = "ssafySecret";
+	private static final String SALT = "mytown";
 	private static final int EXPIRE_MINUTES = 60;
 
 	@Override
@@ -57,14 +58,13 @@ public class JwtServiceImpl implements JwtService {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
 			return true;
 		} catch (Exception e) {
-//			if (logger.isInfoEnabled()) {
-//				e.printStackTrace();
-//			} else {
+			if (logger.isInfoEnabled()) {
+				e.printStackTrace();
+			} else {
 			logger.error(e.getMessage());
-//			}
-//			throw new UnauthorizedException();
+			}
+			throw new UnauthorizedException();
 //			개발환경
-			return false;
 		}
 	}
 
@@ -77,11 +77,11 @@ public class JwtServiceImpl implements JwtService {
 		try {
 			claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
 		} catch (Exception e) {
-//			if (logger.isInfoEnabled()) {
-//				e.printStackTrace();
-//			} else {
+			if (logger.isInfoEnabled()) {
+				e.printStackTrace();
+			} else {
 			logger.error(e.getMessage());
-//			}
+			}
 			throw new UnauthorizedException();
 //			개발환경
 //			Map<String,Object> testMap = new HashMap<>();

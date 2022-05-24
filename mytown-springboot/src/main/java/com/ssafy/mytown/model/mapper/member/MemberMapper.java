@@ -11,5 +11,7 @@ public interface MemberMapper {
 	public MemberDto userInfo(String userid) throws SQLException;
 	public int register(MemberDto memberDto) throws SQLException;
 	public int modify(MemberDto memberDto) throws SQLException;
+	public int delete(String userid) throws SQLException;
+	public String findPwd(MemberDto memberDto) throws SQLException;
 	
 }

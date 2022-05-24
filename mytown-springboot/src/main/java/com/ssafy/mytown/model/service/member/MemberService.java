@@ -10,5 +10,8 @@ public interface MemberService {
 	public MemberDto userInfo(String userid) throws Exception;
 	public boolean register(MemberDto memberDto) throws Exception;
 	public boolean modify(MemberDto memberDto) throws SQLException;
+	public boolean delete(String userid) throws SQLException;
+
+	public String findPwd(MemberDto memberDto) throws SQLException;
 	
 }

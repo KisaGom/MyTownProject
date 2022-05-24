@@ -19,12 +19,20 @@ async function register(user, success, fail) {
 }
 
 async function modify(user, success, fail) {
+  await api.put(`/user/modify`, JSON.stringify(user)).then(success).catch(fail);
+}
+
+async function deleteUser(userid, success, fail) {
+  await api.delete(`/user/delete/${userid}`).then(success).catch(fail);
+}
+
+async function findPwd(user, success, fail) {
   await api
-    .post(`/user/modify`, JSON.stringify(user))
+    .post(`/user/findPwd`, JSON.stringify(user))
     .then(success)
     .catch(fail);
 }
 
 // function logout(success, fail)
 
-export { login, findById, register, modify };
+export { login, findById, register, modify, deleteUser, findPwd };

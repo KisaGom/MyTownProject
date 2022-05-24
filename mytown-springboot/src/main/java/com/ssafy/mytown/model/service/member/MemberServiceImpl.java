@@ -36,4 +36,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.modify(memberDto) == 1;
 	}
 
+	@Override
+	public boolean delete(String userid) throws SQLException {
+		return memberMapper.delete(userid) == 1;
+	}
+
+	@Override
+	public String findPwd(MemberDto memberDto) throws SQLException {
+		return memberMapper.findPwd(memberDto);
+	}
+
 }

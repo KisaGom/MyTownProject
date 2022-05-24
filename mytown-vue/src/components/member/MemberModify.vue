@@ -1,13 +1,13 @@
 <template>
   <b-container class="bv-example-row mt-3">
     <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>회원 정보 수정</h3></b-alert>
-      </b-col>
-    </b-row>
+      <b-col />
+      <h2>회원 정보 수정</h2>
+      <b-col
+    /></b-row>
     <b-row>
-      <b-col></b-col>
-      <b-col cols="8">
+      <b-col />
+      <b-col cols="6">
         <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
           <b-form class="text-left">
             <b-alert show variant="danger" v-if="hasError"
@@ -63,8 +63,13 @@
                 v-model="dongName"
                 readonly
               ></b-form-input>
-              <b-button type="button" variant="primary" @click="toggleEditMode"
-                >수정</b-button
+              <b-input-group-append>
+                <b-button
+                  type="button"
+                  variant="primary"
+                  @click="toggleEditMode"
+                  >수정</b-button
+                ></b-input-group-append
               >
             </b-input-group>
             <b-input-group v-show="editmode">
@@ -82,8 +87,13 @@
                 v-model="dongCode"
                 :options="dongs"
               ></b-form-select>
-              <b-button type="button" variant="primary" @click="toggleEditMode"
-                >취소</b-button
+              <b-input-group-append>
+                <b-button
+                  type="button"
+                  variant="primary"
+                  @click="toggleEditMode"
+                  >취소</b-button
+                ></b-input-group-append
               >
             </b-input-group>
             <b-button
