@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { getAddrByCode } from "@/api/baseAddr";
 import { mapState } from "vuex";
 const houseStore = "houseStore";
 
@@ -153,16 +154,26 @@ export default {
     },
 
     //여러개 오버레이 표시하기--------------------------------
-    //오버레이 생성
-    makeOverlay(items) {
-      // console.log("called makeOverlay");
+    //오버레이 보이기
+    showOverlay(items, selsectedTab) {
+      // console.log("called showOverlay");
       // console.log("items", items);
-      // console.log("items[0]", items[0]);
-
+      if (items) {
+        this.map.panTo(new kakao.maps.LatLng(items[0].lat, items[0].lng));
+      }
+      this.removeOverlay();
+      //오버레이 생성
       items.forEach((item) => {
-        var position = new kakao.maps.LatLng(item.lat, item.lng),
+        let position = new kakao.maps.LatLng(item.lat, item.lng),
+          content;
+        //아파트 오버레이
+        if (selsectedTab == "1") {
           content = `<div class ="label"><span class="left"></span><span class="center">${item.apartmentName}</span><span class="right"></span></div>`;
-
+        }
+        //상권 오버레이
+        else {
+          content = `<div class ="label"><span class="left"></span><span class="center">${item.storeName}</span><span class="right"></span></div>`;
+        }
         // 오버레이를 생성합니다
         let overlay = new kakao.maps.CustomOverlay({
           position: position, // 오버레이를 표시할 위치
@@ -170,17 +181,6 @@ export default {
         });
         this.overlays.push(overlay);
       });
-    },
-
-    //오버레이 보이기
-    showOverlay(items) {
-      // console.log("called showOverlay");
-      // console.log("items", items);
-      if (items) {
-        this.map.panTo(new kakao.maps.LatLng(items[0].lat, items[0].lng));
-      }
-      this.removeOverlay();
-      this.makeOverlay(items);
       // console.log("overlays", this.overlays);
       this.setOverlay(this.map);
     },
@@ -197,6 +197,32 @@ export default {
       for (var i = 0; i < this.overlays.length; i++) {
         this.overlays[i].setMap(map);
       }
+    },
+
+    //법정동코드에 해당하는 주소로 이동
+    moveDongAddr(dongCode) {
+      // console.log("called moveDongAddr", dongCode);
+      this.removeOverlay();
+      getAddrByCode(dongCode, ({ data }) => {
+        // console.log("address", data);
+        let address = data.sidoName + data.gugunName + data.dongName;
+        this.geocoder.addressSearch(address, (result, status) => {
+          // 정상적으로 검색이 완료됐으면
+          if (status === kakao.maps.services.Status.OK) {
+            // console.log("addr search result", result);
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // // 결과값으로 받은 위치를 마커로 표시합니다
+            // new kakao.maps.Marker({
+            //   map: this.map,
+            //   position: coords,
+            // });
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            this.map.setCenter(coords);
+          }
+        });
+      });
     },
 
     //카테고리별 장소 검색하기------------------------------

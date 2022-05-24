@@ -41,9 +41,8 @@ const houseStore = {
       state.houses = null;
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
       state.houses = houses;
-      console.log(houses);
+      // console.log(houses);
     },
     SET_DETAIL_HOUSE: (state, house) => {
       state.house = house;
@@ -52,9 +51,8 @@ const houseStore = {
       state.houses = null;
     },
     SET_COMM_LIST: (state, comms) => {
-      //   console.log(houses);
       state.comms = comms;
-      console.log(state.comms);
+      // console.log(state.comms);
     },
   },
   actions: {

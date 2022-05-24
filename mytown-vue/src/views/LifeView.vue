@@ -138,44 +138,8 @@ export default {
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-
-    searchApt() {
-      // console.log("childMap", this.$refs.childMap);
-      let dongCode = this.gugunCode + this.dongCode;
-      //state 저장용
-      this.getHouseList(dongCode);
-
-      //overlay 표시용
-      houseDealList(dongCode, (response) => {
-        // console.log("searchApt", dongCode, response.data);
-        this.items = response.data;
-
-        //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
-        var len = 20 < this.items.length ? 20 : this.items.length;
-        if (len > 0) {
-          this.$refs.childMap.showOverlay(this.items.slice(0, len));
-        }
-        // console.log("len", len);
-      });
-    },
-    searchComm() {
-      let dongCode = this.gugunCode + this.dongCode;
-      //state 저장용
-      this.getCommercialListDong(dongCode);
-
-      //overlay 표시용
-      commercialListDong(dongCode, (response) => {
-        this.items = response.data;
-
-        //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
-        var len = 20 < this.items.length ? 20 : this.items.length;
-        if (len > 0) {
-          this.$refs.childMap.showOverlay(this.items.slice(0, len));
-        }
-      });
-    },
     switchTab(tab) {
-      console.log(tab);
+      // console.log(tab);
       if (tab == this.selsectedTab) {
         this.selsectedTab = 0;
         this.isHidden = true;
@@ -188,9 +152,50 @@ export default {
     doSearch() {
       if (this.dongCode) {
         if (this.selsectedTab == "1") {
-          this.searchApt();
+          // console.log("childMap", this.$refs.childMap);
+          let dongCode = this.gugunCode + this.dongCode;
+          //state 저장용
+          this.getHouseList(dongCode);
+
+          //overlay 표시용
+          houseDealList(dongCode, (response) => {
+            // console.log("searchApt", dongCode, response.data);
+            this.items = response.data;
+
+            //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+            let len = 20 < this.items.length ? 20 : this.items.length;
+            if (len > 0) {
+              this.$refs.childMap.showOverlay(
+                this.items.slice(0, len),
+                this.selsectedTab
+              );
+            } else {
+              //거래 내역이 없을 때
+              this.$refs.childMap.moveDongAddr(dongCode);
+            }
+            // console.log("len", len);
+          });
         } else if (this.selsectedTab == "2") {
-          this.searchComm();
+          let dongCode = this.gugunCode + this.dongCode;
+          //state 저장용
+          this.getCommercialListDong(dongCode);
+
+          //overlay 표시용
+          commercialListDong(dongCode, (response) => {
+            this.items = response.data;
+
+            //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+            let len = 20 < this.items.length ? 20 : this.items.length;
+            if (len > 0) {
+              this.$refs.childMap.showOverlay(
+                this.items.slice(0, len),
+                this.selsectedTab
+              );
+            } else {
+              //가게 정보가 없을 때
+              this.$refs.childMap.moveDongAddr(dongCode);
+            }
+          });
         }
       }
     },
