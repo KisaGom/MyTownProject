@@ -116,8 +116,9 @@ export default {
     },
     onClickLogout() {
       // console.log("memberStore : ", ms);
-      this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
+      this.SET_IS_LOGIN(false);
+      console.log(this.isLogin);
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "signIn" });
     },
@@ -144,8 +145,9 @@ export default {
       }
     },
     onDeleteLogout() {
-      this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
+      this.SET_IS_LOGIN(false);
+      console.log(this.isLogin);
       sessionStorage.removeItem("access-token");
       this.$router.push({ name: "home" });
     },

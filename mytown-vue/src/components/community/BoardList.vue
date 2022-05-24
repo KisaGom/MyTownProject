@@ -189,12 +189,15 @@ export default {
   components: { CommentList },
   data() {
     return {
+      sidoName: null,
+      gugunName: null,
+      dongName: null,
       editmode: false,
       perPage: 15,
       currentPage: 1,
       fields: [
         //TODO user의 username으로 바꾸기
-        { key: "userid", label: "작성자" },
+        { key: "username", label: "작성자" },
         { key: "content", label: "내용" },
         { key: "regtime", label: "작성일" },
       ],

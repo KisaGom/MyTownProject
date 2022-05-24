@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nav-bar class="nav-bar"></nav-bar>
     <b-container class="bv-example-row mt-3 text-center">
       <h3 class="underline-steelblue">
         <b-icon icon="person-lines-fill"></b-icon> Member Service
@@ -11,12 +10,9 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
 export default {
   name: "MemberView",
-  components: {
-    NavBar,
-  },
+  components: {},
 };
 </script>
 

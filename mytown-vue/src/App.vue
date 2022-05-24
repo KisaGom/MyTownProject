@@ -4,9 +4,18 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/life">개인용</router-link>
     </nav> -->
+    <nav-bar class="nav-bar"></nav-bar>
     <router-view />
   </div>
 </template>
+
+<script>
+import NavBar from "@/components/NavBar.vue";
+export default {
+  name: "App",
+  components: { NavBar },
+};
+</script>
 
 <style>
 #app {

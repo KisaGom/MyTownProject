@@ -23,6 +23,7 @@ async function register(user, success, fail) {
 }
 
 async function modify(user, success, fail) {
+  api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
   await api.put(`/user/modify`, JSON.stringify(user)).then(success).catch(fail);
 }
 
@@ -31,6 +32,7 @@ async function deleteUser(userid, success, fail) {
 }
 
 async function findPwd(user, success, fail) {
+  api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
   await api
     .post(`/user/findPwd`, JSON.stringify(user))
     .then(success)

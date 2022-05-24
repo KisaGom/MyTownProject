@@ -1,17 +1,30 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="/">NavBar</b-navbar-brand>
+      <b-navbar-brand
+        ><router-link to="/life">NavBar</router-link></b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/life">동네정보</b-nav-item>
-          <!-- <b-nav-item href="#">사업용</b-nav-item> -->
-          <b-nav-item href="/community">커뮤니티</b-nav-item>
-          <b-nav-item href="/member/signin">로그인</b-nav-item>
-          <b-nav-item href="/member/mypage">내정보</b-nav-item>
+          <b-nav-item
+            ><router-link to="/life">동네정보</router-link></b-nav-item
+          >
+          <b-nav-item
+            ><router-link to="/community">커뮤니티</router-link></b-nav-item
+          >
+          <b-nav-item
+            ><router-link to="/member" v-if="!this.userInfo"
+              >로그인</router-link
+            ></b-nav-item
+          >
+          <b-nav-item
+            ><router-link to="/member/mypage" v-if="this.userInfo"
+              >내정보</router-link
+            ></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
@@ -23,7 +36,13 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+export default {
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+};
 </script>
 
 <style></style>
