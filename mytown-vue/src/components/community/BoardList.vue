@@ -194,7 +194,7 @@ export default {
       currentPage: 1,
       fields: [
         //TODO user의 username으로 바꾸기
-        { key: "userid", label: "작성자" },
+        { key: "username", label: "작성자" },
         { key: "content", label: "내용" },
         { key: "regtime", label: "작성일" },
       ],
