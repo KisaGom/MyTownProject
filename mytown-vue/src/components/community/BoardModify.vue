@@ -7,14 +7,14 @@
       required
       placeholder="내용을 입력해주세요"
     ></b-form-input>
-    <b-button block squared variant="light" @click="registBoard"
+    <b-button block squared variant="light" @click="modifyBoard"
       >방명록 수정하기</b-button
     >
   </div>
 </template>
 
 <script>
-import { modifyBoard } from "@/api/board";
+import { detailBoard, modifyBoard } from "@/api/board";
 import { mapState } from "vuex";
 const memberStore = "memberStore";
 
@@ -27,10 +27,11 @@ export default {
       },
     };
   },
-  props: ["boardItem"],
   created() {
-    console.log(this.boardItem, this.item);
-    this.item = this.boardItem;
+    detailBoard(this.$route.params.id, (response) => {
+      this.item = response.data;
+      //   console.log("item", this.item);
+    });
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
@@ -38,9 +39,9 @@ export default {
   methods: {
     //게시글 수정
     modifyBoard() {
-      this.item.userid = this.userInfo.userid;
+      //   console.log("modified item", this.item);
       modifyBoard(this.item, () => {
-        alert("방명록이 등록되었습니다");
+        alert("방명록이 수정되었습니다");
         this.$router.push("/community");
       });
     },

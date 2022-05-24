@@ -69,7 +69,7 @@ const routes = [
         component: BoardRegist,
       },
       {
-        path: "modify",
+        path: "modify/:id",
         name: "board_modify",
         component: BoardModify,
       },
