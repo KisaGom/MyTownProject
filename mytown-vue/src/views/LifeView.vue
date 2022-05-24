@@ -3,13 +3,33 @@
     <nav-bar class="nav-bar"></nav-bar>
     <div class="sidemenu side">
       <ul>
+        <li @click="switchTab(0)">
+          <b-icon icon="geo-alt-fill"></b-icon>
+          <div class="menu-text">내위치</div>
+        </li>
         <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
           <b-icon icon="house-door-fill"></b-icon>
-          <div class="menu-text">매매정보</div>
+          <div class="menu-text">아파트</div>
         </li>
         <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
-          <b-icon icon="cart3"></b-icon>
+          <b-icon icon="basket2-fill"></b-icon>
           <div class="menu-text">상권</div>
+        </li>
+        <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
+          <b-icon icon="exclamation-circle-fill"></b-icon>
+          <div class="menu-text">편의시설</div>
+        </li>
+        <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
+          <b-icon icon="signpost-fill"></b-icon>
+          <div class="menu-text">관광행사</div>
+        </li>
+        <li :class="{ isActive: isActivated(5) }" @click="switchTab(5)">
+          <b-icon icon="currency-dollar"></b-icon>
+          <div class="menu-text">경제규모</div>
+        </li>
+        <li :class="{ isActive: isActivated(6) }" @click="switchTab(6)">
+          <b-icon icon="star-fill"></b-icon>
+          <div class="menu-text">관심지역</div>
         </li>
       </ul>
     </div>
@@ -31,11 +51,6 @@
             :options="dongs"
             @change="doSearch"
           ></b-form-select>
-        </b-input-group>
-        <b-input-group>
-          <b-form-select v-model="dealYear" :options="year"> </b-form-select>
-          <b-form-select v-model="dealMonth" :options="month"> </b-form-select>
-          <b-button>검색</b-button>
         </b-input-group>
         <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
         <life-commercial-toolbar
@@ -72,22 +87,6 @@ export default {
       dongCode: null,
       dealYear: 2022,
       dealMonth: null,
-      year: [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015],
-      month: [
-        { value: null, text: "전체" },
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-      ],
       items: [],
       isLeftSided: false,
       selsectedTab: "0",
@@ -140,8 +139,12 @@ export default {
     },
     switchTab(tab) {
       // console.log(tab);
-      if (tab == this.selsectedTab) {
-        this.selsectedTab = 0;
+      if (tab == 0) {
+        this.selsectedTab = -1;
+        this.$refs.childMap.moveMapCenter();
+        this.isHidden = true;
+      } else if (tab == this.selsectedTab) {
+        this.selsectedTab = -1;
         this.isHidden = true;
       } else {
         this.selsectedTab = tab;
@@ -249,9 +252,6 @@ li:hover {
   overflow: auto;
 }
 
-.sidecontent::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
 .sidemenu a.router-link-exact-active {
   color: black;
 }
