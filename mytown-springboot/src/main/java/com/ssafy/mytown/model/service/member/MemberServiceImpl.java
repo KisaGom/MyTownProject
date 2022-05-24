@@ -1,6 +1,7 @@
 package com.ssafy.mytown.model.service.member;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,11 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
+	
+	@Override
+	public List<MemberDto> list() throws Exception {
+		return memberMapper.list();
+	}
 	
 	@Override
 	public MemberDto login(MemberDto memberDto) throws Exception {
@@ -45,5 +51,6 @@ public class MemberServiceImpl implements MemberService {
 	public String findPwd(MemberDto memberDto) throws SQLException {
 		return memberMapper.findPwd(memberDto);
 	}
+
 
 }
