@@ -9,6 +9,7 @@ import com.ssafy.mytown.model.dto.community.BoardDto;
 @Mapper
 public interface BoardMapper {
 	public List<BoardDto> selectBoard(String dongCode);
+	public BoardDto selectBoardById(int id);
 	public int insertBoard(BoardDto boardDto);
 	public int updateBoard(BoardDto boardDto);
 	public int deleteBoard(int id);

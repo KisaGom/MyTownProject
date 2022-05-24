@@ -43,15 +43,15 @@ public class BoardRestController {
 		}
 	}
 	
-//	@GetMapping("{id}")
-//	public ResponseEntity<?> detailBoard(@PathVariable int id){
-//		try {
-//			logger.debug("detailBoard 호출");
-//			return new ResponseEntity<BoardDto>(boardService.detailBoard(id),HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
+	@GetMapping("/detail/{id}")
+	public ResponseEntity<?> detailBoard(@PathVariable int id){
+		try {
+			logger.debug("detailBoard 호출");
+			return new ResponseEntity<BoardDto>(boardService.detailBoard(id),HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@PostMapping
 	public ResponseEntity<String> registBoard(@RequestBody BoardDto boardDto){
