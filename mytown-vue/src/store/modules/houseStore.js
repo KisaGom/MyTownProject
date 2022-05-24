@@ -41,9 +41,8 @@ const houseStore = {
       state.houses = null;
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
       state.houses = houses;
-      console.log(houses);
+      // console.log(houses);
     },
     SET_DETAIL_HOUSE: (state, house) => {
       state.house = house;
@@ -52,9 +51,8 @@ const houseStore = {
       state.houses = null;
     },
     SET_COMM_LIST: (state, comms) => {
-      //   console.log(houses);
       state.comms = comms;
-      console.log(state.comms);
+      // console.log(state.comms);
     },
   },
   actions: {
@@ -99,10 +97,8 @@ const houseStore = {
       );
     },
     getHouseList: ({ commit }, dongCode) => {
-      const params = {
-        dongCode,
-      };
-      console.log("dongCode -> " + dongCode);
+      const params = dongCode;
+      // console.log("dongCode -> " + dongCode);
       houseDealList(
         params,
         (response) => {
@@ -119,9 +115,7 @@ const houseStore = {
       commit("SET_DETAIL_HOUSE", house);
     },
     getCommercialListDong: ({ commit }, dongCode) => {
-      const params = {
-        dongCode,
-      };
+      const params = dongCode;
       commercialListDong(
         params,
         (response) => {

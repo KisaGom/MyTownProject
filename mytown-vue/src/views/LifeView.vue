@@ -3,13 +3,33 @@
     <nav-bar class="nav-bar"></nav-bar>
     <div class="sidemenu side">
       <ul>
+        <li @click="switchTab(0)">
+          <b-icon icon="geo-alt-fill"></b-icon>
+          <div class="menu-text">내위치</div>
+        </li>
         <li :class="{ isActive: isActivated(1) }" @click="switchTab(1)">
           <b-icon icon="house-door-fill"></b-icon>
-          <div class="menu-text">매매정보</div>
+          <div class="menu-text">아파트</div>
         </li>
         <li :class="{ isActive: isActivated(2) }" @click="switchTab(2)">
-          <b-icon icon="cart3"></b-icon>
+          <b-icon icon="basket2-fill"></b-icon>
           <div class="menu-text">상권</div>
+        </li>
+        <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
+          <b-icon icon="exclamation-circle-fill"></b-icon>
+          <div class="menu-text">편의시설</div>
+        </li>
+        <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
+          <b-icon icon="signpost-fill"></b-icon>
+          <div class="menu-text">관광행사</div>
+        </li>
+        <li :class="{ isActive: isActivated(5) }" @click="switchTab(5)">
+          <b-icon icon="currency-dollar"></b-icon>
+          <div class="menu-text">경제규모</div>
+        </li>
+        <li :class="{ isActive: isActivated(6) }" @click="switchTab(6)">
+          <b-icon icon="star-fill"></b-icon>
+          <div class="menu-text">관심지역</div>
         </li>
       </ul>
     </div>
@@ -32,11 +52,6 @@
             @change="doSearch"
           ></b-form-select>
         </b-input-group>
-        <b-input-group>
-          <b-form-select v-model="dealYear" :options="year"> </b-form-select>
-          <b-form-select v-model="dealMonth" :options="month"> </b-form-select>
-          <b-button>검색</b-button>
-        </b-input-group>
         <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
@@ -52,6 +67,8 @@ import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
+import { houseDealList } from "@/api/houseDeal";
+import { commercialListDong } from "@/api/commercialInfo";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
@@ -70,22 +87,7 @@ export default {
       dongCode: null,
       dealYear: 2022,
       dealMonth: null,
-      year: [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015],
-      month: [
-        { value: null, text: "전체" },
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-      ],
+      items: [],
       isLeftSided: false,
       selsectedTab: "0",
       isHidden: true,
@@ -135,17 +137,14 @@ export default {
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-
-    searchApt() {
-      this.getHouseList(this.gugunCode + this.dongCode);
-    },
-    searchComm() {
-      this.getCommercialListDong(this.gugunCode + this.dongCode);
-    },
     switchTab(tab) {
-      console.log(tab);
-      if (tab == this.selsectedTab) {
-        this.selsectedTab = 0;
+      // console.log(tab);
+      if (tab == 0) {
+        this.selsectedTab = -1;
+        this.$refs.childMap.moveMapCenter();
+        this.isHidden = true;
+      } else if (tab == this.selsectedTab) {
+        this.selsectedTab = -1;
         this.isHidden = true;
       } else {
         this.selsectedTab = tab;
@@ -156,9 +155,50 @@ export default {
     doSearch() {
       if (this.dongCode) {
         if (this.selsectedTab == "1") {
-          this.searchApt();
+          // console.log("childMap", this.$refs.childMap);
+          let dongCode = this.gugunCode + this.dongCode;
+          //state 저장용
+          this.getHouseList(dongCode);
+
+          //overlay 표시용
+          houseDealList(dongCode, (response) => {
+            // console.log("searchApt", dongCode, response.data);
+            this.items = response.data;
+
+            //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+            let len = 20 < this.items.length ? 20 : this.items.length;
+            if (len > 0) {
+              this.$refs.childMap.showOverlay(
+                this.items.slice(0, len),
+                this.selsectedTab
+              );
+            } else {
+              //거래 내역이 없을 때
+              this.$refs.childMap.moveDongAddr(dongCode);
+            }
+            // console.log("len", len);
+          });
         } else if (this.selsectedTab == "2") {
-          this.searchComm();
+          let dongCode = this.gugunCode + this.dongCode;
+          //state 저장용
+          this.getCommercialListDong(dongCode);
+
+          //overlay 표시용
+          commercialListDong(dongCode, (response) => {
+            this.items = response.data;
+
+            //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+            let len = 20 < this.items.length ? 20 : this.items.length;
+            if (len > 0) {
+              this.$refs.childMap.showOverlay(
+                this.items.slice(0, len),
+                this.selsectedTab
+              );
+            } else {
+              //가게 정보가 없을 때
+              this.$refs.childMap.moveDongAddr(dongCode);
+            }
+          });
         }
       }
     },
@@ -212,9 +252,6 @@ li:hover {
   overflow: auto;
 }
 
-.sidecontent::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
 .sidemenu a.router-link-exact-active {
   color: black;
 }

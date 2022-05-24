@@ -9,8 +9,6 @@ import MemberRegister from "@/components/member/MemberRegister";
 import MemberModify from "@/components/member/MemberModify";
 import CommunityView from "@/views/CommunityView";
 import BoardList from "@/components/community/BoardList.vue";
-import BoardRegist from "@/components/community/BoardRegist";
-import BoardModify from "@/components/community/BoardModify";
 
 Vue.use(VueRouter);
 
@@ -56,22 +54,12 @@ const routes = [
     path: "/community",
     name: "community",
     component: CommunityView,
-    redirect: "/community/list",
+    redirect: "/community/list/1111010100",
     children: [
       {
-        path: "list",
+        path: "list/:dongCode",
         name: "board_list",
         component: BoardList,
-      },
-      {
-        path: "regist",
-        name: "board_regist",
-        component: BoardRegist,
-      },
-      {
-        path: "modify/:id",
-        name: "board_modify",
-        component: BoardModify,
       },
     ],
   },
