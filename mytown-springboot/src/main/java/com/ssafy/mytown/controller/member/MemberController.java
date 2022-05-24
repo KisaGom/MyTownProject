@@ -1,6 +1,7 @@
 package com.ssafy.mytown.controller.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,23 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("/")
+	public ResponseEntity<?> list(HttpServletRequest request) throws Exception {
+//		if (jwtService.isUsable(request.getHeader("access-token"))) {
+			logger.info("사용 가능한 토큰!!!");
+			try {
+//				로그인 사용자 정보.
+				return new ResponseEntity<List<MemberDto>> (memberService.list(), HttpStatus.OK);
+			} catch (Exception e) {
+				logger.error("정보조회 실패 : {}", e);
+				return new ResponseEntity<String> (FAIL, HttpStatus.NO_CONTENT);
+			}
+//		} else {
+//			logger.error("사용 불가능 토큰!!!");
+//			return new ResponseEntity<String> (FAIL, HttpStatus.ACCEPTED);
+//		}
+	}
 
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(

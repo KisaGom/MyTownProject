@@ -3,6 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.mytown.model.mapper.member.MemberMapper">
+	<select id="list" resultType="memberDto">
+		select userid, username, email, dongCode , left(regtime, 10) as "regtime" from user
+	</select>
+
 	<select id="login" parameterType="memberDto" resultType="memberDto">
 		select username, userid
 		from user

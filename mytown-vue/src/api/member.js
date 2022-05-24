@@ -2,6 +2,10 @@ import { apiInstance } from "./index.js";
 
 const api = apiInstance();
 
+async function listUser(success, fail) {
+  await api.get(`/user/`).then(success).catch(fail);
+}
+
 async function login(user, success, fail) {
   await api.post(`/user/login`, JSON.stringify(user)).then(success).catch(fail);
 }
@@ -35,4 +39,4 @@ async function findPwd(user, success, fail) {
 
 // function logout(success, fail)
 
-export { login, findById, register, modify, deleteUser, findPwd };
+export { login, findById, register, modify, deleteUser, findPwd, listUser };
