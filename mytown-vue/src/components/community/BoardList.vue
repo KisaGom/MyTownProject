@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-input-group v-show="!editmode">
+    <b-input-group v-if="!editmode">
       <b-form-input
         id="sido"
         required
@@ -25,7 +25,7 @@
         ></b-input-group-append
       >
     </b-input-group>
-    <b-input-group v-show="editmode">
+    <b-input-group v-else>
       <b-form-select
         v-model="sidoCode"
         :options="sidos"
@@ -60,41 +60,79 @@
         :fields="fields"
         @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
       >
-        <!-- <template #cell(userid)>
-          어떻게 이름 맵핑해서 넣지..
+        <!-- <template #cell(userid)="row">
+          {{ userId(row) }}
         </template> -->
 
+        <!-- 댓글 테이블 -->
         <template slot="row-details" slot-scope="row">
-          <!-- 댓글 테이블 -->
           <b-card>
             <comment-list :board-item="row.item"></comment-list>
-            <!-- <b-button-group size="sm"> -->
             <span v-if="userInfo != null && userInfo.userid == row.item.userid">
-              <b-button @click="modifyBoard(row.item.id)">수정</b-button>
-              <b-button @click="deleteBoard(row.item.id)">삭제</b-button>
-            </span>
-            <!-- </b-button-group> -->
-
-            <span v-if="userInfo != null">
-              <b-dropdown id="dropdown-form" text="댓글 달기" ref="dropdown">
-                <b-dropdown-form>
-                  <b-form-group label-for="dropdown-form" @submit.stop.prevent>
+              <b-dropdown
+                id="board-modify"
+                size="sm"
+                offset="-200"
+                text="수정"
+                ref="dropdown"
+              >
+                <b-dropdown-form style="width: 30rem">
+                  <b-form-group label-for="board-modify" @submit.stop.prevent>
                     <b-form-input
-                      id="dropdown-form"
+                      id="board-modify"
+                      size="sm"
+                      v-model="row.item.content"
+                      type="text"
+                      required
+                      placeholder="내용을 입력해주세요"
+                    ></b-form-input>
+                    <b-button
+                      variant="primary"
+                      size="sm"
+                      @click="modifyBoard(row.item)"
+                      >수정</b-button
+                    >
+                  </b-form-group>
+                </b-dropdown-form>
+              </b-dropdown>
+              <b-button size="sm" @click="deleteBoard(row.item.id)"
+                >삭제</b-button
+              >
+            </span>
+            <!-- 댓글 달기 dropdown 버튼 -->
+            <span v-if="userInfo != null">
+              <b-dropdown
+                id="comment-register"
+                size="sm"
+                offset="-200"
+                text="댓글 달기"
+                ref="dropdown"
+              >
+                <b-dropdown-form style="width: 30rem">
+                  <b-form-group
+                    label-for="comment-register"
+                    @submit.stop.prevent
+                  >
+                    <b-form-input
+                      id="comment-register"
                       size="sm"
                       v-model="comment.content"
                       type="text"
                       required
                       placeholder="내용을 입력해주세요"
                     ></b-form-input>
+                    <!-- <b-icon
+                    icon="plus-square"
+                    style="cursor: pointer"
+                    @click="registComment(row.item.id, row.item)"
+                  ></b-icon> -->
+                    <b-button
+                      variant="primary"
+                      size="sm"
+                      @click="registComment(row.item.id, row.item)"
+                      >댓글 등록</b-button
+                    >
                   </b-form-group>
-
-                  <b-button
-                    variant="primary"
-                    size="sm"
-                    @click="registComment(row.item.id, row)"
-                    >댓글 등록</b-button
-                  >
                 </b-dropdown-form>
               </b-dropdown>
             </span>
@@ -111,15 +149,37 @@
       ></b-pagination>
     </div>
     <div v-else>아직 이 동네의 방명록이 존재하지 않아요!</div>
-    <b-button block variant="light" @click="registBoard"
-      >방명록 작성하기</b-button
+    <b-dropdown
+      id="board-register"
+      block
+      size="sm"
+      text="방명록 작성하기"
+      ref="dropdown"
     >
+      <b-dropdown-form style="width: 40rem">
+        <b-form-group label-for="board-register" @submit.stop.prevent>
+          <b-form-input
+            id="board-register"
+            size="sm"
+            v-model="board.content"
+            type="text"
+            required
+            placeholder="내용을 입력해주세요"
+          ></b-form-input>
+          <b-button variant="primary" size="sm" @click="registBoard"
+            >방명록 작성하기</b-button
+          >
+        </b-form-group>
+      </b-dropdown-form>
+    </b-dropdown>
   </div>
 </template>
 
 <script>
 import CommentList from "@/components/community/CommentList.vue";
-import { listBoard, deleteBoard } from "@/api/board";
+import { getAddrByCode } from "@/api/baseAddr";
+// import { findById } from "@/api/member";
+import { listBoard, registBoard, modifyBoard, deleteBoard } from "@/api/board";
 import { registComment } from "@/api/comment";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
@@ -147,12 +207,25 @@ export default {
         content: "",
         board_id: "",
       },
-      idx: 0,
+      board: {
+        userid: "",
+        content: "",
+      },
     };
   },
   created() {
+    this.getAddr();
     this.CLEAR_SIDO_LIST();
     this.getSido();
+    if (this.userInfo) {
+      listBoard(this.userInfo.dongCode, (response) => {
+        this.items = response.data;
+      });
+    } else {
+      listBoard(this.$route.params.dongCode, (response) => {
+        this.items = response.data;
+      });
+    }
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
@@ -168,6 +241,40 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
+    //시군구동 초기값 사용자 정보에서 가져오기
+    getAddr() {
+      // console.log("this.userinfo", this.userInfo);
+      if (this.userInfo) {
+        getAddrByCode(this.userInfo.dongCode, ({ data }) => {
+          this.sidoName = data.sidoName;
+          this.gugunName = data.gugunName;
+          this.dongName = data.dongName;
+        });
+      } else {
+        getAddrByCode(this.$route.params.dongCode, ({ data }) => {
+          this.sidoName = data.sidoName;
+          this.gugunName = data.gugunName;
+          this.dongName = data.dongName;
+        });
+      }
+    },
+    //시군구동 선택할 수 있게 전환
+    toggleEditMode() {
+      // console.log(this.editmode);
+      this.editmode = !this.editmode;
+      if (this.editmode) {
+        this.CLEAR_SIDO_LIST();
+        this.CLEAR_GUGUN_LIST();
+        this.CLEAR_DONG_LIST();
+        this.sidoCode = null;
+        this.dongCode = null;
+        this.gugunCode = null;
+
+        this.getSido();
+      }
+    },
+
+    //시군구동 선택
     gugunList() {
       this.CLEAR_GUGUN_LIST();
       this.CLEAR_DONG_LIST();
@@ -183,66 +290,72 @@ export default {
 
     doSearch() {
       if (this.dongCode) {
-        // console.log("called doSearch", this.gugunCode + this.dongCode);
-        listBoard(
-          this.gugunCode + this.dongCode,
-          (response) => {
-            this.items = response.data;
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+        console.log("called doSearch", this.gugunCode + this.dongCode);
+        listBoard(this.gugunCode + this.dongCode, (response) => {
+          this.items = response.data;
+        });
       }
     },
 
-    toggleEditMode() {
-      console.log(this.editmode);
-      this.editmode = !this.editmode;
-      if (this.editmode) {
-        this.CLEAR_SIDO_LIST();
-        this.CLEAR_GUGUN_LIST();
-        this.CLEAR_DONG_LIST();
-        this.sidoCode = null;
-        this.dongCode = null;
-        this.gugunCode = null;
+    // userId(row) {
+    //   let username = "";
+    //   // console.log("row.item", row.item);
+    //   findById(row.item.userid, (response) => {
+    //     console.log(response);
+    //     username = response.data.username;
+    //     console.log("username", username);
+    //   });
+    //   return username;
+    // },
 
-        this.getSido();
-      }
-    },
-
-    //게시글 등록 컴포넌트로 이동
+    //게시글 등록
     registBoard() {
-      this.$router.push("/community/regist");
+      // this.$router.push("/community/regist");
+      this.board.userid = this.userInfo.userid;
+      registBoard(this.board, () => {
+        alert("방명록이 등록되었습니다");
+        listBoard(this.userInfo.dongCode, (response) => {
+          this.board.content = "";
+          this.$refs.dropdown.hide(true);
+          this.items = response.data;
+        });
+      });
     },
 
-    //게시물 수정 컴포넌트로 이동
-    modifyBoard(id) {
-      this.$router.push(`/community/modify/${id}`);
+    //게시물 수정
+    modifyBoard(item) {
+      console.log("modified item", item);
+      modifyBoard(item, () => {
+        alert("방명록이 수정되었습니다");
+        listBoard(this.userInfo.dongCode, (response) => {
+          this.items = response.data;
+        });
+      });
     },
 
     //게시물 삭제
     deleteBoard(id) {
-      console.log(id);
+      // console.log(id);
       if (confirm("게시물을 삭제할까요?")) {
         deleteBoard(id, () => {
           alert("게시물이 삭제되었습니다");
-          this.doSearch();
+          listBoard(this.userInfo.dongCode, (response) => {
+            this.items = response.data;
+          });
         });
       }
     },
 
     //댓글 등록
-    registComment(board_id, row) {
+    registComment(board_id, item) {
       this.comment.userid = this.userInfo.userid;
       this.comment.board_id = board_id;
       registComment(this.comment, () => {
         this.comment.content = "";
-        row.item._showDetails = false;
+        item._showDetails = false;
         // Close the menu and (by passing true) return focus to the toggle button
         this.$refs.dropdown.hide(true);
         alert("댓글이 등록되었습니다");
-        // this.$router.push(`/community?${this.idx++}`);
       });
     },
   },
