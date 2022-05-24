@@ -8,6 +8,9 @@ import MemberMyPage from "@/components/member/MemberMyPage";
 import MemberRegister from "@/components/member/MemberRegister";
 import MemberModify from "@/components/member/MemberModify";
 import CommunityView from "@/views/CommunityView";
+import BoardList from "@/components/community/BoardList.vue";
+import BoardRegist from "@/components/community/BoardRegist";
+import BoardModify from "@/components/community/BoardModify";
 
 Vue.use(VueRouter);
 
@@ -53,6 +56,24 @@ const routes = [
     path: "/community",
     name: "community",
     component: CommunityView,
+    redirect: "/community/list",
+    children: [
+      {
+        path: "list",
+        name: "board_list",
+        component: BoardList,
+      },
+      {
+        path: "regist",
+        name: "board_regist",
+        component: BoardRegist,
+      },
+      {
+        path: "modify",
+        name: "board_modify",
+        component: BoardModify,
+      },
+    ],
   },
 ];
 

@@ -34,50 +34,45 @@
           어떻게 이름 맵핑해서 넣지..
         </template> -->
 
-        <b-button block variant="light" v-b-modal.writeModal
+        <b-button block variant="light" @click="registBoard"
           >방명록 작성하기</b-button
         >
         <template slot="row-details" slot-scope="row">
           <b-card>
-            <board-list-comment :board-item="row.item"></board-list-comment>
+            <comment-list :board-item="row.item"></comment-list>
+            <b-button-group size="sm">
+              <div
+                v-if="userInfo != null && userInfo.userid == row.item.userid"
+              >
+                <b-button @click="modifyBoard" :board-item="row.item"
+                  >수정</b-button
+                >
+                <b-button @click="deleteBoard(row.item.id)">삭제</b-button>
+              </div>
+              <div v-if="userInfo != null">
+                <b-button>댓글 달기</b-button>
+              </div>
+            </b-button-group>
           </b-card>
         </template>
       </b-table>
     </div>
     <div v-else>아직 이 동네의 방명록이 존재하지 않아요!</div>
-
-    <div v-if="userInfo != null">
-      <b-button block squared variant="light" v-b-modal.writeModal
-        >방명록 작성하기</b-button
-      >
-    </div>
-    <div v-else>
-      <a href="/member/signin">로그인 후 우리 동네 방명록을 작성하세요!</a>
-    </div>
-
-    <b-modal id="writeModal" title="방명록 작성">
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          label="Name"
-          label-for="name-input"
-          invalid-feedback="내용을 입력해주세요!"
-        >
-          <b-form-input id="name-input" v-model="name" required></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal>
+    <b-button block squared variant="light" @click="registBoard"
+      >방명록 작성하기</b-button
+    >
   </div>
 </template>
 
 <script>
-import BoardListComment from "@/components/community/BoardListComment.vue";
-import { listBoard } from "@/api/board";
+import CommentList from "@/components/community/CommentList.vue";
+import { listBoard, deleteBoard } from "@/api/board";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 const memberStore = "memberStore";
 
 export default {
-  components: { BoardListComment },
+  components: { CommentList },
   data() {
     return {
       fields: [
@@ -90,9 +85,6 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
-      //방명록 작성(수정 필요)
-      name: "",
-      submittedNames: [],
     };
   },
   created() {
@@ -137,6 +129,29 @@ export default {
         );
       }
     },
+
+    //게시글 등록 컴포넌트로 이동
+    registBoard() {
+      this.$router.push("/community/regist");
+    },
+
+    //게시물 수정 컴포넌트로 이동
+    modifyBoard() {
+      this.$router.push("/community/modify");
+    },
+
+    //게시물 삭제
+    deleteBoard(id) {
+      console.log(id);
+      if (confirm("게시물을 삭제할까요?")) {
+        deleteBoard(id, () => {
+          alert("게시물이 삭제되었습니다");
+          this.doSearch();
+        });
+      }
+    },
+
+    //
   },
 };
 </script>

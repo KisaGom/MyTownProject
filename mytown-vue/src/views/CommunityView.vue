@@ -5,8 +5,13 @@
       <b-card no-body>
         <b-tabs card>
           <b-tab title="방명록" active>
-            지역별 방명록
-            <board-list></board-list>
+            <router-view></router-view>
+            <div v-if="userInfo != null"></div>
+            <div v-else>
+              <a href="/member/signin"
+                >로그인 후 우리 동네 방명록을 작성하세요!</a
+              >
+            </div>
           </b-tab>
           <b-tab title="(임시)">
             <b-card-text>행사/관광 정보 또는 워드 클라우드</b-card-text>
@@ -19,11 +24,15 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import BoardList from "@/components/community/BoardList.vue";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   name: "CommunityView",
-  components: { NavBar, BoardList },
+  components: { NavBar },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
 };
 </script>
 
