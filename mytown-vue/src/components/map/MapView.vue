@@ -154,18 +154,14 @@ export default {
 
     //여러개 오버레이 표시하기--------------------------------
     //오버레이 생성
-    makeOverlay() {
-      console.log("called makeOverlay");
-      //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
-      // for (var i = 0; i < this.houses.length; i++) {
-      console.log("this.houses", this.houses);
-      var len = 20 < this.houses.length ? 20 : this.houses.length;
-      for (var i = 0; i < len; i++) {
-        var position = new kakao.maps.LatLng(
-            this.houses[i].lat,
-            this.houses[i].lng
-          ),
-          content = `<div class ="label"><span class="left"></span><span class="center">${this.houses[i].apartmentName}</span><span class="right"></span></div>`;
+    makeOverlay(items) {
+      // console.log("called makeOverlay");
+      // console.log("items", items);
+      // console.log("items[0]", items[0]);
+
+      items.forEach((item) => {
+        var position = new kakao.maps.LatLng(item.lat, item.lng),
+          content = `<div class ="label"><span class="left"></span><span class="center">${item.apartmentName}</span><span class="right"></span></div>`;
 
         // 오버레이를 생성합니다
         let overlay = new kakao.maps.CustomOverlay({
@@ -173,26 +169,25 @@ export default {
           content: content,
         });
         this.overlays.push(overlay);
-      }
+      });
     },
 
     //오버레이 보이기
-    showOverlay() {
-      console.log("called showOverlay");
-      this.removeOverlay();
-      this.makeOverlay();
-      console.log("overlays", this.overlays);
-      console.log("houses", this.houses[0].lat);
-      if (this.houses) {
-        this.map.panTo(
-          new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng)
-        );
+    showOverlay(items) {
+      // console.log("called showOverlay");
+      // console.log("items", items);
+      if (items) {
+        this.map.panTo(new kakao.maps.LatLng(items[0].lat, items[0].lng));
       }
+      this.removeOverlay();
+      this.makeOverlay(items);
+      // console.log("overlays", this.overlays);
       this.setOverlay(this.map);
     },
 
     //오버레이 감추기
     removeOverlay() {
+      // console.log("called removeOverlay");
       this.setOverlay(null);
       this.overlays = [];
     },

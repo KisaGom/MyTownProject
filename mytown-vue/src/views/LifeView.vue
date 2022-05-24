@@ -52,6 +52,8 @@ import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
+import { houseDealList } from "@/api/houseDeal";
+import { commercialListDong } from "@/api/commercialInfo";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 
@@ -86,6 +88,7 @@ export default {
         11,
         12,
       ],
+      items: [],
       isLeftSided: false,
       selsectedTab: "0",
       isHidden: true,
@@ -137,10 +140,39 @@ export default {
     },
 
     searchApt() {
-      this.getHouseList(this.gugunCode + this.dongCode);
+      // console.log("childMap", this.$refs.childMap);
+      let dongCode = this.gugunCode + this.dongCode;
+      //state 저장용
+      this.getHouseList(dongCode);
+
+      //overlay 표시용
+      houseDealList(dongCode, (response) => {
+        // console.log("searchApt", dongCode, response.data);
+        this.items = response.data;
+
+        //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+        var len = 20 < this.items.length ? 20 : this.items.length;
+        if (len > 0) {
+          this.$refs.childMap.showOverlay(this.items.slice(0, len));
+        }
+        // console.log("len", len);
+      });
     },
     searchComm() {
-      this.getCommercialListDong(this.gugunCode + this.dongCode);
+      let dongCode = this.gugunCode + this.dongCode;
+      //state 저장용
+      this.getCommercialListDong(dongCode);
+
+      //overlay 표시용
+      commercialListDong(dongCode, (response) => {
+        this.items = response.data;
+
+        //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
+        var len = 20 < this.items.length ? 20 : this.items.length;
+        if (len > 0) {
+          this.$refs.childMap.showOverlay(this.items.slice(0, len));
+        }
+      });
     },
     switchTab(tab) {
       console.log(tab);

@@ -99,10 +99,8 @@ const houseStore = {
       );
     },
     getHouseList: ({ commit }, dongCode) => {
-      const params = {
-        dongCode,
-      };
-      console.log("dongCode -> " + dongCode);
+      const params = dongCode;
+      // console.log("dongCode -> " + dongCode);
       houseDealList(
         params,
         (response) => {
@@ -119,9 +117,7 @@ const houseStore = {
       commit("SET_DETAIL_HOUSE", house);
     },
     getCommercialListDong: ({ commit }, dongCode) => {
-      const params = {
-        dongCode,
-      };
+      const params = dongCode;
       commercialListDong(
         params,
         (response) => {
