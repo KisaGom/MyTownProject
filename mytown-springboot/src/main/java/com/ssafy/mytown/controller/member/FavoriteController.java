@@ -37,7 +37,7 @@ public class FavoriteController {
 		try {
 			return new ResponseEntity<List<FavoriteDto>> (favoriteService.list(userid), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String> (FAIL, HttpStatus.OK);
+			return new ResponseEntity<String> (FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class FavoriteController {
 			favoriteService.register(favoriteDto);
 			return new ResponseEntity<String> (SUCCESS, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String> (FAIL, HttpStatus.OK);
+			return new ResponseEntity<String> (FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class FavoriteController {
 			favoriteService.delete(userid, dongCode);
 			return new ResponseEntity<String> (SUCCESS, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String> (FAIL, HttpStatus.OK);
+			return new ResponseEntity<String> (FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
