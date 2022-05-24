@@ -8,10 +8,10 @@
           <b-jumbotron>
             <template #header>My Page</template>
 
-            <template #lead> 내 정보 확인페이지입니다. </template>
+            <template #lead> 관심 지역을 설정하세요. </template>
 
             <hr class="my-4" />
-            <b-input-group>
+            <b-input-group class="mt-3">
               <b-form-select
                 v-model="sidoCode"
                 :options="sidos"
@@ -27,10 +27,28 @@
                 :options="dongs"
               ></b-form-select>
               <b-input-group-append
-                ><b-button>추가</b-button></b-input-group-append
+                ><b-button @click="onClickInsert"
+                  >추가</b-button
+                ></b-input-group-append
               >
             </b-input-group>
-            <hr class="my-4" />
+
+            <b-table
+              class="mt-3"
+              hover
+              fixed
+              :items="items"
+              :fields="fields"
+              small
+            >
+              <template #cell(del)>
+                <b-icon
+                  icon="x-circle"
+                  style="cursor: pointer"
+                  @click="onClickDelete"
+                ></b-icon>
+              </template>
+            </b-table>
           </b-jumbotron>
         </b-col>
         <b-col></b-col>
@@ -41,6 +59,8 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { list, insert, deleteFav } from "@/api/favorite";
+
 const houseStore = "houseStore";
 const memberStore = "memberStore";
 export default {
@@ -50,6 +70,13 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      items: null,
+      fields: [
+        { key: "sidoName", label: "시/도" },
+        { key: "gugunName", label: "구/군" },
+        { key: "dongName", label: "동" },
+        { key: "del", label: "삭제" },
+      ],
     };
   },
   created() {
@@ -57,6 +84,8 @@ export default {
     this.CLEAR_GUGUN_LIST();
     this.CLEAR_DONG_LIST();
     this.getSido();
+
+    this.getFavoriteList();
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
@@ -80,6 +109,52 @@ export default {
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
+    },
+    getFavoriteList() {
+      list(
+        this.userInfo.userid,
+        (response) => {
+          console.log(response);
+          this.items = response.data;
+        },
+        () => {}
+      );
+    },
+    onClickInsert() {
+      if (this.dongCode) {
+        let fav = {
+          userid: this.userInfo.userid,
+          dongCode: this.gugunCode + this.dongCode,
+        };
+        insert(
+          fav,
+          (response) => {
+            console.log(response);
+            this.getFavoriteList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        alert("지역 정보를 입력해주십시오.");
+      }
+    },
+    onClickDelete() {
+      let fav = {
+        userid: this.userInfo.userid,
+        dongCode: this.gugunCode + this.dongCode,
+      };
+      deleteFav(
+        fav,
+        (response) => {
+          console.log(response);
+          this.getFavoriteList();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };
