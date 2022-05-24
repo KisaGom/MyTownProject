@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.ssafy.mytown.model.mapper.statistics.DealCountMapper">
+	<select id="list" parameterType="string" resultType="dealCountDto">
+		select dongcode, count, concat(sidoName, " " , gugunName, " " , dongName) as "addr" from (select f.dongcode, ifnull(d.counts, 0) as "count" from dealcount d 
+		right join (select * from favorite where userid = #{userid}) f 
+		on d.dongcode = f.dongcode) k natural join dongcode;
+	</select>
+</mapper>
