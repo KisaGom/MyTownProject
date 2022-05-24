@@ -26,4 +26,14 @@
 		userpwd = #{userpwd}, username = #{username}, email = #{email}, dongCode = #{dongCode}
 		where userid = #{userid}
 	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from user
+		where userid = #{userid}
+	</delete>
+	
+	<select id="findPwd" parameterType="memberDto" resultType="string">
+		select userpwd from user
+		where userid = #{userid} and email = #{email}
+	</select>
 </mapper>
