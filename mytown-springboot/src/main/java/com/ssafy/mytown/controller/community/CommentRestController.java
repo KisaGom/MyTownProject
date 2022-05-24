@@ -36,6 +36,7 @@ public class CommentRestController {
 	public ResponseEntity<?> retrieveComment(@PathVariable int board_id){
 		try {
 			logger.debug("retrieveComment 호출");
+			System.out.println(commentService.retrieveComment(board_id));
 			return new ResponseEntity<List<CommentDto>>(commentService.retrieveComment(board_id),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);

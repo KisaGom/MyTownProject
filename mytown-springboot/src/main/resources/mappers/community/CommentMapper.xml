@@ -6,8 +6,9 @@
 
 	<!-- 해당 게시글의 전체 댓글 조회 -->
 	<select id="selectComment" resultType="commentDto">
-		select *
-		from comment
+		select c.id,c.userid,c.content,c.regtime,c.board_id,u.username
+		from comment c
+		join user u
 		where board_id=#{board_id}
 		order by regtime
 	</select>

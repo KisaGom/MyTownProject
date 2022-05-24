@@ -24,6 +24,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public BoardDto detailBoard(int id) {
+		return boardMapper.selectBoardById(id);
+	}
+
+	@Override
 	@Transactional
 	public boolean registBoard(BoardDto boardDto) {
 		return boardMapper.insertBoard(boardDto)==1;

@@ -6,6 +6,10 @@ function listBoard(dongCode, success, fail) {
   api.get(`/board/${dongCode}`).then(success).catch(fail);
 }
 
+function detailBoard(id, success, fail) {
+  api.get(`/board/detail/${id}`).then(success).catch(fail);
+}
+
 function registBoard(item, success, fail) {
   api.post(`/board`, JSON.stringify(item)).then(success).catch(fail);
 }
@@ -22,4 +26,11 @@ function updateLike(id, success, fail) {
   api.put(`/board/like/${id}`).then(success).catch(fail);
 }
 
-export { listBoard, registBoard, modifyBoard, deleteBoard, updateLike };
+export {
+  listBoard,
+  detailBoard,
+  registBoard,
+  modifyBoard,
+  deleteBoard,
+  updateLike,
+};

@@ -8,6 +8,7 @@ import MemberMyPage from "@/components/member/MemberMyPage";
 import MemberRegister from "@/components/member/MemberRegister";
 import MemberModify from "@/components/member/MemberModify";
 import CommunityView from "@/views/CommunityView";
+import BoardList from "@/components/community/BoardList.vue";
 
 Vue.use(VueRouter);
 
@@ -53,6 +54,14 @@ const routes = [
     path: "/community",
     name: "community",
     component: CommunityView,
+    redirect: "/community/list/1111010100",
+    children: [
+      {
+        path: "list/:dongCode",
+        name: "board_list",
+        component: BoardList,
+      },
+    ],
   },
 ];
 

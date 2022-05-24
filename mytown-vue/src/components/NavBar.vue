@@ -7,9 +7,11 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/life">개인용</b-nav-item>
-          <b-nav-item href="#">사업용</b-nav-item>
-          <b-nav-item href="#">커뮤니티</b-nav-item>
+          <b-nav-item href="/life">동네정보</b-nav-item>
+          <!-- <b-nav-item href="#">사업용</b-nav-item> -->
+          <b-nav-item href="/community">커뮤니티</b-nav-item>
+          <b-nav-item href="/member/signin">로그인</b-nav-item>
+          <b-nav-item href="/member/mypage">내정보</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">

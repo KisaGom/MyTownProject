@@ -3,12 +3,15 @@ package com.ssafy.mytown.model.dto.community;
 public class BoardDto {
 	private int id;
 	private String userid;
+	private String username;
 	private String content;
 	private String regtime;
 	private int like;
-	public BoardDto(int id, String userid, String content, String regtime, int like) {
+	public BoardDto(int id, String userid, String username, String content, String regtime, int like) {
+		super();
 		this.id = id;
 		this.userid = userid;
+		this.username = username;
 		this.content = content;
 		this.regtime = regtime;
 		this.like = like;
@@ -25,6 +28,12 @@ public class BoardDto {
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getContent() {
 		return content;
@@ -46,7 +55,7 @@ public class BoardDto {
 	}
 	@Override
 	public String toString() {
-		return "BoardDto [id=" + id + ", userid=" + userid + ", content=" + content + ", regtime=" + regtime + ", like="
-				+ like + "]";
+		return "BoardDto [id=" + id + ", userid=" + userid + ", username=" + username + ", content=" + content
+				+ ", regtime=" + regtime + ", like=" + like + "]";
 	}
 }

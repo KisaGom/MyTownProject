@@ -5,16 +5,16 @@
       <div>지도중심기준 행정동 주소정보</div>
       <div id="centerAddr"></div>
     </div>
-    <div class="overlay">
+    <!-- <div class="overlay">
       <b-button @click="showOverlay">마커 보이기</b-button>
       <b-button @click="removeOverlay">마커 감추기</b-button>
-    </div>
+    </div> -->
     <div class="map_wrap">
       <div
         id="map"
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       ></div>
-      <ul id="category">
+      <!-- <ul id="category">
         <li id="BK9" data-order="0" @click="onClickCategory">
           <span class="category_bg bank"></span>
           은행
@@ -39,14 +39,15 @@
           <span class="category_bg store"></span>
           편의점
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </template>
 
 <script>
+import { getAddrByCode } from "@/api/baseAddr";
 import { mapState } from "vuex";
-const houseStore = "houseStore";
+const memberStore = "memberStore";
 
 export default {
   data() {
@@ -66,18 +67,19 @@ export default {
   },
   //여러개 오버레이 표시하기--------------------------------
   computed: {
-    ...mapState(houseStore, ["houses"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
     initMap() {
       var container = document.getElementById("map");
       var options = {
-        //TODO 테이블 첫 아파트 위치가 센터가 되게 바꾸기
         center: new kakao.maps.LatLng(35.8383244008836, 128.598409092694),
         level: 3,
       };
       //지도 객체 생성
       this.map = new kakao.maps.Map(container, options);
+
+      this.moveMapCenter();
 
       //좌표로 주소를 얻어내기------------------------------
       this.geocoder = new kakao.maps.services.Geocoder();
@@ -86,7 +88,6 @@ export default {
       this.searchAddrFromCoords(this.map.getCenter(), this.displayCenterInfo);
 
       // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-      // kakao.maps.event.addListener(this.map, "idle", function () {
       kakao.maps.event.addListener(this.map, "idle", () => {
         this.searchAddrFromCoords(this.map.getCenter(), this.displayCenterInfo);
       });
@@ -153,46 +154,40 @@ export default {
     },
 
     //여러개 오버레이 표시하기--------------------------------
-    //오버레이 생성
-    makeOverlay() {
-      console.log("called makeOverlay");
-      //TODO 오버레이 몇 개 보여줄 지 정하기(임시로 20개) -> pagination 이후에??????????????
-      // for (var i = 0; i < this.houses.length; i++) {
-      console.log("this.houses", this.houses);
-      var len = 20 < this.houses.length ? 20 : this.houses.length;
-      for (var i = 0; i < len; i++) {
-        var position = new kakao.maps.LatLng(
-            this.houses[i].lat,
-            this.houses[i].lng
-          ),
-          content = `<div class ="label"><span class="left"></span><span class="center">${this.houses[i].apartmentName}</span><span class="right"></span></div>`;
-
+    //오버레이 보이기
+    showOverlay(items, selsectedTab) {
+      // console.log("called showOverlay");
+      // console.log("items", items);
+      if (items) {
+        this.map.panTo(new kakao.maps.LatLng(items[0].lat, items[0].lng));
+      }
+      this.removeOverlay();
+      //오버레이 생성
+      items.forEach((item) => {
+        let position = new kakao.maps.LatLng(item.lat, item.lng),
+          content;
+        //아파트 오버레이
+        if (selsectedTab == "1") {
+          content = `<div class ="label"><span class="left"></span><span class="center">${item.apartmentName}</span><span class="right"></span></div>`;
+        }
+        //상권 오버레이
+        else {
+          content = `<div class ="label"><span class="left"></span><span class="center">${item.storeName}</span><span class="right"></span></div>`;
+        }
         // 오버레이를 생성합니다
         let overlay = new kakao.maps.CustomOverlay({
           position: position, // 오버레이를 표시할 위치
           content: content,
         });
         this.overlays.push(overlay);
-      }
-    },
-
-    //오버레이 보이기
-    showOverlay() {
-      console.log("called showOverlay");
-      this.removeOverlay();
-      this.makeOverlay();
-      console.log("overlays", this.overlays);
-      console.log("houses", this.houses[0].lat);
-      if (this.houses) {
-        this.map.panTo(
-          new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng)
-        );
-      }
+      });
+      // console.log("overlays", this.overlays);
       this.setOverlay(this.map);
     },
 
     //오버레이 감추기
     removeOverlay() {
+      // console.log("called removeOverlay");
       this.setOverlay(null);
       this.overlays = [];
     },
@@ -201,6 +196,55 @@ export default {
     setOverlay(map) {
       for (var i = 0; i < this.overlays.length; i++) {
         this.overlays[i].setMap(map);
+      }
+    },
+
+    //지도 이동 관련----------------------------------------
+    moveMapCenter() {
+      if (this.userInfo) {
+        //로그인 정보 있으면 사용자 거주 지역으로 지도 이동
+        this.moveDongAddr(this.userInfo.dongCode);
+      } else {
+        //로그인 정보 없으면 현위치로 지도 이동
+        this.moveLocation();
+      }
+    },
+
+    //법정동코드에 해당하는 주소로 이동
+    moveDongAddr(dongCode) {
+      // console.log("called moveDongAddr", dongCode);
+      this.removeOverlay();
+      getAddrByCode(dongCode, ({ data }) => {
+        // console.log("address", data);
+        let address = data.sidoName + data.gugunName + data.dongName;
+        this.geocoder.addressSearch(address, (result, status) => {
+          // 정상적으로 검색이 완료됐으면
+          if (status === kakao.maps.services.Status.OK) {
+            // console.log("addr search result", result);
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            this.map.setCenter(coords);
+          }
+        });
+      });
+    },
+
+    //geolocation 이용 현위치로 지도 이동
+    moveLocation() {
+      let locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+      console.log("navigator.geolocation", navigator.geolocation);
+      // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+      if (navigator.geolocation) {
+        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        navigator.geolocation.getCurrentPosition((position) => {
+          let lat = position.coords.latitude, // 위도
+            lng = position.coords.longitude; // 경도
+
+          locPosition = new kakao.maps.LatLng(lat, lng);
+
+          this.map.setCenter(locPosition);
+        });
       }
     },
 

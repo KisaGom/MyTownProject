@@ -15,7 +15,7 @@ function gugunList(params, success, fail) {
 }
 
 function dongList(params, success, fail) {
-  console.log(params);
+  // console.log(params);
   api.get(`/addr/dong/${params["gugun"]}`).then(success).catch(fail);
 }
 
