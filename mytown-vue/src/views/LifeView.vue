@@ -1,6 +1,5 @@
 <template>
   <div class="life">
-    <nav-bar class="nav-bar"></nav-bar>
     <div class="sidemenu side">
       <ul>
         <li @click="switchTab(0)">
@@ -23,11 +22,19 @@
           <b-icon icon="signpost-fill"></b-icon>
           <div class="menu-text">관광행사</div>
         </li>
-        <li :class="{ isActive: isActivated(5) }" @click="switchTab(5)">
+        <li
+          :class="{ isActive: isActivated(5) }"
+          @click="switchTab(5)"
+          v-if="this.userInfo"
+        >
           <b-icon icon="currency-dollar"></b-icon>
           <div class="menu-text">경제규모</div>
         </li>
-        <li :class="{ isActive: isActivated(6) }" @click="switchTab(6)">
+        <li
+          :class="{ isActive: isActivated(6) }"
+          @click="switchTab(6)"
+          v-if="this.userInfo"
+        >
           <b-icon icon="star-fill"></b-icon>
           <div class="menu-text">관심지역</div>
         </li>
@@ -56,6 +63,7 @@
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
         ></life-commercial-toolbar>
+        <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -63,22 +71,23 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
 import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
+import LifeBusinessVue from "@/components/life/LifeBusinessVue.vue";
 import { houseDealList } from "@/api/houseDeal";
 import { commercialListDong } from "@/api/commercialInfo";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
+const memberStore = "memberStore";
 
 export default {
   name: "LifeView",
   components: {
-    NavBar,
     MapView,
     LifeToolbar,
     LifeCommercialToolbar,
+    LifeBusinessVue,
   },
   data() {
     return {
@@ -94,6 +103,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(memberStore, ["userInfo"]),
     ...mapState(houseStore, [
       "sidos",
       "guguns",

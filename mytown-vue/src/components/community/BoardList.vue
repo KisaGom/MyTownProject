@@ -189,6 +189,9 @@ export default {
   components: { CommentList },
   data() {
     return {
+      sidoName: null,
+      gugunName: null,
+      dongName: null,
       editmode: false,
       perPage: 15,
       currentPage: 1,

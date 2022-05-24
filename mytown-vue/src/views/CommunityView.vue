@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
     <b-container>
       <b-card no-body>
         <b-tabs card>
@@ -23,13 +22,11 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
 import { mapState } from "vuex";
 const memberStore = "memberStore";
 
 export default {
   name: "CommunityView",
-  components: { NavBar },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
   },

@@ -149,7 +149,7 @@ export default {
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
-    ...mapState(memberStore, ["userInfo"]),
+    ...mapState(memberStore, ["userInfo", "isLogin"]),
   },
   created() {
     this.userid = this.userInfo.userid;
@@ -191,7 +191,6 @@ export default {
       );
     },
     toggleEditMode() {
-      console.log(this.editmode);
       this.editmode = !this.editmode;
       if (this.editmode) {
         this.CLEAR_SIDO_LIST();
@@ -247,6 +246,7 @@ export default {
       // console.log("memberStore : ", ms);
       this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
+      console.log(this.isLogin);
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "signIn" });
     },

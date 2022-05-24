@@ -135,7 +135,7 @@ export default {
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
         await this.getUserInfo(token);
-        this.$router.push({ name: "mypage" });
+        this.$router.push({ name: "home" });
       }
     },
     movePage() {

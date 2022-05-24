@@ -41,11 +41,11 @@
               :fields="fields"
               small
             >
-              <template #cell(del)>
+              <template #cell(del)="row">
                 <b-icon
                   icon="x-circle"
                   style="cursor: pointer"
-                  @click="onClickDelete"
+                  @click="onClickDelete(row)"
                 ></b-icon>
               </template>
             </b-table>
@@ -128,8 +128,7 @@ export default {
         };
         insert(
           fav,
-          (response) => {
-            console.log(response);
+          () => {
             this.getFavoriteList();
           },
           (error) => {
@@ -140,15 +139,14 @@ export default {
         alert("지역 정보를 입력해주십시오.");
       }
     },
-    onClickDelete() {
+    onClickDelete(row) {
       let fav = {
         userid: this.userInfo.userid,
-        dongCode: this.gugunCode + this.dongCode,
+        dongCode: row.item.dongCode,
       };
       deleteFav(
         fav,
-        (response) => {
-          console.log(response);
+        () => {
           this.getFavoriteList();
         },
         (error) => {
