@@ -58,6 +58,9 @@
             :options="dongs"
             @change="doSearch"
           ></b-form-select>
+          <b-input-group-append>
+            <b-button><b-icon icon="star-fill"></b-icon></b-button>
+          </b-input-group-append>
         </b-input-group>
         <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
         <life-commercial-toolbar
@@ -259,7 +262,11 @@ li:hover {
   margin-left: 68px;
   z-index: 2;
   background-color: #fff;
-  overflow: auto;
+  overflow: scroll;
+}
+
+.sidecontent::-webkit-scrollbar {
+  display: none;
 }
 
 .sidemenu a.router-link-exact-active {
@@ -270,6 +277,9 @@ li:hover {
   font-size: 0.85rem;
 }
 
+.input-group button {
+  font-size: 0.85rem;
+}
 .side-content-button {
   vertical-align: middle;
 }
