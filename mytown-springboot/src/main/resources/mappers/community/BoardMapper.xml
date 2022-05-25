@@ -8,11 +8,37 @@
 	<select id="selectBoard" parameterType="string" resultType="boardDto">
 		select b.id,b.userid,b.content,substring(b.regtime,3,14) regtime,b.like,u.username
 		from board b
-		join user u
-		where u.dongCode=#{dongCode}
+		left join user u on b.userid=u.userid
+		order by b.regtime desc;
+	</select>
+
+	<!-- 시도 게시글 조회 -->
+	<select id="selectSidoBoard" parameterType="string" resultType="boardDto">
+		select b.id,b.userid,b.content,substring(b.regtime,3,14) regtime,b.like,u.username
+		from board b
+		left join user u on b.userid=u.userid
+		where left(u.dongcode,2) = left(#{sidocode},2)
 		order by b.regtime desc;
 	</select>
 	
+	<!-- 구군 게시글 조회 -->
+	<select id="selectGugunBoard" parameterType="string" resultType="boardDto">
+		select b.id,b.userid,b.content,substring(b.regtime,3,14) regtime,b.like,u.username
+		from board b
+		left join user u on b.userid=u.userid
+		where left(u.dongcode,5) = left(#{guguncode},5)
+		order by b.regtime desc;
+	</select>
+	
+	<!-- 동 게시글 조회 -->
+	<select id="selectDongBoard" parameterType="string" resultType="boardDto">
+		select b.id,b.userid,b.content,substring(b.regtime,3,14) regtime,b.like,u.username
+		from board b
+		left join user u on b.userid=u.userid
+		where u.dongcode = #{dongCode}
+		order by b.regtime desc;
+	</select>
+		
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoardById" parameterType="int" resultType="boardDto">
 		select *

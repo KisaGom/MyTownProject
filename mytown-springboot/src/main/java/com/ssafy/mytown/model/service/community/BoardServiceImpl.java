@@ -19,10 +19,25 @@ public class BoardServiceImpl implements BoardService{
 	private BoardMapper boardMapper;
 
 	@Override
-	public List<BoardDto> retrieveBoard(String dongCode) {
-		return boardMapper.selectBoard(dongCode);
+	public List<BoardDto> retrieveBoard() {
+		return boardMapper.selectBoard();
+	}
+	
+	@Override
+	public List<BoardDto> retrieveSidoBoard(String sidoCode) {
+		return boardMapper.selectSidoBoard(sidoCode);
 	}
 
+	@Override
+	public List<BoardDto> retrievejGugunBoard(String gugunCode) {
+		return boardMapper.selectGugunBoard(gugunCode);
+	}
+
+	@Override
+	public List<BoardDto> retrieveDongBoard(String dongCode) {
+		return boardMapper.selectDongBoard(dongCode);
+	}
+	
 	@Override
 	public BoardDto detailBoard(int id) {
 		return boardMapper.selectBoardById(id);
@@ -51,6 +66,5 @@ public class BoardServiceImpl implements BoardService{
 	public boolean updateLike(int id) {
 		return boardMapper.updateLike(id)==1;
 	}
-	
-	
+
 }

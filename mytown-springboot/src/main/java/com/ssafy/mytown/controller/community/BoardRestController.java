@@ -33,11 +33,45 @@ public class BoardRestController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping("{dongCode}")
-	public ResponseEntity<?> retrieveBoard(@PathVariable String dongCode){
+	//전체 게시물 리스트 반환
+	@GetMapping()
+	public ResponseEntity<?> retrieveBoard(){
 		try {
 			logger.debug("retrieveBoard 호출");
-			return new ResponseEntity<List<BoardDto>>(boardService.retrieveBoard(dongCode),HttpStatus.OK);
+			return new ResponseEntity<List<BoardDto>>(boardService.retrieveBoard(),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//해당 시도 게시물 리스트 반환
+	@GetMapping("/sido/{sidoCode}")
+	public ResponseEntity<?> retrieveSidoBoard(@PathVariable String sidoCode){
+		try {
+			logger.debug("retrieveSidoBoard 호출");
+			return new ResponseEntity<List<BoardDto>>(boardService.retrieveSidoBoard(sidoCode),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//해당 구군 게시물 리스트 반환
+	@GetMapping("/gugun/{gugunCode}")
+	public ResponseEntity<?> retrievejGugunBoard(@PathVariable String gugunCode){
+		try {
+			logger.debug("retrieveBoard 호출");
+			return new ResponseEntity<List<BoardDto>>(boardService.retrievejGugunBoard(gugunCode),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//해당 동 게시물 리스트 반환
+	@GetMapping("/dong/{dongCode}")
+	public ResponseEntity<?> retrieveDongBoard(@PathVariable String dongCode){
+		try {
+			logger.debug("retrieveBoard 호출");
+			return new ResponseEntity<List<BoardDto>>(boardService.retrieveDongBoard(dongCode),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
