@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.ssafy.mytown.model.mapper.statistics.MapinfoMapper">
+	<select id="getADA" parameterType="string" resultType="avgDealAmountDto">
+		select k.address, round(avg(dealAmount)) as "avgDealAmount" 
+		from housedeal d 
+		natural join 
+		(select i.dongcode, i.aptCode, concat(c.sidoName, ' ', c.gugunName, ' ', c.dongName, ' ') as "address" 
+		from houseinfo i 
+		natural join dongcode c where c.dongcode = #{dongCode})  k;
+	</select>
+	
+	<select id="getDC" parameterType="string" resultType="dealCountDto">
+		select count(no) as "count", k.address 
+		from housedeal d 
+		natural join 
+		(select i.dongcode, i.aptCode, concat(c.sidoName, ' ', c.gugunName, ' ', c.dongName, ' ') as "address" 
+		from houseinfo i 
+		natural join dongcode c where c.dongcode = #{dongCode})  k;
+	</select>
+	
+	<select id="getAMRA" parameterType="string" resultType="avgRentAmountDto">
+		select sigunguName as address, round(avg(deposit), 1) as "avgDeposit", round(avg(rentAmount), 1) as "avgRentAmount" 
+		from houserent r 
+		join (select dongcode, concat(sidoName, " ", gugunName, " ", dongName) as "address" from dongcode) a 
+		on r.sigunguName = a.address 
+		where rentType = '월세' and a.dongcode = #{dongCode};
+	</select>
+	
+	<select id="getATRA" parameterType="string" resultType="avgRentAmountDto">
+		select sigunguName as address, round(avg(deposit), 1) as "avgDeposit" 
+		from houserent r join (select dongcode, concat(sidoName, " ", gugunName, " ", dongName) as "address" from dongcode) a 
+		on r.sigunguName = a.address 
+		where rentType = '전세' and a.dongcode = #{dongCode};
+	</select>
+	
+	<select id="getRC" parameterType="string" resultType="rentCountDto">
+		select sigunguName as address, count(sigunguName) as "count"
+		from houserent r join (select dongcode, concat(sidoName, " ", gugunName, " ", dongName) as "address" from dongcode) a 
+		on r.sigunguName = a.address where a.dongcode = #{dongCode};
+	</select>
+	
+	<select id="getAA" parameterType="string" resultType="ageAvgDto">
+		select concat(sidoName, " ", gugunName, " ", dongName) as "address", totalAvg 
+		from averageage 
+		where dongcode = #{dongCode};
+	</select>
+	
+</mapper>
