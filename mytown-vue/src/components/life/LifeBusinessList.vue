@@ -26,8 +26,6 @@ export default {
       dongCode: null,
     };
   },
-  computed: {},
-  created() {},
   methods: {
     getDealCount(dongCode) {
       dealCount(dongCode, (response) => {
@@ -66,8 +64,6 @@ export default {
       this.getAvgTRentAmount(dongCode);
       this.getRentCount(dongCode);
       this.getAvgAge(dongCode);
-
-      console.log("log", dongCode);
     },
   },
 };

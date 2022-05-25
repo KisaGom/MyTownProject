@@ -2,7 +2,6 @@
   <div>
     <b-container v-if="comms && comms.length != 0">
       <b-table
-        class="text-left"
         fixed
         hover
         :items="this.comms"
@@ -12,8 +11,22 @@
         small
         @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
         ><template slot="row-details" slot-scope="row">
+          <!-- {{ row.item }} -->
           <b-card>
-            {{ row.item }}
+            <b-row>
+              <b-col cols="2"><b-icon icon="shop-window"></b-icon></b-col>
+              <b-col v-if="row.item.storeName" cols="10">{{
+                row.item.storeName
+              }}</b-col>
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="2"><b-icon icon="geo-alt"></b-icon></b-col>
+              <b-col v-if="row.item.streetAddress" cols="10">{{
+                row.item.streetAddress
+              }}</b-col>
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
           </b-card>
         </template>
       </b-table>

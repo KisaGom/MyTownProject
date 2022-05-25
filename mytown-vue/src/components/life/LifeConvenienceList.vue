@@ -30,6 +30,14 @@
     >
       <template slot="row-details" slot-scope="row">
         <b-card>
+          <!-- {{ row.item }} -->
+          <b-row>
+            <b-col cols="2"><b-icon icon="info-circle"></b-icon></b-col>
+            <b-col v-if="row.item.place_name" cols="10">{{
+              row.item.place_name
+            }}</b-col>
+            <b-col v-else cols="10">-</b-col>
+          </b-row>
           <b-row>
             <b-col cols="2"><b-icon icon="geo-alt"></b-icon></b-col>
             <b-col v-if="row.item.road_address_name" cols="10">{{

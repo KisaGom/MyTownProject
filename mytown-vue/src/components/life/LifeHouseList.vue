@@ -1,16 +1,4 @@
 <template>
-  <!-- <b-container v-if="houses && houses.length != 0" class="bv-example-row mt-3">
-    <life-house-list-item
-      v-for="(house, index) in houses"
-      :key="index"
-      :house="house"
-    />
-  </b-container>
-  <b-container v-else class="bv-example-row mt-3">
-    <b-row>
-      <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
-    </b-row>
-  </b-container> -->
   <div>
     <b-container v-if="houses && houses.length != 0">
       <b-table
@@ -21,7 +9,48 @@
         :current-page="currentPage"
         :fields="fields"
         small
-      >
+        @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
+        ><template slot="row-details" slot-scope="row">
+          <!-- {{ row.item }} -->
+          <b-card>
+            <b-row>
+              <b-col cols="2"><b-icon icon="building"></b-icon></b-col>
+              <b-col v-if="row.item.apartmentName" cols="10">{{
+                row.item.apartmentName
+              }}</b-col>
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="2"><b-icon icon="calendar2-day"></b-icon></b-col>
+              <b-col v-if="row.item.dealYear" cols="10"
+                >{{ row.item.dealYear }}년 {{ row.item.dealMonth }}월
+                {{ row.item.dealDay }}일</b-col
+              >
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="2"><b-icon icon="cash-coin"></b-icon></b-col>
+              <b-col v-if="row.item.dealAmount" cols="10"
+                >{{ row.item.dealAmount }}만원</b-col
+              >
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="2"><b-icon icon="fullscreen"></b-icon></b-col>
+              <b-col v-if="row.item.area" cols="10"
+                >{{ row.item.area }}m<sup>3</sup></b-col
+              >
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="2"><b-icon icon="bar-chart-steps"></b-icon></b-col>
+              <b-col v-if="row.item.dealAmount" cols="10"
+                >{{ row.item.floor }}층</b-col
+              >
+              <b-col v-else cols="10">-</b-col>
+            </b-row>
+          </b-card>
+        </template>
       </b-table>
       <b-pagination
         v-model="currentPage"

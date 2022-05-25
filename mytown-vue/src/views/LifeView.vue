@@ -15,13 +15,13 @@
           <div class="menu-text">상권</div>
         </li>
         <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
-          <b-icon icon="exclamation-circle-fill"></b-icon>
+          <b-icon icon="info-circle-fill"></b-icon>
           <div class="menu-text">편의시설</div>
         </li>
-        <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
+        <!-- <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
           <b-icon icon="signpost-fill"></b-icon>
           <div class="menu-text">관광행사</div>
-        </li>
+        </li> -->
         <li
           :class="{ isActive: isActivated(5) }"
           @click="switchTab(5)"
@@ -92,23 +92,19 @@
           <li id="HP8" data-order="" @click="searchCategory('HP8')">병원</li>
           <li id="PM9" data-order="" @click="searchCategory('PM9')">약국</li>
         </ul>
-        <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
-        <life-commercial-toolbar
-          v-if="selsectedTab === 2"
-        ></life-commercial-toolbar>
-        <life-convenience
-          :gugun-code="gugunCode"
-          :dong-code="dongCode"
+        <life-house-list v-if="selsectedTab === 1"></life-house-list>
+        <life-commercial-list v-if="selsectedTab === 2"></life-commercial-list>
+        <life-convenience-list
           v-if="selsectedTab === 3"
           ref="childConv"
-        ></life-convenience>
-        <life-business-vue
+        ></life-convenience-list>
+        <life-business-list
           :dong-code="dongCode"
           refe-business-vue
           ref="childBusiness"
           v-if="selsectedTab === 5"
-        ></life-business-vue>
-        <life-favorite-vue v-if="selsectedTab === 6"></life-favorite-vue>
+        ></life-business-list>
+        <life-favorite-list v-if="selsectedTab === 6"></life-favorite-list>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -117,11 +113,11 @@
 
 <script>
 import MapView from "@/components/map/MapView.vue";
-import LifeToolbar from "@/components/life/LifeToolbar.vue";
-import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
-import LifeBusinessVue from "@/components/life/LifeBusinessVue.vue";
-import LifeConvenience from "@/components/life/LifeConvenience";
-import LifeFavoriteVue from "@/components/life/LifeFavoriteVue.vue";
+import LifeHouseList from "@/components/life/LifeHouseList.vue";
+import LifeCommercialList from "@/components/life/LifeCommercialList.vue";
+import LifeBusinessList from "@/components/life/LifeBusinessList.vue";
+import LifeConvenienceList from "@/components/life/LifeConvenienceList";
+import LifeFavoriteList from "@/components/life/LifeFavoriteList.vue";
 import { houseDealList } from "@/api/houseDeal";
 import { commercialListDong } from "@/api/commercialInfo";
 import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
@@ -134,11 +130,11 @@ export default {
   name: "LifeView",
   components: {
     MapView,
-    LifeToolbar,
-    LifeCommercialToolbar,
-    LifeBusinessVue,
-    LifeConvenience,
-    LifeFavoriteVue,
+    LifeHouseList,
+    LifeCommercialList,
+    LifeBusinessList,
+    LifeConvenienceList,
+    LifeFavoriteList,
   },
   data() {
     return {
@@ -278,7 +274,7 @@ export default {
         getAddrDetail(
           { query: data.sidoName + data.gugunName + data.dongName },
           ({ data }) => {
-            // console.log("addr detail", data.documents[0]);
+            console.log("addr detail", data.documents[0]);
             if (data.documents[0]) {
               let x = data.documents[0].x,
                 y = data.documents[0].y;
