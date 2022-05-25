@@ -115,17 +115,17 @@ export default {
         //아파트 오버레이
         if (selsectedTab == "1") {
           position = new kakao.maps.LatLng(item.lat, item.lng);
-          content = `<div class ="label"><span class="left"></span><span class="center">${item.apartmentName}</span><span class="right"></span></div>`;
+          content = `<div class="label"><div>${item.apartmentName}</div><div>${item.dealAmount}만원</div></div>`;
         }
         //상권 오버레이
         else if (selsectedTab == "2") {
           position = new kakao.maps.LatLng(item.lat, item.lng);
-          content = `<div class ="label"><span class="left"></span><span class="center">${item.storeName}</span><span class="right"></span></div>`;
+          content = `<div class="label"><div>${item.storeName}</div></div>`;
         }
         //편의시설 오버레이
         else if (selsectedTab == "3") {
           position = new kakao.maps.LatLng(item.y, item.x);
-          content = `<div class ="label"><span class="left"></span><span class="center">${item.place_name}</span><span class="right"></span></div>`;
+          content = `<div class="label"><div>${item.place_name}</div></div>`;
         }
         // 오버레이를 생성합니다
         let overlay = new kakao.maps.CustomOverlay({
@@ -248,6 +248,15 @@ div.overlay {
   z-index: 3;
 }
 
+div.label {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  display: inline-block;
+  padding: 2px 6px;
+}
+
 /* 좌표로 주소를 얻어내기 */
 div.centerAddr {
   position: absolute;
@@ -262,38 +271,7 @@ div.centerAddr {
   cursor: pointer;
   font-size: 0.9rem;
 }
-.label {
-  margin-bottom: 96px;
-}
-.label * {
-  display: inline-block;
-  vertical-align: top;
-}
-.label .left {
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
-    no-repeat;
-  display: inline-block;
-  height: 24px;
-  overflow: hidden;
-  vertical-align: top;
-  width: 7px;
-}
-.label .center {
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
-    repeat-x;
-  display: inline-block;
-  height: 24px;
-  font-size: 12px;
-  line-height: 24px;
-}
-.label .right {
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px
-    0 no-repeat;
-  display: inline-block;
-  height: 24px;
-  overflow: hidden;
-  width: 6px;
-}
+
 div#centerAddr {
   font-weight: bold;
   font-size: 1rem;

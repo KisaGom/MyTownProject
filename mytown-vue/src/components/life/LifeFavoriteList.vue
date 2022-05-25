@@ -253,7 +253,7 @@ export default {
     },
     getTRentAmount(userid) {
       avgTRentAmount(userid, (response) => {
-        console.log("log", response.data);
+        // console.log( response.data);
         this.avgTRentAmountItems = response.data;
       });
     },
