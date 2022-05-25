@@ -72,6 +72,7 @@
           v-if="selsectedTab === 3"
         ></life-convenience>
         <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
+        <life-favorite-vue v-if="selsectedTab === 6"></life-favorite-vue>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -84,6 +85,7 @@ import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
 import LifeBusinessVue from "@/components/life/LifeBusinessVue.vue";
 import LifeConvenience from "@/components/life/LifeConvenience";
+import LifeFavoriteVue from "@/components/life/LifeFavoriteVue.vue";
 import { houseDealList } from "@/api/houseDeal";
 import { commercialListDong } from "@/api/commercialInfo";
 import { mapState, mapActions, mapMutations } from "vuex";
@@ -98,6 +100,7 @@ export default {
     LifeCommercialToolbar,
     LifeBusinessVue,
     LifeConvenience,
+    LifeFavoriteVue,
   },
   data() {
     return {
