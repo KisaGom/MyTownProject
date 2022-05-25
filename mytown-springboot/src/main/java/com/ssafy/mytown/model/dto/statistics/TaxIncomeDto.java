@@ -3,6 +3,7 @@ package com.ssafy.mytown.model.dto.statistics;
 public class TaxIncomeDto {
 	private String address;
 	private String income;
+	
 	public String getAddress() {
 		return address;
 	}
