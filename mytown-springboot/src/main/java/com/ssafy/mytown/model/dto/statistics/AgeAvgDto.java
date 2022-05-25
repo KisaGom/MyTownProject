@@ -16,4 +16,5 @@ public class AgeAvgDto {
 		this.totalAvg = totalAvg;
 	}
 	
+	
 }
