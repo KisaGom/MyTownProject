@@ -58,9 +58,6 @@
             :options="dongs"
             @change="doSearch"
           ></b-form-select>
-          <b-input-group-append>
-            <b-button><b-icon icon="star-fill"></b-icon></b-button>
-          </b-input-group-append>
         </b-input-group>
         <ul v-if="selsectedTab === 3" id="category">
           <li id="MT1" data-order="" @click="searchCategory('MT1')">마트</li>
@@ -100,8 +97,6 @@
         ></life-convenience-list>
         <life-business-list
           :dong-code="dongCode"
-          refe-business-vue
-          ref="childBusiness"
           v-if="selsectedTab === 5"
         ></life-business-list>
         <life-favorite-list v-if="selsectedTab === 6"></life-favorite-list>
@@ -125,6 +120,7 @@ import { searchCategory } from "@/api/convenience";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 const memberStore = "memberStore";
+const infoStore = "infoStore";
 
 export default {
   name: "LifeView",
@@ -180,6 +176,14 @@ export default {
       "CLEAR_HOUSE_LIST",
       "CLEAR_COMM_LIST",
     ]),
+    ...mapActions(infoStore, [
+      "dealAmount",
+      "dealCount",
+      "mrentAmount",
+      "trentAmount",
+      "rentCount",
+      "getAvgAge",
+    ]),
     gugunList() {
       this.CLEAR_HOUSE_LIST();
       this.CLEAR_GUGUN_LIST();
@@ -210,8 +214,13 @@ export default {
       }
     },
     doSearch() {
-      if (this.$refs.childBusiness)
-        this.$refs.childBusiness.showStats(this.gugunCode + this.dongCode);
+      let fulldongcode = this.gugunCode + this.dongCode;
+      this.dealAmount(fulldongcode);
+      this.dealCount(fulldongcode);
+      this.mrentAmount(fulldongcode);
+      this.trentAmount(fulldongcode);
+      this.rentCount(fulldongcode);
+      this.getAvgAge(fulldongcode);
       if (this.selsectedTab == "3") {
         if (this.$refs.childConv) {
           this.$refs.childConv.items = [];

@@ -115,12 +115,7 @@ export default {
       );
     },
     onClickLogout() {
-      // console.log("memberStore : ", ms);
-      this.SET_USER_INFO(null);
-      this.SET_IS_LOGIN(false);
-      console.log(this.isLogin);
-      sessionStorage.removeItem("access-token");
-      if (this.$route.path != "/") this.$router.push({ name: "signIn" });
+      this.$router.push("logout");
     },
     goModify() {
       this.$router.push("modify");
@@ -133,7 +128,7 @@ export default {
             console.log(response);
             if (response.data === "success") {
               alert("회원 정보가 삭제되었습니다.");
-              this.onDeleteLogout();
+              this.$router.push("logout");
             } else {
               console.log("Fail");
             }
@@ -143,13 +138,6 @@ export default {
       } else {
         return;
       }
-    },
-    onDeleteLogout() {
-      this.SET_USER_INFO(null);
-      this.SET_IS_LOGIN(false);
-      console.log(this.isLogin);
-      sessionStorage.removeItem("access-token");
-      this.$router.push({ name: "home" });
     },
   },
 };

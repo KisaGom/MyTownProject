@@ -239,6 +239,15 @@ export default {
   top: 50px;
 }
 
+div.overlay {
+  position: absolute;
+  width: auto;
+  height: auto;
+  right: 5px;
+  bottom: 70px;
+  z-index: 3;
+}
+
 /* 좌표로 주소를 얻어내기 */
 div.centerAddr {
   position: absolute;
@@ -253,7 +262,38 @@ div.centerAddr {
   cursor: pointer;
   font-size: 0.9rem;
 }
-
+.label {
+  margin-bottom: 96px;
+}
+.label * {
+  display: inline-block;
+  vertical-align: top;
+}
+.label .left {
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
+    no-repeat;
+  display: inline-block;
+  height: 24px;
+  overflow: hidden;
+  vertical-align: top;
+  width: 7px;
+}
+.label .center {
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
+    repeat-x;
+  display: inline-block;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.label .right {
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px
+    0 no-repeat;
+  display: inline-block;
+  height: 24px;
+  overflow: hidden;
+  width: 6px;
+}
 div#centerAddr {
   font-weight: bold;
   font-size: 1rem;

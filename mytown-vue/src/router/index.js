@@ -7,6 +7,7 @@ import MemberLogin from "@/components/member/MemberLogin.vue";
 import MemberMyPage from "@/components/member/MemberMyPage";
 import MemberRegister from "@/components/member/MemberRegister";
 import MemberModify from "@/components/member/MemberModify";
+import MemberLogout from "@/components/member/MemberLogout";
 import CommunityView from "@/views/CommunityView";
 import BoardList from "@/components/community/BoardList.vue";
 
@@ -69,6 +70,11 @@ const routes = [
         name: "modify",
         beforeEnter: onlyAuthUser,
         component: MemberModify,
+      },
+      {
+        path: "logout",
+        name: "logout",
+        component: MemberLogout,
       },
     ],
   },
