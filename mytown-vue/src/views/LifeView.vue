@@ -15,13 +15,13 @@
           <div class="menu-text">상권</div>
         </li>
         <li :class="{ isActive: isActivated(3) }" @click="switchTab(3)">
-          <b-icon icon="exclamation-circle-fill"></b-icon>
+          <b-icon icon="info-circle-fill"></b-icon>
           <div class="menu-text">편의시설</div>
         </li>
-        <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
+        <!-- <li :class="{ isActive: isActivated(4) }" @click="switchTab(4)">
           <b-icon icon="signpost-fill"></b-icon>
           <div class="menu-text">관광행사</div>
-        </li>
+        </li> -->
         <li
           :class="{ isActive: isActivated(5) }"
           @click="switchTab(5)"
@@ -62,17 +62,49 @@
             <b-button><b-icon icon="star-fill"></b-icon></b-button>
           </b-input-group-append>
         </b-input-group>
-        <life-toolbar v-if="selsectedTab === 1"></life-toolbar>
-        <life-commercial-toolbar
-          v-if="selsectedTab === 2"
-        ></life-commercial-toolbar>
-        <life-convenience
-          :gugun-code="gugunCode"
-          :dong-code="dongCode"
+        <ul v-if="selsectedTab === 3" id="category">
+          <li id="MT1" data-order="" @click="searchCategory('MT1')">마트</li>
+          <li id="CS2" data-order="" @click="searchCategory('CS2')">편의점</li>
+          <li id="PS3" data-order="" @click="searchCategory('PS3')">유치원</li>
+          <li id="SC4" data-order="" @click="searchCategory('SC4')">학교</li>
+          <li id="AC5" data-order="" @click="searchCategory('AC5')">학원</li>
+          <li id="PK6" data-order="" @click="searchCategory('PK6')">주차장</li>
+          <li id="OL7" data-order="" @click="searchCategory('OL7')">주유소</li>
+          <li id="SW8" data-order="" @click="searchCategory('SW8')">
+            지하철역
+          </li>
+          <li id="BK9" data-order="" @click="searchCategory('BK9')">은행</li>
+          <li id="CT1" data-order="" @click="searchCategory('CT1')">
+            문화시설
+          </li>
+          <li id="AG2" data-order="" @click="searchCategory('AG2')">
+            중개업소
+          </li>
+          <li id="PO3" data-order="" @click="searchCategory('PO3')">
+            공공기관
+          </li>
+          <li id="AT4" data-order="" @click="searchCategory('AT4')">
+            관광명소
+          </li>
+          <li id="AD5" data-order="" @click="searchCategory('AD5')">숙박</li>
+          <li id="FD6" data-order="" @click="searchCategory('FD6')">음식점</li>
+          <li id="CE7" data-order="" @click="searchCategory('CE7')">카페</li>
+          <li id="HP8" data-order="" @click="searchCategory('HP8')">병원</li>
+          <li id="PM9" data-order="" @click="searchCategory('PM9')">약국</li>
+        </ul>
+        <life-house-list v-if="selsectedTab === 1"></life-house-list>
+        <life-commercial-list v-if="selsectedTab === 2"></life-commercial-list>
+        <life-convenience-list
           v-if="selsectedTab === 3"
-        ></life-convenience>
-        <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
-        <life-favorite-vue v-if="selsectedTab === 6"></life-favorite-vue>
+          ref="childConv"
+        ></life-convenience-list>
+        <life-business-list
+          :dong-code="dongCode"
+          refe-business-vue
+          ref="childBusiness"
+          v-if="selsectedTab === 5"
+        ></life-business-list>
+        <life-favorite-list v-if="selsectedTab === 6"></life-favorite-list>
       </div>
     </div>
     <map-view ref="childMap"></map-view>
@@ -81,13 +113,15 @@
 
 <script>
 import MapView from "@/components/map/MapView.vue";
-import LifeToolbar from "@/components/life/LifeToolbar.vue";
-import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
-import LifeBusinessVue from "@/components/life/LifeBusinessVue.vue";
-import LifeConvenience from "@/components/life/LifeConvenience";
-import LifeFavoriteVue from "@/components/life/LifeFavoriteVue.vue";
+import LifeHouseList from "@/components/life/LifeHouseList.vue";
+import LifeCommercialList from "@/components/life/LifeCommercialList.vue";
+import LifeBusinessList from "@/components/life/LifeBusinessList.vue";
+import LifeConvenienceList from "@/components/life/LifeConvenienceList";
+import LifeFavoriteList from "@/components/life/LifeFavoriteList.vue";
 import { houseDealList } from "@/api/houseDeal";
 import { commercialListDong } from "@/api/commercialInfo";
+import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
+import { searchCategory } from "@/api/convenience";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
 const memberStore = "memberStore";
@@ -96,11 +130,11 @@ export default {
   name: "LifeView",
   components: {
     MapView,
-    LifeToolbar,
-    LifeCommercialToolbar,
-    LifeBusinessVue,
-    LifeConvenience,
-    LifeFavoriteVue,
+    LifeHouseList,
+    LifeCommercialList,
+    LifeBusinessList,
+    LifeConvenienceList,
+    LifeFavoriteList,
   },
   data() {
     return {
@@ -176,7 +210,13 @@ export default {
       }
     },
     doSearch() {
-      if (this.dongCode) {
+      if (this.$refs.childBusiness)
+        this.$refs.childBusiness.showStats(this.gugunCode + this.dongCode);
+      if (this.selsectedTab == "3") {
+        if (this.$refs.childConv) {
+          this.$refs.childConv.items = [];
+        }
+      } else if (this.dongCode) {
         if (this.selsectedTab == "1") {
           // console.log("childMap", this.$refs.childMap);
           let dongCode = this.gugunCode + this.dongCode;
@@ -224,6 +264,43 @@ export default {
           });
         }
       }
+    },
+    //편의시설------------------------------
+    searchCategory(category) {
+      let dongCode = this.gugunCode + this.dongCode;
+      // console.log("dongCode", dongCode);
+      getAddrByCode(dongCode, ({ data }) => {
+        // console.log("addr", data);
+        getAddrDetail(
+          { query: data.sidoName + data.gugunName + data.dongName },
+          ({ data }) => {
+            console.log("addr detail", data.documents[0]);
+            if (data.documents[0]) {
+              let x = data.documents[0].x,
+                y = data.documents[0].y;
+              let params = {
+                category_group_code: category,
+                x: x,
+                y: y,
+                radius: "2000",
+                sort: "distance",
+              };
+              searchCategory(params, ({ data }) => {
+                let items = data.documents;
+                this.$refs.childConv.items = items;
+
+                if (items.length > 0) {
+                  this.$refs.childMap.showOverlay(items, this.selsectedTab);
+                } else {
+                  //시설 정보가 없을 때
+                  this.$refs.childMap.moveDongAddr(dongCode);
+                }
+                // console.log("search list", this.items);
+              });
+            }
+          }
+        );
+      });
     },
     isActivated(tab) {
       if (tab == this.selsectedTab) return true;

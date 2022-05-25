@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul id="category">
+    <!-- <ul id="category">
       <li id="MT1" data-order="" @click="searchCategory('MT1')">마트</li>
       <li id="CS2" data-order="" @click="searchCategory('CS2')">편의점</li>
       <li id="PS3" data-order="" @click="searchCategory('PS3')">유치원</li>
@@ -19,15 +19,25 @@
       <li id="CE7" data-order="" @click="searchCategory('CE7')">카페</li>
       <li id="HP8" data-order="" @click="searchCategory('HP8')">병원</li>
       <li id="PM9" data-order="" @click="searchCategory('PM9')">약국</li>
-    </ul>
+    </ul> -->
     <b-table
+      v-if="items"
       hover
+      fixed
       :fields="fields"
       :items="items"
       @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
     >
       <template slot="row-details" slot-scope="row">
         <b-card>
+          <!-- {{ row.item }} -->
+          <b-row>
+            <b-col cols="2"><b-icon icon="info-circle"></b-icon></b-col>
+            <b-col v-if="row.item.place_name" cols="10">{{
+              row.item.place_name
+            }}</b-col>
+            <b-col v-else cols="10">-</b-col>
+          </b-row>
           <b-row>
             <b-col cols="2"><b-icon icon="geo-alt"></b-icon></b-col>
             <b-col v-if="row.item.road_address_name" cols="10">{{
@@ -50,12 +60,13 @@
         </b-card>
       </template>
     </b-table>
+    <div v-else>시설 정보가 없습니다.</div>
   </div>
 </template>
 
 <script>
-import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
-import { searchCategory } from "@/api/convenience";
+// import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
+// import { searchCategory } from "@/api/convenience";
 
 export default {
   data() {
@@ -70,38 +81,39 @@ export default {
   },
   props: ["gugunCode", "dongCode"],
   methods: {
-    searchCategory(category) {
-      // console.log("dongCode", this.gugunCode, this.dongCode);
-      getAddrByCode(this.gugunCode + this.dongCode, ({ data }) => {
-        // console.log("addr", data);
-        getAddrDetail(
-          { query: data.sidoName + data.gugunName + data.dongName },
-          ({ data }) => {
-            // console.log("addr detail", data.documents[0]);
-            let x = data.documents[0].x,
-              y = data.documents[0].y;
-            let params = {
-              category_group_code: category,
-              x: x,
-              y: y,
-              radius: "2000",
-              sort: "distance",
-            };
-            searchCategory(params, ({ data }) => {
-              this.items = data.documents;
-              // console.log("search list", this.items);
-            });
-          }
-        );
-      });
-    },
-    onClickCategory() {},
+    // searchCategory(category) {
+    //   // console.log("dongCode", this.gugunCode, this.dongCode);
+    //   getAddrByCode(this.gugunCode + this.dongCode, ({ data }) => {
+    //     // console.log("addr", data);
+    //     getAddrDetail(
+    //       { query: data.sidoName + data.gugunName + data.dongName },
+    //       ({ data }) => {
+    //         // console.log("addr detail", data.documents[0]);
+    //         if (data.documents[0]) {
+    //           let x = data.documents[0].x,
+    //             y = data.documents[0].y;
+    //           let params = {
+    //             category_group_code: category,
+    //             x: x,
+    //             y: y,
+    //             radius: "2000",
+    //             sort: "distance",
+    //           };
+    //           searchCategory(params, ({ data }) => {
+    //             this.items = data.documents;
+    //             // console.log("search list", this.items);
+    //             // this.$emit("convlist");
+    //           });
+    //         }
+    //       }
+    //     );
+    //   });
+    // },
   },
 };
 </script>
 
 <style>
-/* 카테고리별 장소 검색하기 */
 #category {
   position: relative;
   padding: 0;
