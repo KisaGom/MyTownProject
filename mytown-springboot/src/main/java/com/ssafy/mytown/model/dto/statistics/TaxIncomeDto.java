@@ -1,20 +1,13 @@
 package com.ssafy.mytown.model.dto.statistics;
 
 public class TaxIncomeDto {
-	private String sidoName;
-	private String gugunName;
+	private String address;
 	private String income;
-	public String getSidoName() {
-		return sidoName;
+	public String getAddress() {
+		return address;
 	}
-	public void setSidoName(String sidoName) {
-		this.sidoName = sidoName;
-	}
-	public String getGugunName() {
-		return gugunName;
-	}
-	public void setGugunName(String gugunName) {
-		this.gugunName = gugunName;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getIncome() {
 		return income;

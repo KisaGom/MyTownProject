@@ -3,28 +3,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.ssafy.mytown.model.mapper.statistics.StatisticsMapper">
-	<select id="dcList" parameterType="string" resultType="dealCountDto">
-		select dongcode, count, concat(sidoName, " " , gugunName, " " , dongName) as "addr" from (select f.dongcode, ifnull(d.counts, 0) as "count" from dealcount d 
-		right join (select * from favorite where userid = #{userid}) f 
-		on d.dongcode = f.dongcode) k natural join dongcode order by count desc
+	<select id="adaList" parameterType="string" resultType="avgDealAmountDto">
+		select concat(sidoName, " " , gugunName, " " , dongName) as "address", round(avg(dealAmount), 1) as 'avgDealAmount'
+		from housedeal d natural join (select * from houseinfo natural join
+		(select * from dongcode c natural join favorite f where f.userid = #{userid}) k) p group by dongCode;
 	</select>
 	
-	<select id="tcList" parameterType="string" resultType="taxIncomeDto">
-		SELECT distinct f.sidoName, f.gugunName, round(i.totalincome / 100000000, 1) as "income" 
+	<select id="dcList" parameterType="string" resultType="DealCountDto">
+		select count, concat(sidoName, " " , gugunName, " " , dongName) as "address" from (select f.dongcode, ifnull(d.counts, 0) as "count" from dealcount d 
+		right join (select * from favorite where userid = #{userid}) f 
+		on d.dongcode = f.dongcode) k natural join dongcode order by count desc;
+	</select>
+	
+	<select id="tcList" parameterType="string" resultType="TaxIncomeDto">
+		SELECT distinct concat(f.sidoName, " ", f.gugunName) as "address", round(i.totalincome / 100000000, 1) as "income" 
 		FROM mytowndb.incomeinfo i 
 		join (select concat(left(sidoName, 2), gugunName) as "gugunComp", sidoName, gugunName from favorite natural join dongcode where userid = #{userid} ) f 
-		on i.gugunName = f.gugunComp order by income desc
+		on i.gugunName = f.gugunComp order by income desc;
 	</select>
-		
-	<select id="rcList" parameterType="string" resultType="rentCountDto">
-		select sigunguName, count from rentcount 
+	
+	<select id="araTotList" parameterType="string" resultType="AvgRentAmountDto">
+		select sigunguname as "address", round(avg(deposit),1) 'avgDeposit' from houserent 
+		natural join (select concat(sidoName, " " , gugunName, " " , dongName) as 'sigunguName' from dongcode c 
+		natural join favorite f where f.userid = #{userid}) k where rentType = '전세' group by sigunguName;
+	</select>
+	
+	<select id="araMonList" parameterType="string" resultType="AvgRentAmountDto">
+		select sigunguname as "address", round(avg(deposit),1) as "avgDeposit", round(avg(rentAmount),1) as "avgRentAmount" from houserent 
+		natural join (select concat(sidoName, " " , gugunName, " " , dongName) as 'sigunguName' from dongcode c 
+		natural join favorite f where f.userid = #{userid}) k where rentType = '월세' group by sigunguName;
+	</select>
+	
+	<select id="rcList" parameterType="string" resultType="RentCountDto">
+		select sigunguName as "address", count from rentcount 
 		natural join 
 		(select concat(sidoName, " ", gugunName, " ", dongName) as "sigunguName" 
 		from dongcode natural join favorite f where f.userid = #{userid}) c order by count desc;
 	</select>
 	
-	<select id="agList" parameterType="string" resultType="ageAvgDto">
+	<select id="agList" parameterType="string" resultType="AgeAvgDto">
 		SELECT concat(sidoName, " ", gugunName, " ", dongName, if(dongName=riName, '', concat(' ', riName))) as address, totalAvg 
-		FROM mytowndb.averageage natural join favorite where userid = #{userid} order by totalAvg asc
+		FROM mytowndb.averageage natural join favorite where userid = #{userid} order by totalAvg asc;
 	</select>
 </mapper>
