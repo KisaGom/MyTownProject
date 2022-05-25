@@ -2,8 +2,20 @@ import { apiInstance } from ".";
 
 const api = apiInstance();
 
-function listBoard(dongCode, success, fail) {
-  api.get(`/board/${dongCode}`).then(success).catch(fail);
+function listBoard(success, fail) {
+  api.get(`/board`).then(success).catch(fail);
+}
+
+function listSidoBoard(sidoCode, success, fail) {
+  api.get(`/board/sido/${sidoCode}`).then(success).catch(fail);
+}
+
+function listGugunBoard(gugunCode, success, fail) {
+  api.get(`/board/gugun/${gugunCode}`).then(success).catch(fail);
+}
+
+function listDongBoard(dongCode, success, fail) {
+  api.get(`/board/dong/${dongCode}`).then(success).catch(fail);
 }
 
 function detailBoard(id, success, fail) {
@@ -28,6 +40,9 @@ function updateLike(id, success, fail) {
 
 export {
   listBoard,
+  listSidoBoard,
+  listGugunBoard,
+  listDongBoard,
   detailBoard,
   registBoard,
   modifyBoard,

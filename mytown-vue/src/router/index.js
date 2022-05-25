@@ -76,11 +76,16 @@ const routes = [
     path: "/community",
     name: "community",
     component: CommunityView,
-    redirect: "/community/list/1111010100",
+    redirect: "/community/list",
     children: [
       {
-        path: "list/:dongCode",
+        path: "list",
         name: "board_list",
+        component: BoardList,
+      },
+      {
+        path: "list/:code",
+        name: "board_list_by_code",
         component: BoardList,
       },
     ],

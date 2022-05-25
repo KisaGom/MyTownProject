@@ -1,9 +1,9 @@
 <template>
   <div>
     <div id="map"></div>
-    <div class="centerAddr">
-      <div>지도중심기준 행정동 주소정보</div>
+    <div class="centerAddr" @click="moveCommunity">
       <div id="centerAddr"></div>
+      <div>이 동네 커뮤니티 구경가기</div>
     </div>
     <div class="map_wrap">
       <div
@@ -25,6 +25,7 @@ export default {
       map: null,
       //좌표로 주소를 얻어내기------------------------------
       geocoder: null,
+      dongCode: "",
       //여러개 오버레이 표시하기--------------------------------
       overlays: [],
       items: [],
@@ -62,7 +63,7 @@ export default {
 
     //좌표로 주소를 얻어내기------------------------------
     searchAddrFromCoords(coords, callback) {
-      // 좌표로 행정동 주소 정보를 요청합니다
+      // 좌표로 법정동 주소 정보를 요청합니다
       this.geocoder.coord2RegionCode(
         coords.getLng(),
         coords.getLat(),
@@ -70,24 +71,25 @@ export default {
       );
     },
 
-    searchDetailAddrFromCoords(coords, callback) {
-      // 좌표로 법정동 상세 주소 정보를 요청합니다
-      this.geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-    },
-
     // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
     displayCenterInfo(result, status) {
       if (status === kakao.maps.services.Status.OK) {
+        // console.log("centerAddr", result);
         var infoDiv = document.getElementById("centerAddr");
 
         for (var i = 0; i < result.length; i++) {
-          // 행정동의 region_type 값은 'H' 이므로
-          if (result[i].region_type === "H") {
+          if (result[i].region_type === "B") {
             infoDiv.innerHTML = result[i].address_name;
+            this.dongCode = result[i].code;
             break;
           }
         }
       }
+    },
+
+    moveCommunity() {
+      console.log("called moveCommunity", this.dongCode);
+      this.$router.push(`/community/list/${this.dongCode}`);
     },
 
     //여러개 오버레이 표시하기--------------------------------
@@ -242,53 +244,19 @@ div.centerAddr {
   position: absolute;
   width: auto;
   height: auto;
-  right: 5px;
-  bottom: 5px;
+  right: 10px;
+  top: 70px;
   z-index: 3;
-  background-color: white;
-  padding: 5px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-/* 여러개 오버레이 표시하기 */
-div.overlay {
-  position: absolute;
-  width: auto;
-  height: auto;
-  right: 5px;
-  bottom: 70px;
-  z-index: 3;
-}
-
-.label {
-  margin-bottom: 96px;
-}
-.label * {
-  display: inline-block;
-  vertical-align: top;
-}
-.label .left {
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
-    no-repeat;
-  display: inline-block;
-  height: 24px;
-  overflow: hidden;
-  vertical-align: top;
-  width: 7px;
-}
-.label .center {
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
-    repeat-x;
-  display: inline-block;
-  height: 24px;
-  font-size: 12px;
-  line-height: 24px;
-}
-.label .right {
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px
-    0 no-repeat;
-  display: inline-block;
-  height: 24px;
-  overflow: hidden;
-  width: 6px;
+div#centerAddr {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
 }
 </style>

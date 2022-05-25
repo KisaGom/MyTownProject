@@ -21,7 +21,7 @@
       ></b-form-input>
       <b-input-group-append>
         <b-button type="button" variant="primary" @click="toggleEditMode"
-          >수정</b-button
+          >변경</b-button
         ></b-input-group-append
       >
     </b-input-group>
@@ -153,8 +153,9 @@
       id="board-register"
       block
       size="sm"
-      text="방명록 작성하기"
+      text="우리 동네 방명록 작성하기"
       ref="dropdown"
+      v-if="this.userInfo"
     >
       <b-dropdown-form style="width: 40rem">
         <b-form-group label-for="board-register" @submit.stop.prevent>
@@ -167,7 +168,8 @@
             placeholder="내용을 입력해주세요"
           ></b-form-input>
           <b-button variant="primary" size="sm" @click="registBoard"
-            >방명록 작성하기</b-button
+            >{{ user.sidoName }} {{ user.gugunName }} {{ user.dongName }} 방명록
+            작성하기</b-button
           >
         </b-form-group>
       </b-dropdown-form>
@@ -179,7 +181,13 @@
 import CommentList from "@/components/community/CommentList.vue";
 import { getAddrByCode } from "@/api/baseAddr";
 // import { findById } from "@/api/member";
-import { listBoard, registBoard, modifyBoard, deleteBoard } from "@/api/board";
+import {
+  listBoard,
+  listDongBoard,
+  registBoard,
+  modifyBoard,
+  deleteBoard,
+} from "@/api/board";
 import { registComment } from "@/api/comment";
 import { mapState, mapActions, mapMutations } from "vuex";
 const houseStore = "houseStore";
@@ -214,19 +222,32 @@ export default {
         userid: "",
         content: "",
       },
+      user: {
+        sidoName: null,
+        gugunName: null,
+        dongName: null,
+      },
     };
   },
   created() {
     this.getAddr();
     this.CLEAR_SIDO_LIST();
     this.getSido();
-    if (this.userInfo) {
-      listBoard(this.userInfo.dongCode, (response) => {
-        this.items = response.data;
+    if (this.$route.params.code != undefined) {
+      //url로 넘겨준 동코드 있으면 거기로 이동
+      // console.log("board list param", this.$route.params.code);
+      listDongBoard(this.$route.params.code, ({ data }) => {
+        this.items = data;
+      });
+    } else if (this.userInfo) {
+      //로그인 정보 있으면 사용자 지역 게시글 보여주기
+      listDongBoard(this.userInfo.dongCode, ({ data }) => {
+        this.items = data;
       });
     } else {
-      listBoard(this.$route.params.dongCode, (response) => {
-        this.items = response.data;
+      //로그인 정보 없으면 모든 게시글 보여주기
+      listBoard(({ data }) => {
+        this.items = data;
       });
     }
   },
@@ -244,14 +265,26 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
-    //시군구동 초기값 사용자 정보에서 가져오기
     getAddr() {
-      // console.log("this.userinfo", this.userInfo);
+      if (this.$route.params.code != undefined) {
+        //시군구동 초기값 url param에서 가져오기
+        // console.log("board list param", this.$route.params.code);
+        getAddrByCode(this.$route.params.code, ({ data }) => {
+          this.sidoName = data.sidoName;
+          this.gugunName = data.gugunName;
+          this.dongName = data.dongName;
+        });
+      }
       if (this.userInfo) {
+        //시군구동 초기값 사용자 정보에서 가져오기
+        // console.log("this.userinfo", this.userInfo);
         getAddrByCode(this.userInfo.dongCode, ({ data }) => {
           this.sidoName = data.sidoName;
           this.gugunName = data.gugunName;
           this.dongName = data.dongName;
+          this.user.sidoName = data.sidoName;
+          this.user.gugunName = data.gugunName;
+          this.user.dongName = data.dongName;
         });
       } else {
         getAddrByCode(this.$route.params.dongCode, ({ data }) => {
@@ -293,8 +326,8 @@ export default {
 
     doSearch() {
       if (this.dongCode) {
-        console.log("called doSearch", this.gugunCode + this.dongCode);
-        listBoard(this.gugunCode + this.dongCode, (response) => {
+        // console.log("called doSearch", this.gugunCode + this.dongCode);
+        listDongBoard(this.gugunCode + this.dongCode, (response) => {
           this.items = response.data;
         });
       }
@@ -327,7 +360,7 @@ export default {
 
     //게시물 수정
     modifyBoard(item) {
-      console.log("modified item", item);
+      // console.log("modified item", item);
       modifyBoard(item, () => {
         alert("방명록이 수정되었습니다");
         listBoard(this.userInfo.dongCode, (response) => {
