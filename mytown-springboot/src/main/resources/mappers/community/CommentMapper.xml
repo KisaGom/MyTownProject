@@ -8,7 +8,7 @@
 	<select id="selectComment" resultType="commentDto">
 		select c.id,c.userid,c.content,substring(c.regtime,3,14) regtime,c.board_id,u.username
 		from comment c
-		join user u
+		left join user u on c.userid=u.userid
 		where board_id=#{board_id}
 		order by regtime
 	</select>
