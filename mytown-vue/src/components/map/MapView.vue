@@ -255,7 +255,7 @@ div.centerAddr {
   height: auto;
   right: 10px;
   top: 70px;
-  z-index: 3;
+  z-index: 1;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
   padding: 14px 20px;

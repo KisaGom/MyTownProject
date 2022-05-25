@@ -12,9 +12,9 @@
               >
             </div>
           </b-tab>
-          <b-tab title="(임시)">
+          <!-- <b-tab title="(임시)">
             <b-card-text>행사/관광 정보 또는 워드 클라우드</b-card-text>
-          </b-tab>
+          </b-tab> -->
         </b-tabs>
       </b-card>
     </b-container>

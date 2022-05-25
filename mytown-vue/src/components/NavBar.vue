@@ -1,8 +1,10 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand
-        ><router-link to="/life">NavBar</router-link></b-navbar-brand
+        ><router-link to="/life"
+          ><b-icon icon="house"></b-icon> MYTown</router-link
+        ></b-navbar-brand
       >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -48,4 +50,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* nav {
+  padding: 30px;
+}*/
+
+nav a {
+  color: #fff;
+  text-decoration: none !important;
+}
+nav a:hover {
+  color: #fff;
+  text-decoration: none !important;
+}
+
+nav {
+  font-size: 0.9rem;
+}
+/*
+nav a.router-link-exact-active {
+  color: #42b983;
+} */
+</style>

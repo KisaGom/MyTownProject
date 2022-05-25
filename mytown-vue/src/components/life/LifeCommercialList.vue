@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container v-if="comms && comms.length != 0">
+    <div v-if="comms && comms.length != 0">
       <b-table
         fixed
         hover
@@ -37,8 +37,9 @@
         aria-controls="my-table"
         align="center"
         limit="3"
+        size="sm"
       ></b-pagination>
-    </b-container>
+    </div>
     <b-container v-else><b-col>가게 정보가 없습니다.</b-col></b-container>
   </div>
 </template>

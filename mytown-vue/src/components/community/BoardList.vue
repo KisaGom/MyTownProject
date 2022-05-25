@@ -20,7 +20,7 @@
         readonly
       ></b-form-input>
       <b-input-group-append>
-        <b-button type="button" variant="primary" @click="toggleEditMode"
+        <b-button type="button" @click="toggleEditMode"
           >변경</b-button
         ></b-input-group-append
       >
@@ -195,7 +195,6 @@ export default {
       perPage: 15,
       currentPage: 1,
       fields: [
-        //TODO user의 username으로 바꾸기
         { key: "username", label: "작성자" },
         { key: "content", label: "내용" },
         { key: "regtime", label: "작성일" },
@@ -385,5 +384,18 @@ body {
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+.input-group .custom-select {
+  border-radius: 0 !important;
+}
+.input-group .form-control {
+  border-radius: 0 !important;
+}
+.input-group button {
+  border-radius: 0 !important;
+}
+.input-group {
+  margin-bottom: 10px;
 }
 </style>

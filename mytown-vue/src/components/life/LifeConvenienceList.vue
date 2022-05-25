@@ -4,6 +4,7 @@
       v-if="items"
       hover
       fixed
+      small
       :fields="fields"
       :items="items"
       @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
@@ -45,9 +46,6 @@
 </template>
 
 <script>
-// import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
-// import { searchCategory } from "@/api/convenience";
-
 export default {
   data() {
     return {
@@ -56,39 +54,7 @@ export default {
         { key: "category_name", label: "카테고리" },
       ],
       items: [],
-      latlng: { x: 128.598409092694, y: 35.8383244008836 },
     };
-  },
-  props: ["gugunCode", "dongCode"],
-  methods: {
-    // searchCategory(category) {
-    //   // console.log("dongCode", this.gugunCode, this.dongCode);
-    //   getAddrByCode(this.gugunCode + this.dongCode, ({ data }) => {
-    //     // console.log("addr", data);
-    //     getAddrDetail(
-    //       { query: data.sidoName + data.gugunName + data.dongName },
-    //       ({ data }) => {
-    //         // console.log("addr detail", data.documents[0]);
-    //         if (data.documents[0]) {
-    //           let x = data.documents[0].x,
-    //             y = data.documents[0].y;
-    //           let params = {
-    //             category_group_code: category,
-    //             x: x,
-    //             y: y,
-    //             radius: "2000",
-    //             sort: "distance",
-    //           };
-    //           searchCategory(params, ({ data }) => {
-    //             this.items = data.documents;
-    //             // console.log("search list", this.items);
-    //             // this.$emit("convlist");
-    //           });
-    //         }
-    //       }
-    //     );
-    //   });
-    // },
   },
 };
 </script>
@@ -106,19 +72,20 @@ export default {
   float: left;
   list-style: none;
   width: 70px;
-  border-right: 1px solid rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 3px 1px;
+  margin: 2px;
   text-align: center;
   cursor: pointer;
 }
 #category li.on {
   background: #eee;
 }
-#category li:hover {
-  background: #0475f4;
+#category {
+  padding: 0px 9px;
+  margin-bottom: 8px;
 }
-#category li:last-child {
+/* #category li:last-child {
   margin-right: 0;
-}
+} */
 </style>

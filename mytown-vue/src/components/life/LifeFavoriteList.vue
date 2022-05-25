@@ -1,181 +1,183 @@
 <template>
   <div>
-    <b-container
-      ><b-row class="mt-3"
-        ><b-col cols="11" /><b-icon icon="info-circle" id="popover1"></b-icon
-      ></b-row>
-      <hr />
+    <b-row class="mt-3"
+      ><b-col cols="11" /><b-icon icon="info-circle" id="popover1"></b-icon
+    ></b-row>
+    <hr />
 
-      <b-row v-b-toggle.collapse-0
-        ><b-col cols="12">
-          <h4>구/군별 평균 세입 (억 원)</h4>
-          <b-collapse id="collapse-0"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">9489.6</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(tc, index) in this.incomeItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ tc.address }}</b-col
-              ><b-col cols="3" class="text-left">{{ tc.income }}</b-col></b-row
-            ></b-collapse
+    <b-row v-b-toggle.collapse-0
+      ><b-col class cols="12">
+        <h6>구/군별 평균 세입</h6>
+        <b-collapse id="collapse-0"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">9489.6억원</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(tc, index) in this.incomeItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-1
-        ><b-col cols="12">
-          <h4>지역 평균 연령</h4>
-          <b-collapse id="collapse-1"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">42.9</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(ag, index) in this.ageAverageItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ ag.address }}</b-col
-              ><b-col cols="3" class="text-left">{{
-                ag.totalAvg
-              }}</b-col></b-row
-            ></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ tc.address }}</b-col
+            ><b-col cols="4" class="text-left"
+              >{{ tc.income }}억원</b-col
+            ></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-1
+      ><b-col cols="12">
+        <h6>지역 평균 연령</h6>
+        <b-collapse id="collapse-1"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">42.9세</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(ag, index) in this.ageAverageItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-2
-        ><b-col cols="12">
-          <h4>아파트 매매량 (회)</h4>
-          <b-collapse id="collapse-2"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">221</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(dc, index) in this.dealCountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ dc.address }}</b-col
-              ><b-col cols="3" class="text-left">{{ dc.count }}</b-col></b-row
-            ></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ ag.address }}</b-col
+            ><b-col cols="4" class="text-left"
+              >{{ ag.totalAvg }}세</b-col
+            ></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-2
+      ><b-col cols="12">
+        <h6>아파트 매매량</h6>
+        <b-collapse id="collapse-2"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">221회</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(dc, index) in this.dealCountItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-3
-        ><b-col cols="12">
-          <h4>아파트 평균 매매가 (만 원)</h4>
-          <b-collapse id="collapse-3"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">31950.2</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(ada, index) in this.avgDealAmountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ ada.address }}</b-col
-              ><b-col cols="3" class="text-left">{{
-                ada.avgDealAmount
-              }}</b-col></b-row
-            ></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ dc.address }}</b-col
+            ><b-col cols="4" class="text-left">{{ dc.count }}회</b-col></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-3
+      ><b-col cols="12">
+        <h6>아파트 평균 매매가</h6>
+        <b-collapse id="collapse-3"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">31950.2만원</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(ada, index) in this.avgDealAmountItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-4
-        ><b-col cols="12">
-          <h4>전월세 계약건수 (회)</h4>
-          <b-collapse id="collapse-4"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">15.4</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(rc, index) in this.rentCountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ rc.address }}</b-col
-              ><b-col cols="3" class="text-left">{{ rc.count }}</b-col></b-row
-            ></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ ada.address }}</b-col
+            ><b-col cols="4" class="text-left"
+              >{{ ada.avgDealAmount }}만원</b-col
+            ></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-4
+      ><b-col cols="12">
+        <h6>전월세 계약건수</h6>
+        <b-collapse id="collapse-4"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">15.4회</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(rc, index) in this.rentCountItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-5
-        ><b-col cols="12">
-          <h4>전세 계약금 (만 원)</h4>
-          <b-collapse id="collapse-5"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">32127.0</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(atr, index) in this.avgTRentAmountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ atr.address }}</b-col
-              ><b-col cols="3" class="text-left">{{
-                atr.avgDeposit
-              }}</b-col></b-row
-            ></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ rc.address }}</b-col
+            ><b-col cols="4" class="text-left">{{ rc.count }}회</b-col></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-5
+      ><b-col cols="12">
+        <h6>전세 계약금</h6>
+        <b-collapse id="collapse-5"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">32127.0만원</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(atr, index) in this.avgTRentAmountItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <hr />
-      <b-row v-b-toggle.collapse-6
-        ><b-col cols="12">
-          <h4 class="mb-2">월세 보증금 (만 원)</h4>
-          <b-collapse id="collapse-6"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">9982.7</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(amr, index) in this.avgMRentAmountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ amr.address }}</b-col
-              ><b-col cols="3" class="text-left">{{ amr.avgDeposit }}</b-col>
-            </b-row></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ atr.address }}</b-col
+            ><b-col cols="4" class="text-left"
+              >{{ atr.avgDeposit }}만원</b-col
+            ></b-row
+          ></b-collapse
+        >
+      </b-col></b-row
+    >
+    <hr />
+    <b-row v-b-toggle.collapse-6
+      ><b-col cols="12">
+        <h6 class="mb-2">월세 보증금</h6>
+        <b-collapse id="collapse-6"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">9982.7만원</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(amr, index) in this.avgMRentAmountItems"
+            :key="index"
           >
-        </b-col></b-row
-      >
-      <b-row class="pt-4" v-b-toggle.collapse-6
-        ><b-col cols="12">
-          <h4 class="mb-2">월세 (만 원)</h4>
-          <b-collapse id="collapse-6"
-            ><b-row>
-              <b-col cols="9" class="text-right">전국 평균</b-col
-              ><b-col cols="3" class="text-left">62.6</b-col></b-row
-            ><b-row
-              class="mt-2"
-              v-for="(amr, index) in this.avgMRentAmountItems"
-              :key="index"
-            >
-              <!-- vfor 드가야할듯 -->
-              <b-col cols="9" class="text-right">{{ amr.address }}</b-col
-              ><b-col cols="3" class="text-left">{{ amr.avgRentAmount }}</b-col>
-            </b-row></b-collapse
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ amr.address }}</b-col
+            ><b-col cols="4" class="text-left">{{ amr.avgDeposit }}만원</b-col>
+          </b-row></b-collapse
+        >
+      </b-col></b-row
+    >
+    <b-row class="pt-4" v-b-toggle.collapse-6
+      ><b-col cols="12">
+        <h6 class="mb-2">월세</h6>
+        <b-collapse id="collapse-6"
+          ><b-row>
+            <b-col cols="8" class="text-right">전국 평균</b-col
+            ><b-col cols="4" class="text-left">62.6만원</b-col></b-row
+          ><b-row
+            class="mt-2"
+            v-for="(amr, index) in this.avgMRentAmountItems"
+            :key="index"
           >
-          <hr /> </b-col
-      ></b-row>
-    </b-container>
+            <!-- vfor 드가야할듯 -->
+            <b-col cols="8" class="text-right">{{ amr.address }}</b-col
+            ><b-col cols="4" class="text-left"
+              >{{ amr.avgRentAmount }}만원</b-col
+            >
+          </b-row></b-collapse
+        >
+        <hr /> </b-col
+    ></b-row>
 
     <b-popover target="popover1" triggers="hover focus">
       <template #title>도움말</template>
-      <h6>읍/면/리의 경우 데이터가</h6>
-      <h6>조회되지 않을 수 있습니다.</h6>
+      <div>읍/면/리의 경우 데이터가</div>
+      <div>조회되지 않을 수 있습니다.</div>
     </b-popover>
   </div>
 </template>
@@ -259,9 +261,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .popover {
   max-width: 270px !important;
   width: 270px !important;
+}
+
+h6 {
+  font-weight: bold;
 }
 </style>

@@ -49,7 +49,7 @@ const infoStore = {
     async dealCount({ commit }, dongCode) {
       await dealCount(dongCode, (response) => {
         if (response) {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_DEAL_COUNT", response.data);
         }
       });
@@ -57,7 +57,7 @@ const infoStore = {
     async mrentAmount({ commit }, dongCode) {
       await avgMRentAmount(dongCode, (response) => {
         if (response) {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_MRENT_AMOUNT", response.data);
         }
       });
@@ -65,7 +65,7 @@ const infoStore = {
     async trentAmount({ commit }, dongCode) {
       await avgTRentAmount(dongCode, (response) => {
         if (response) {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_TRENT_AMOUNT", response.data);
         }
       });
@@ -73,7 +73,7 @@ const infoStore = {
     async rentCount({ commit }, dongCode) {
       await rentCount(dongCode, (response) => {
         if (response) {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_RENT_COUNT", response.data);
         }
       });
@@ -81,7 +81,7 @@ const infoStore = {
     async getAvgAge({ commit }, dongCode) {
       await avgAge(dongCode, (response) => {
         if (response) {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_AGE", response.data);
         }
       });
