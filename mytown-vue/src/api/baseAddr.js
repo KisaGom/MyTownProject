@@ -1,9 +1,14 @@
-import { apiInstance } from "./index";
+import { apiInstance, kakaoInstance } from "./index";
 
 const api = apiInstance();
+const kakao = kakaoInstance();
 
 function getAddrByCode(params, success, fail) {
   api.get(`/addr/base/${params}`).then(success).catch(fail);
+}
+
+function getAddrDetail(params, success, fail) {
+  kakao.get(`/address.json?`, { params: params }).then(success).catch(fail);
 }
 
 function sidoList(success, fail) {
@@ -19,4 +24,4 @@ function dongList(params, success, fail) {
   api.get(`/addr/dong/${params["gugun"]}`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, getAddrByCode };
+export { sidoList, gugunList, dongList, getAddrByCode, getAddrDetail };

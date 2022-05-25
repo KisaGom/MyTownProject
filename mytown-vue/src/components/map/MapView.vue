@@ -17,7 +17,6 @@
 <script>
 import { getAddrByCode } from "@/api/baseAddr";
 import { mapState } from "vuex";
-import { eventBus } from "@/main";
 const memberStore = "memberStore";
 
 export default {
@@ -135,7 +134,6 @@ export default {
         this.y = items[0].lat;
         this.x = items[0].lng;
         this.map.panTo(new kakao.maps.LatLng(this.y, this.x));
-        eventBus.$emit("setLatLng", { x: this.x, y: this.y });
       }
       this.removeOverlay();
       //오버레이 생성
@@ -200,7 +198,6 @@ export default {
             this.x = result[0].x;
             this.y = result[0].y;
             var coords = new kakao.maps.LatLng(this.y, this.x);
-            eventBus.$emit("setLatLng", { x: this.x, y: this.y });
 
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
             this.map.setCenter(coords);
@@ -219,7 +216,6 @@ export default {
         navigator.geolocation.getCurrentPosition((position) => {
           this.y = position.coords.latitude; // 위도
           this.x = position.coords.longitude; // 경도
-          eventBus.$emit("setLatLng", { x: this.x, y: this.y });
 
           locPosition = new kakao.maps.LatLng(this.y, this.x);
 

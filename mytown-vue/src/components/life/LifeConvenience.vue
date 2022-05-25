@@ -1,66 +1,79 @@
 <template>
   <div>
     <ul id="category">
-      <li id="MT1" data-order="0" @click="onClickCategory">마트</li>
-      <li id="CS2" data-order="" @click="onClickCategory">편의점</li>
-      <li id="PS3" data-order="" @click="onClickCategory">유치원</li>
-      <li id="SC4" data-order="" @click="onClickCategory">학교</li>
-      <li id="AC5" data-order="" @click="onClickCategory">학원</li>
-      <li id="PK6" data-order="" @click="onClickCategory">주차장</li>
-      <li id="OL7" data-order="" @click="onClickCategory">주유소</li>
-      <li id="SW8" data-order="" @click="onClickCategory">지하철역</li>
-      <li id="BK9" data-order="" @click="onClickCategory">은행</li>
-      <li id="CT1" data-order="" @click="onClickCategory">문화시설</li>
-      <li id="AG2" data-order="" @click="onClickCategory">중개업소</li>
-      <li id="PO3" data-order="" @click="onClickCategory">공공기관</li>
-      <li id="AT4" data-order="" @click="onClickCategory">관광명소</li>
-      <li id="AD5" data-order="" @click="onClickCategory">숙박</li>
-      <li id="FD6" data-order="" @click="onClickCategory">음식점</li>
-      <li id="CE7" data-order="" @click="onClickCategory">카페</li>
-      <li id="HP8" data-order="" @click="onClickCategory">병원</li>
-      <li id="PM9" data-order="" @click="searchCategory">약국</li>
+      <li id="MT1" data-order="" @click="searchCategory('MT1')">마트</li>
+      <li id="CS2" data-order="" @click="searchCategory('CS2')">편의점</li>
+      <li id="PS3" data-order="" @click="searchCategory('PS3')">유치원</li>
+      <li id="SC4" data-order="" @click="searchCategory('SC4')">학교</li>
+      <li id="AC5" data-order="" @click="searchCategory('AC5')">학원</li>
+      <li id="PK6" data-order="" @click="searchCategory('PK6')">주차장</li>
+      <li id="OL7" data-order="" @click="searchCategory('OL7')">주유소</li>
+      <li id="SW8" data-order="" @click="searchCategory('SW8')">지하철역</li>
+      <li id="BK9" data-order="" @click="searchCategory('BK9')">은행</li>
+      <li id="CT1" data-order="" @click="searchCategory('CT1')">문화시설</li>
+      <li id="AG2" data-order="" @click="searchCategory('AG2')">중개업소</li>
+      <li id="PO3" data-order="" @click="searchCategory('PO3')">공공기관</li>
+      <li id="AT4" data-order="" @click="searchCategory('AT4')">관광명소</li>
+      <li id="AD5" data-order="" @click="searchCategory('AD5')">숙박</li>
+      <li id="FD6" data-order="" @click="searchCategory('FD6')">음식점</li>
+      <li id="CE7" data-order="" @click="searchCategory('CE7')">카페</li>
+      <li id="HP8" data-order="" @click="searchCategory('HP8')">병원</li>
+      <li id="PM9" data-order="" @click="searchCategory('PM9')">약국</li>
     </ul>
+    <b-table
+      hover
+      :fields="fields"
+      :items="items"
+      @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
+      ><template slot="row-details" slot-scope="row">
+        <b-card>
+          {{ row.item }}
+        </b-card>
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
+import { getAddrByCode, getAddrDetail } from "@/api/baseAddr";
 import { searchCategory } from "@/api/convenience";
-import { eventBus } from "@/main";
 
 export default {
   data() {
     return {
+      fields: [
+        { key: "place_name", label: "시설명" },
+        { key: "phone", label: "전화번호" },
+      ],
+      items: [],
       latlng: { x: 128.598409092694, y: 35.8383244008836 },
     };
   },
-  //   created() {
-  //     eventBus.$on("setLatLng", (data) => {
-  //       console.log("eventBus data", data);
-  //       this.latlng = data;
-  //       console.log("created this.latlng", this.latlng);
-  //     });
-  //   },
-  mounted() {
-    eventBus.$on("setLatLng", (data) => {
-      console.log("eventBus data", data);
-      this.latlng = data;
-      console.log("mounted this.latlng", this.latlng);
-    });
-  },
+  props: ["gugunCode", "dongCode"],
   methods: {
-    searchCategory() {
-      console.log("search this.latlng", this.latlng);
-      let x = this.latlng.x,
-        y = this.latlng.y;
-      let params = {
-        category_group_code: "PM9",
-        x: x,
-        y: y,
-        radius: "2000",
-        sort: "distance",
-      };
-      searchCategory(params, (response) => {
-        console.log(response.data);
+    searchCategory(category) {
+      // console.log("dongCode", this.gugunCode, this.dongCode);
+      getAddrByCode(this.gugunCode + this.dongCode, ({ data }) => {
+        // console.log("addr", data);
+        getAddrDetail(
+          { query: data.sidoName + data.gugunName + data.dongName },
+          ({ data }) => {
+            // console.log("addr detail", data.documents[0]);
+            let x = data.documents[0].x,
+              y = data.documents[0].y;
+            let params = {
+              category_group_code: category,
+              x: x,
+              y: y,
+              radius: "2000",
+              sort: "distance",
+            };
+            searchCategory(params, ({ data }) => {
+              this.items = data.documents;
+              // console.log("search list", this.items);
+            });
+          }
+        );
       });
     },
     onClickCategory() {},

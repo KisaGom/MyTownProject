@@ -66,7 +66,11 @@
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
         ></life-commercial-toolbar>
-        <life-convenience v-if="selsectedTab === 3"></life-convenience>
+        <life-convenience
+          :gugun-code="gugunCode"
+          :dong-code="dongCode"
+          v-if="selsectedTab === 3"
+        ></life-convenience>
         <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
       </div>
     </div>
