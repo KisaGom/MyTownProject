@@ -60,10 +60,6 @@
         :fields="fields"
         @row-clicked="(item) => $set(item, '_showDetails', !item._showDetails)"
       >
-        <!-- <template #cell(userid)="row">
-          {{ userId(row) }}
-        </template> -->
-
         <!-- 댓글 테이블 -->
         <template slot="row-details" slot-scope="row">
           <b-card>
@@ -121,11 +117,6 @@
                       required
                       placeholder="내용을 입력해주세요"
                     ></b-form-input>
-                    <!-- <b-icon
-                    icon="plus-square"
-                    style="cursor: pointer"
-                    @click="registComment(row.item.id, row.item)"
-                  ></b-icon> -->
                     <b-button
                       variant="primary"
                       size="sm"
@@ -266,15 +257,6 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     getAddr() {
-      if (this.$route.params.code != undefined) {
-        //시군구동 초기값 url param에서 가져오기
-        // console.log("board list param", this.$route.params.code);
-        getAddrByCode(this.$route.params.code, ({ data }) => {
-          this.sidoName = data.sidoName;
-          this.gugunName = data.gugunName;
-          this.dongName = data.dongName;
-        });
-      }
       if (this.userInfo) {
         //시군구동 초기값 사용자 정보에서 가져오기
         // console.log("this.userinfo", this.userInfo);
@@ -288,6 +270,15 @@ export default {
         });
       } else {
         getAddrByCode(this.$route.params.dongCode, ({ data }) => {
+          this.sidoName = data.sidoName;
+          this.gugunName = data.gugunName;
+          this.dongName = data.dongName;
+        });
+      }
+      if (this.$route.params.code != undefined) {
+        //시군구동 초기값 url param에서 가져오기
+        console.log("board list param", this.$route.params.code);
+        getAddrByCode(this.$route.params.code, ({ data }) => {
           this.sidoName = data.sidoName;
           this.gugunName = data.gugunName;
           this.dongName = data.dongName;
@@ -332,17 +323,6 @@ export default {
         });
       }
     },
-
-    // userId(row) {
-    //   let username = "";
-    //   // console.log("row.item", row.item);
-    //   findById(row.item.userid, (response) => {
-    //     console.log(response);
-    //     username = response.data.username;
-    //     console.log("username", username);
-    //   });
-    //   return username;
-    // },
 
     //게시글 등록
     registBoard() {
