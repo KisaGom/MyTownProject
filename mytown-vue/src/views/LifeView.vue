@@ -102,7 +102,12 @@
           v-if="selsectedTab === 3"
           ref="childConv"
         ></life-convenience>
-        <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
+        <life-business-vue
+          :dong-code="dongCode"
+          refe-business-vue
+          ref="childBusiness"
+          v-if="selsectedTab === 5"
+        ></life-business-vue>
         <life-favorite-vue v-if="selsectedTab === 6"></life-favorite-vue>
       </div>
     </div>
@@ -209,6 +214,8 @@ export default {
       }
     },
     doSearch() {
+      if (this.$refs.childBusiness)
+        this.$refs.childBusiness.showStats(this.gugunCode + this.dongCode);
       if (this.selsectedTab == "3") {
         if (this.$refs.childConv) {
           this.$refs.childConv.items = [];
