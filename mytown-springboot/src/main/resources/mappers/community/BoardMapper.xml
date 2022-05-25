@@ -6,7 +6,7 @@
 
 	<!-- 전체 게시글 조회 -->
 	<select id="selectBoard" parameterType="string" resultType="boardDto">
-		select b.id,b.userid,b.content,b.regtime,b.like,u.username
+		select b.id,b.userid,b.content,substring(b.regtime,3,14) regtime,b.like,u.username
 		from board b
 		join user u
 		where u.dongCode=#{dongCode}
