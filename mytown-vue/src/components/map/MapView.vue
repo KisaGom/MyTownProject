@@ -5,41 +5,11 @@
       <div>지도중심기준 행정동 주소정보</div>
       <div id="centerAddr"></div>
     </div>
-    <!-- <div class="overlay">
-      <b-button @click="showOverlay">마커 보이기</b-button>
-      <b-button @click="removeOverlay">마커 감추기</b-button>
-    </div> -->
     <div class="map_wrap">
       <div
         id="map"
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       ></div>
-      <!-- <ul id="category">
-        <li id="BK9" data-order="0" @click="onClickCategory">
-          <span class="category_bg bank"></span>
-          은행
-        </li>
-        <li id="MT1" data-order="1" @click="onClickCategory">
-          <span class="category_bg mart"></span>
-          마트
-        </li>
-        <li id="PM9" data-order="2" @click="onClickCategory">
-          <span class="category_bg pharmacy"></span>
-          약국
-        </li>
-        <li id="OL7" data-order="3" @click="onClickCategory">
-          <span class="category_bg oil"></span>
-          주유소
-        </li>
-        <li id="CE7" data-order="4" @click="onClickCategory">
-          <span class="category_bg cafe"></span>
-          카페
-        </li>
-        <li id="CS2" data-order="5" @click="onClickCategory">
-          <span class="category_bg store"></span>
-          편의점
-        </li>
-      </ul> -->
     </div>
   </div>
 </template>
@@ -47,6 +17,7 @@
 <script>
 import { getAddrByCode } from "@/api/baseAddr";
 import { mapState } from "vuex";
+import { eventBus } from "@/main";
 const memberStore = "memberStore";
 
 export default {
@@ -63,9 +34,11 @@ export default {
       markers: [],
       //여러개 오버레이 표시하기--------------------------------
       overlays: [],
+      //위도, 경도
+      x: 128.598409092694,
+      y: 35.8383244008836,
     };
   },
-  //여러개 오버레이 표시하기--------------------------------
   computed: {
     ...mapState(memberStore, ["userInfo"]),
   },
@@ -73,7 +46,7 @@ export default {
     initMap() {
       var container = document.getElementById("map");
       var options = {
-        center: new kakao.maps.LatLng(35.8383244008836, 128.598409092694),
+        center: new kakao.maps.LatLng(this.y, this.x),
         level: 3,
       };
       //지도 객체 생성
@@ -159,7 +132,10 @@ export default {
       // console.log("called showOverlay");
       // console.log("items", items);
       if (items) {
-        this.map.panTo(new kakao.maps.LatLng(items[0].lat, items[0].lng));
+        this.y = items[0].lat;
+        this.x = items[0].lng;
+        this.map.panTo(new kakao.maps.LatLng(this.y, this.x));
+        eventBus.$emit("setLatLng", { x: this.x, y: this.y });
       }
       this.removeOverlay();
       //오버레이 생성
@@ -221,7 +197,10 @@ export default {
           // 정상적으로 검색이 완료됐으면
           if (status === kakao.maps.services.Status.OK) {
             // console.log("addr search result", result);
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            this.x = result[0].x;
+            this.y = result[0].y;
+            var coords = new kakao.maps.LatLng(this.y, this.x);
+            eventBus.$emit("setLatLng", { x: this.x, y: this.y });
 
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
             this.map.setCenter(coords);
@@ -238,10 +217,11 @@ export default {
       if (navigator.geolocation) {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
         navigator.geolocation.getCurrentPosition((position) => {
-          let lat = position.coords.latitude, // 위도
-            lng = position.coords.longitude; // 경도
+          this.y = position.coords.latitude; // 위도
+          this.x = position.coords.longitude; // 경도
+          eventBus.$emit("setLatLng", { x: this.x, y: this.y });
 
-          locPosition = new kakao.maps.LatLng(lat, lng);
+          locPosition = new kakao.maps.LatLng(this.y, this.x);
 
           this.map.setCenter(locPosition);
         });
@@ -306,11 +286,11 @@ export default {
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
         let placeParam = places[i];
         kakao.maps.event.addListener(this.markers[i], "click", () => {
-          console.log("placeParam", placeParam);
+          // console.log("placeParam", placeParam);
           this.displayPlaceInfo(placeParam);
         });
       }
-      console.log("markers len", this.markers.length);
+      // console.log("markers len", this.markers.length);
     },
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -481,69 +461,6 @@ div.centerAddr {
 }
 
 /* 카테고리별 장소 검색하기 */
-#category {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border-radius: 5px;
-  border: 1px solid #909090;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-  background: #fff;
-  overflow: hidden;
-  z-index: 2;
-}
-#category li {
-  float: left;
-  list-style: none;
-  width: 50px;
-  border-right: 1px solid #acacac;
-  padding: 6px 0;
-  text-align: center;
-  cursor: pointer;
-}
-#category li.on {
-  background: #eee;
-}
-#category li:hover {
-  background: #ffe6e6;
-  border-left: 1px solid #acacac;
-  margin-left: -1px;
-}
-#category li:last-child {
-  margin-right: 0;
-  border-right: 0;
-}
-#category li span {
-  display: block;
-  margin: 0 auto 3px;
-  width: 27px;
-  height: 28px;
-}
-#category li .category_bg {
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png)
-    no-repeat;
-}
-#category li .bank {
-  background-position: -10px 0;
-}
-#category li .mart {
-  background-position: -10px -36px;
-}
-#category li .pharmacy {
-  background-position: -10px -72px;
-}
-#category li .oil {
-  background-position: -10px -108px;
-}
-#category li .cafe {
-  background-position: -10px -144px;
-}
-#category li .store {
-  background-position: -10px -180px;
-}
-#category li.on .category_bg {
-  background-position-x: -46px;
-}
 .placeinfo_wrap {
   position: absolute;
   bottom: 28px;

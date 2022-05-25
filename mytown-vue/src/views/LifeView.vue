@@ -66,6 +66,7 @@
         <life-commercial-toolbar
           v-if="selsectedTab === 2"
         ></life-commercial-toolbar>
+        <life-convenience v-if="selsectedTab === 3"></life-convenience>
         <life-business-vue v-if="selsectedTab === 5"></life-business-vue>
       </div>
     </div>
@@ -78,6 +79,7 @@ import MapView from "@/components/map/MapView.vue";
 import LifeToolbar from "@/components/life/LifeToolbar.vue";
 import LifeCommercialToolbar from "@/components/life/LifeCommercialToolbar.vue";
 import LifeBusinessVue from "@/components/life/LifeBusinessVue.vue";
+import LifeConvenience from "@/components/life/LifeConvenience";
 import { houseDealList } from "@/api/houseDeal";
 import { commercialListDong } from "@/api/commercialInfo";
 import { mapState, mapActions, mapMutations } from "vuex";
@@ -91,6 +93,7 @@ export default {
     LifeToolbar,
     LifeCommercialToolbar,
     LifeBusinessVue,
+    LifeConvenience,
   },
   data() {
     return {
