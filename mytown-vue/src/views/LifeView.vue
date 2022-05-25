@@ -271,6 +271,9 @@ export default {
               this.$refs.childMap.moveDongAddr(dongCode);
             }
           });
+        } else if (this.selsectedTab == "5") {
+          let dongCode = this.gugunCode + this.dongCode;
+          this.$refs.childMap.moveDongAddr(dongCode);
         }
       }
     },
