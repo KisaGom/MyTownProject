@@ -1,14 +1,14 @@
 <template>
   <b-tab title="관심 지역">
-    <b-container class="mt-4">
+    <b-container>
       <b-row> </b-row>
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <b-jumbotron>
-            <template #header>My Page</template>
+          <div class="card">
+            <h3>My Page</h3>
 
-            <template #lead> 관심 지역을 설정하세요. </template>
+            <h6>관심 지역을 설정하세요.</h6>
 
             <hr class="my-4" />
             <b-input-group class="mt-3">
@@ -33,14 +33,7 @@
               >
             </b-input-group>
 
-            <b-table
-              class="mt-3"
-              hover
-              fixed
-              :items="items"
-              :fields="fields"
-              small
-            >
+            <b-table class="mt-3" hover fixed :items="items" :fields="fields">
               <template #cell(del)="row">
                 <b-icon
                   icon="x-circle"
@@ -49,7 +42,7 @@
                 ></b-icon>
               </template>
             </b-table>
-          </b-jumbotron>
+          </div>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -158,4 +151,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+div.card {
+  margin-top: 50px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+h3 {
+  font-weight: bold;
+}
+</style>

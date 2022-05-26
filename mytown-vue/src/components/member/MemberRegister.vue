@@ -1,14 +1,10 @@
 <template>
   <b-container class="bv-example-row mt-3">
     <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>회원가입</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row>
       <b-col></b-col>
-      <b-col cols="6">
-        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
+      <b-col cols="8">
+        <div class="card">
+          <h3>Sign up</h3>
           <b-form class="text-left">
             <b-alert show variant="danger" v-if="hasError"
               >항목은 빈 항목일 수 없습니다.</b-alert
@@ -18,31 +14,31 @@
                 id="userid"
                 required
                 v-model="userid"
+                class="mb-3"
                 placeholder="아이디"
               ></b-form-input>
               <b-form-input
                 id="userpwd"
                 required
                 v-model="userpwd"
-                class="mt-3"
+                class="mb-3"
                 placeholder="비밀번호"
               ></b-form-input>
               <b-form-input
                 id="username"
                 required
                 v-model="username"
-                class="mt-3"
+                class="mb-3"
                 placeholder="이름"
               ></b-form-input>
               <b-form-input
                 id="username"
                 required
                 v-model="email"
-                class="mt-3"
                 placeholder="이메일"
               ></b-form-input>
             </b-form-group>
-            <b-input-group>
+            <b-input-group class="mb-4">
               <b-form-select
                 v-model="sidoCode"
                 :options="sidos"
@@ -58,24 +54,13 @@
                 :options="dongs"
               ></b-form-select>
             </b-input-group>
-            <b-button
-              block
-              type="button"
-              variant="primary"
-              class="mt-3"
-              @click="checkForm"
-              >회원가입</b-button
-            >
-            <b-button
-              block
-              type="button"
-              variant="secondary"
-              class="mt-3"
-              @click="goback"
-              >취소</b-button
-            >
+            <hr />
+            <b-row class="text-center pt-3">
+              <b-col @click="checkForm" style="cursor: pointer">회원가입</b-col>
+              <b-col @click="goback" style="cursor: pointer">취소</b-col>
+            </b-row>
           </b-form>
-        </b-card>
+        </div>
       </b-col>
       <b-col></b-col>
     </b-row>

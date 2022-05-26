@@ -1,63 +1,34 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container class="bv-example-row mt-5">
     <b-row>
       <b-col></b-col>
-      <b-col cols="5">
-        <hr />
-        <br />
-        <b-form class="text-left"
-          ><b-card>
-            <b-alert show variant="danger" v-if="isLoginError"
-              >아이디 또는 비밀번호를 확인하세요.</b-alert
-            >
-            <b-form-group>
-              <div
-                class="py-1"
-                style="
-                  display: flex;
-                  background-color: lightgray;
-                  border-radius: 30px;
-                "
+      <b-col cols="8">
+        <b-form class="text-center">
+          <div class="card">
+            <h3>Login</h3>
+            <div class="text-left">
+              <b-alert show variant="danger" v-if="isLoginError"
+                >아이디 또는 비밀번호를 확인하세요.</b-alert
               >
+              <b-form-group label="아이디">
                 <b-form-input
                   id="userid"
-                  style="
-                    background-color: transparent;
-                    border: none;
-                    outline: none !important;
-                  "
                   v-model="user.userid"
                   placeholder="아이디"
                   @keyup.enter="confirm"
                 ></b-form-input>
-              </div>
-            </b-form-group>
-            <b-form-group>
-              <div
-                class="py-1"
-                style="
-                  display: flex;
-                  background-color: lightgray;
-                  border-radius: 30px;
-                "
-              >
+              </b-form-group>
+              <b-form-group label="비밀번호">
                 <b-form-input
                   type="password"
                   id="userpwd"
                   v-model="user.userpwd"
-                  style="background-color: transparent; border: none"
                   placeholder="비밀번호"
                   @keyup.enter="confirm"
                 ></b-form-input>
-              </div>
-            </b-form-group>
-            <b-button
-              pill
-              block
-              type="button"
-              variant="primary"
-              class="py-2"
-              @click="confirm"
+              </b-form-group>
+            </div>
+            <b-button block type="button" class="py-2 my-3" @click="confirm"
               >로그인</b-button
             >
             <hr />
@@ -65,7 +36,7 @@
               <b-col @click="movePage" style="cursor: pointer">회원가입</b-col>
               <b-col v-b-modal.modal-1>비밀번호 찾기</b-col>
             </b-row>
-          </b-card>
+          </div>
         </b-form>
       </b-col>
       <b-col></b-col>
@@ -79,13 +50,15 @@
           </b-col>
         </b-row>
         <b-row
-          ><b-col class="text-center mt-2 mb-2"
+          ><b-col v-if="!foundPwd" class="text-center mt-2 mb-4"
             >아이디와 이메일 주소를 입력해주세요.</b-col
           ></b-row
-        ><b-row
-          ><b-col class="text-center mt-2 mb-2" v-if="foundPwd">{{
-            foundPwd
-          }}</b-col></b-row
+        >
+
+        <b-row
+          ><b-col class="text-center mt-2 mb-4" v-if="foundPwd"
+            >{{ keyId }}님의 비밀번호는 {{ foundPwd }}입니다.</b-col
+          ></b-row
         >
         <b-row>
           <b-form-input
@@ -187,5 +160,17 @@ export default {
 <style scoped>
 b-form-input {
   background-color: transparent;
+}
+
+div.card {
+  margin-top: 100px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+
+h3 {
+  font-weight: bold;
+  margin-bottom: 40px;
 }
 </style>

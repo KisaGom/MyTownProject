@@ -1,74 +1,69 @@
 <template>
   <b-tab title="회원 정보">
-    <b-container class="mt-4" v-if="userInfo">
+    <b-container v-if="userInfo">
       <b-row> </b-row>
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <b-jumbotron>
-            <template #header>My Page</template>
+          <div class="card">
+            <h3>My Page</h3>
 
-            <template #lead> 내 정보 확인페이지입니다. </template>
+            <h6>내 정보 확인페이지입니다.</h6>
 
             <hr class="my-4" />
 
-            <b-container class="mt-4">
-              <b-row>
+            <b-container class="my-4">
+              <b-row class="mb-1">
                 <b-col cols="2"></b-col>
                 <b-col cols="3" align-self="end">아이디</b-col
-                ><b-col cols="6" align-self="start">{{
-                  userInfo.userid
-                }}</b-col>
+                ><b-col cols="6" class="text-left">{{ userInfo.userid }}</b-col>
                 <b-col cols="1"></b-col>
               </b-row>
-              <b-row>
+              <b-row class="mb-1">
                 <b-col cols="2"></b-col>
                 <b-col cols="3" align-self="end">이름</b-col
-                ><b-col cols="6" align-self="start">{{
+                ><b-col cols="6" class="text-left">{{
                   userInfo.username
                 }}</b-col>
                 <b-col cols="1"></b-col>
               </b-row>
-              <b-row>
+              <b-row class="mb-1">
                 <b-col cols="2"></b-col>
                 <b-col cols="3" align-self="end">지역</b-col
-                ><b-col cols="6" v-if="!dongName" align-self="start">{{
+                ><b-col cols="6" v-if="!dongName" class="text-left">{{
                   userInfo.dongCode
                 }}</b-col>
-                <b-col cols="6" v-if="dongName" align-self="start"
+                <b-col cols="6" v-if="dongName" class="text-left"
                   >{{ sidoName }} {{ gugunName }} {{ dongName }}</b-col
                 >
                 <b-col cols="1"></b-col>
               </b-row>
-              <b-row>
+              <b-row class="mb-1">
                 <b-col cols="2"></b-col>
                 <b-col cols="3" align-self="end">이메일</b-col
-                ><b-col cols="6" align-self="start">{{ userInfo.email }}</b-col>
+                ><b-col cols="6" class="text-left">{{ userInfo.email }}</b-col>
                 <b-col cols="1"></b-col>
               </b-row>
-              <b-row>
+              <b-row class="mb-1">
                 <b-col cols="2"></b-col>
                 <b-col cols="3" align-self="end">가입일</b-col
-                ><b-col cols="6" align-self="start">{{
+                ><b-col cols="6" class="text-left">{{
                   userInfo.regtime
                 }}</b-col>
                 <b-col cols="1"></b-col>
               </b-row>
             </b-container>
             <hr class="my-4" />
-            <b-button
-              variant="success"
-              @click.prevent="onClickLogout"
-              class="mr-1"
-              >로그아웃</b-button
-            >
-            <b-button variant="primary" href="#" class="mr-1" @click="goModify"
-              >정보수정</b-button
-            >
-            <b-button variant="danger" @click="onClickDelete"
-              >회원탈퇴</b-button
-            >
-          </b-jumbotron>
+            <b-row class="text-center pt-3">
+              <b-col @click.prevent="onClickLogout" style="cursor: pointer"
+                >로그아웃</b-col
+              >
+              <b-col @click="goModify" style="cursor: pointer">정보수정</b-col>
+              <b-col @click="onClickDelete" style="cursor: pointer"
+                >회원탈퇴</b-col
+              >
+            </b-row>
+          </div>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -143,4 +138,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+div.card {
+  margin-top: 50px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+h3 {
+  font-weight: bold;
+}
+</style>

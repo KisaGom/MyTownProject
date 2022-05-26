@@ -1,16 +1,14 @@
 <template>
   <b-tab title="유저 관리">
-    <b-container class="mt-4" v-if="userInfo.userid === 'admin'">
+    <b-container v-if="userInfo.userid === 'admin'">
       <b-row> </b-row>
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <b-jumbotron>
-            <template #header>ADMIN Page</template>
+          <div class="card">
+            <h3>ADMIN Page</h3>
 
-            <template #lead> 유저 정보 관리 </template>
-
-            <hr class="my-4" />
+            <h6>유저 정보 관리 페이지입니다.</h6>
 
             <b-table
               class="mt-3"
@@ -24,7 +22,7 @@
                 <b-icon icon="x-circle" style="cursor: pointer"></b-icon>
               </template>
             </b-table>
-          </b-jumbotron>
+          </div>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -72,4 +70,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+div.card {
+  margin-top: 50px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+h3 {
+  font-weight: bold;
+}
+</style>

@@ -1,13 +1,15 @@
 <template>
-  <b-tabs fill>
-    <member-user-info></member-user-info>
-    <member-user-favorite
-      v-if="userInfo.userid != 'admin'"
-    ></member-user-favorite>
-    <member-user-manager
-      v-if="userInfo.userid === 'admin'"
-    ></member-user-manager>
-  </b-tabs>
+  <b-container class="mt-5">
+    <b-tabs fill>
+      <member-user-info></member-user-info>
+      <member-user-favorite
+        v-if="userInfo.userid != 'admin'"
+      ></member-user-favorite>
+      <member-user-manager
+        v-if="userInfo.userid === 'admin'"
+      ></member-user-manager>
+    </b-tabs>
+  </b-container>
 </template>
 
 <script>

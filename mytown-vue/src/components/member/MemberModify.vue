@@ -1,50 +1,49 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container class="bv-example-row mt-5">
     <b-row>
       <b-col />
-      <h2>회원 정보 수정</h2>
-      <b-col
-    /></b-row>
-    <b-row>
-      <b-col />
-      <b-col cols="6">
-        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
+      <b-col cols="8">
+        <div class="card">
+          <h3>Update Profile</h3>
           <b-form class="text-left">
             <b-alert show variant="danger" v-if="hasError"
               >항목은 빈 항목일 수 없습니다.</b-alert
             >
-            <b-form-group>
+            <b-form-group label="아이디">
               <b-form-input
                 id="userid"
                 required
                 v-model="userid"
                 placeholder="아이디"
                 readonly
-              ></b-form-input>
+              ></b-form-input
+            ></b-form-group>
+            <b-form-group label="비밀번호">
               <b-form-input
                 id="userpwd"
                 required
                 v-model="userpwd"
-                class="mt-3"
                 placeholder="새로운 비밀번호"
-              ></b-form-input>
+              ></b-form-input
+            ></b-form-group>
+            <b-form-group label="이름">
               <b-form-input
                 id="username"
                 required
                 v-model="username"
-                class="mt-3"
                 placeholder="이름"
-              ></b-form-input>
+              ></b-form-input
+            ></b-form-group>
+            <b-form-group label="이메일">
               <b-form-input
                 id="email"
                 required
                 v-model="email"
                 placeholder="이메일"
-                class="mt-3"
               ></b-form-input>
             </b-form-group>
 
-            <b-input-group class="mt-3" v-show="!editmode">
+            <b-input-group v-show="!editmode">
               <b-form-input
                 id="sido"
                 required
@@ -96,24 +95,13 @@
                 ></b-input-group-append
               >
             </b-input-group>
-            <b-button
-              block
-              type="button"
-              variant="primary"
-              class="mt-3"
-              @click="checkForm"
-              >수정하기</b-button
-            >
-            <b-button
-              block
-              type="button"
-              variant="secondary"
-              class="mt-3"
-              @click="goback"
-              >취소</b-button
-            >
+            <hr />
+            <b-row class="text-center pt-3">
+              <b-col @click="checkForm" style="cursor: pointer">수정하기</b-col>
+              <b-col @click="goback" style="cursor: pointer">취소</b-col>
+            </b-row>
           </b-form>
-        </b-card>
+        </div>
       </b-col>
       <b-col></b-col>
     </b-row>
@@ -257,4 +245,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+div.card {
+  margin-top: 100px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+
+h3 {
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+</style>
