@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{ user.sidoName }} {{ user.gugunName }} {{ user.dongName }} 방명록</h4>
+    <h4>{{ sidoName }} {{ gugunName }} {{ dongName }} 방명록</h4>
     <b-input-group v-if="!editmode">
       <b-form-input
         id="sido"
@@ -319,6 +319,11 @@ export default {
         // console.log("called doSearch", this.gugunCode + this.dongCode);
         listDongBoard(this.gugunCode + this.dongCode, (response) => {
           this.items = response.data;
+          getAddrByCode(this.gugunCode + this.dongCode, ({ data }) => {
+            this.sidoName = data.sidoName;
+            this.gugunName = data.gugunName;
+            this.dongName = data.dongName;
+          });
         });
       }
     },
@@ -329,7 +334,7 @@ export default {
       this.board.userid = this.userInfo.userid;
       registBoard(this.board, () => {
         alert("방명록이 등록되었습니다");
-        listBoard(this.userInfo.dongCode, (response) => {
+        listDongBoard(this.userInfo.dongCode, (response) => {
           this.board.content = "";
           this.$refs.dropdown.hide(true);
           this.items = response.data;
@@ -342,7 +347,7 @@ export default {
       // console.log("modified item", item);
       modifyBoard(item, () => {
         alert("방명록이 수정되었습니다");
-        listBoard(this.userInfo.dongCode, (response) => {
+        listDongBoard(this.userInfo.dongCode, (response) => {
           this.items = response.data;
         });
       });
