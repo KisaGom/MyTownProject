@@ -111,7 +111,7 @@ export default {
   },
   mounted() {
     this.$root.$on("bv::modal::hidden", (bvEvent, modalId) => {
-      // console.log("hide!", bvEvent, modalId);
+      console.log("hide!", bvEvent, modalId);
       this.keyId = null;
       this.keyEmail = null;
       this.foundPwd = null;
