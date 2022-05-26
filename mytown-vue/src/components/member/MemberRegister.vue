@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col></b-col>
-      <b-col cols="8">
+      <b-col cols="8" lg="8" md="10">
         <div class="card">
           <h3>Sign up</h3>
           <b-form class="text-left">

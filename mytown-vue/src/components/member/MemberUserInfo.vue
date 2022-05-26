@@ -4,11 +4,11 @@
       <b-row> </b-row>
       <b-row>
         <b-col></b-col>
-        <b-col cols="8">
+        <b-col cols="8" lg="8" md="10">
           <div class="card">
             <h3>My Page</h3>
 
-            <h6>내 정보 확인페이지입니다.</h6>
+            <h6>내 정보 확인 페이지입니다.</h6>
 
             <hr class="my-4" />
 

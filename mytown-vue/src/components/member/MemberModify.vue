@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-5">
     <b-row>
       <b-col />
-      <b-col cols="8">
+      <b-col cols="8" lg="8" md="10">
         <div class="card">
           <h3>Update Profile</h3>
           <b-form class="text-left">
@@ -245,7 +245,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div.card {
   margin-top: 100px;
   padding: 50px;

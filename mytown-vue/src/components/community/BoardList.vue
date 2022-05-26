@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h4>{{ user.sidoName }} {{ user.gugunName }} {{ user.dongName }} 방명록</h4>
     <b-input-group v-if="!editmode">
       <b-form-input
         id="sido"
@@ -47,13 +48,10 @@
     <div v-if="items && items.length != 0">
       <b-table
         id="board-table"
-        striped
-        borderless
-        outlined
         small
         hover
         fixed
-        head-variant="dark"
+        head-variant="light"
         :per-page="perPage"
         :current-page="currentPage"
         :items="items"
@@ -62,11 +60,12 @@
       >
         <!-- 댓글 테이블 -->
         <template slot="row-details" slot-scope="row">
-          <b-card>
+          <div class="comment">
             <comment-list :board-item="row.item"></comment-list>
-            <span v-if="userInfo != null && userInfo.userid == row.item.userid">
+            <b-button-group class="my-1">
               <b-dropdown
                 id="board-modify"
+                v-if="userInfo != null && userInfo.userid == row.item.userid"
                 size="sm"
                 offset="-200"
                 text="수정"
@@ -82,24 +81,24 @@
                       required
                       placeholder="내용을 입력해주세요"
                     ></b-form-input>
-                    <b-button
-                      variant="primary"
-                      size="sm"
-                      @click="modifyBoard(row.item)"
+                    <b-button block size="sm" @click="modifyBoard(row.item)"
                       >수정</b-button
                     >
                   </b-form-group>
                 </b-dropdown-form>
               </b-dropdown>
-              <b-button size="sm" @click="deleteBoard(row.item.id)"
+              <b-button
+                v-if="userInfo != null && userInfo.userid == row.item.userid"
+                size="sm"
+                @click="deleteBoard(row.item.id)"
                 >삭제</b-button
               >
-            </span>
-            <!-- 댓글 달기 dropdown 버튼 -->
-            <span v-if="userInfo != null">
+              <!-- 댓글 달기 dropdown 버튼 -->
               <b-dropdown
+                v-if="userInfo != null"
                 id="comment-register"
                 size="sm"
+                variant="outline-secondary"
                 offset="-200"
                 text="댓글 달기"
                 ref="dropdown"
@@ -126,8 +125,8 @@
                   </b-form-group>
                 </b-dropdown-form>
               </b-dropdown>
-            </span>
-          </b-card>
+            </b-button-group>
+          </div>
         </template>
       </b-table>
       <b-pagination
@@ -158,7 +157,7 @@
             required
             placeholder="내용을 입력해주세요"
           ></b-form-input>
-          <b-button variant="primary" size="sm" @click="registBoard"
+          <b-button block size="sm" @click="registBoard"
             >{{ user.sidoName }} {{ user.gugunName }} {{ user.dongName }} 방명록
             작성하기</b-button
           >
@@ -377,25 +376,22 @@ export default {
 };
 </script>
 
-<style>
-/* 스크롤 안 보이게(스크롤바 없애기) */
-body {
-  -ms-overflow-style: none;
-}
-::-webkit-scrollbar {
-  display: none;
+<style scoped>
+div.card {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
 }
 
-.input-group .custom-select {
-  border-radius: 0 !important;
+div.comment {
+  border-radius: 0;
+  background-color: #fff;
 }
-.input-group .form-control {
-  border-radius: 0 !important;
-}
-.input-group button {
-  border-radius: 0 !important;
-}
-.input-group {
-  margin-bottom: 10px;
+
+h4 {
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 </style>

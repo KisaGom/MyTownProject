@@ -4,7 +4,7 @@
       <b-row> </b-row>
       <b-row>
         <b-col></b-col>
-        <b-col cols="8">
+        <b-col cols="8" lg="8" md="10">
           <div class="card">
             <h3>My Page</h3>
 
@@ -151,7 +151,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div.card {
   margin-top: 50px;
   padding: 50px;
