@@ -1,10 +1,8 @@
 <template>
   <b-tab title="유저 관리">
     <b-container v-if="userInfo.userid === 'admin'">
-      <b-row> </b-row>
       <b-row>
-        <b-col></b-col>
-        <b-col cols="8" lg="8" md="10">
+        <b-col>
           <div class="card">
             <h3>ADMIN Page</h3>
 
@@ -24,7 +22,6 @@
             </b-table>
           </div>
         </b-col>
-        <b-col></b-col>
       </b-row>
     </b-container>
   </b-tab>

@@ -157,4 +157,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+div.card {
+  margin-top: 100px;
+  padding: 50px;
+  border-radius: 0;
+  background-color: #fff;
+}
+
+h3 {
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+</style>

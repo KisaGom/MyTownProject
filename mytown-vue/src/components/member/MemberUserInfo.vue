@@ -1,17 +1,12 @@
 <template>
   <b-tab title="회원 정보">
     <b-container v-if="userInfo">
-      <b-row> </b-row>
       <b-row>
-        <b-col></b-col>
-        <b-col cols="8" lg="8" md="10">
+        <b-col>
           <div class="card">
             <h3>My Page</h3>
-
             <h6>내 정보 확인 페이지입니다.</h6>
-
             <hr class="my-4" />
-
             <b-container class="my-4">
               <b-row class="mb-1">
                 <b-col cols="2"></b-col>
@@ -65,7 +60,6 @@
             </b-row>
           </div>
         </b-col>
-        <b-col></b-col>
       </b-row>
     </b-container>
   </b-tab>

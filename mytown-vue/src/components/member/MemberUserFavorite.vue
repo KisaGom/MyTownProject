@@ -1,15 +1,11 @@
 <template>
   <b-tab title="관심 지역">
     <b-container>
-      <b-row> </b-row>
       <b-row>
-        <b-col></b-col>
-        <b-col cols="8" lg="8" md="10">
+        <b-col>
           <div class="card">
             <h3>My Page</h3>
-
             <h6>관심 지역을 설정하세요.</h6>
-
             <hr class="my-4" />
             <b-input-group class="mt-3">
               <b-form-select
@@ -32,7 +28,6 @@
                 ></b-input-group-append
               >
             </b-input-group>
-
             <b-table class="mt-3" hover fixed :items="items" :fields="fields">
               <template #cell(del)="row">
                 <b-icon
@@ -44,7 +39,6 @@
             </b-table>
           </div>
         </b-col>
-        <b-col></b-col>
       </b-row>
     </b-container>
   </b-tab>
