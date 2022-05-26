@@ -88,7 +88,7 @@ export default {
     },
 
     moveCommunity() {
-      console.log("called moveCommunity", this.dongCode);
+      // console.log("called moveCommunity", this.dongCode);
       this.$router.push(`/community/list/${this.dongCode}`);
     },
 
@@ -188,7 +188,7 @@ export default {
     //geolocation 이용 현위치로 지도 이동
     moveLocation() {
       let locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-      console.log("navigator.geolocation", navigator.geolocation);
+      // console.log("navigator.geolocation", navigator.geolocation);
       // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
       if (navigator.geolocation) {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다

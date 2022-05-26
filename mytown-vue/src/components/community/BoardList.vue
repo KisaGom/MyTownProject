@@ -117,7 +117,8 @@
                       placeholder="내용을 입력해주세요"
                     ></b-form-input>
                     <b-button
-                      variant="primary"
+                      variant="outline-secondary"
+                      block
                       size="sm"
                       @click="registComment(row.item.id, row.item)"
                       >댓글 등록</b-button
@@ -275,7 +276,7 @@ export default {
       }
       if (this.$route.params.code != undefined) {
         //시군구동 초기값 url param에서 가져오기
-        console.log("board list param", this.$route.params.code);
+        // console.log("board list param", this.$route.params.code);
         getAddrByCode(this.$route.params.code, ({ data }) => {
           this.sidoName = data.sidoName;
           this.gugunName = data.gugunName;
@@ -353,7 +354,7 @@ export default {
       if (confirm("게시물을 삭제할까요?")) {
         deleteBoard(id, () => {
           alert("게시물이 삭제되었습니다");
-          listBoard(this.userInfo.dongCode, (response) => {
+          listDongBoard(this.userInfo.dongCode, (response) => {
             this.items = response.data;
           });
         });

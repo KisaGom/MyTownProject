@@ -22,6 +22,7 @@
                 required
                 v-model="userpwd"
                 class="mb-3"
+                type="password"
                 placeholder="비밀번호"
               ></b-form-input>
               <b-form-input
@@ -142,6 +143,7 @@ export default {
           console.log(response);
           if (response.data === "success") {
             console.log("Success");
+            alert("회원 가입 되셨습니다. 로그인 페이지로 이동합니다.");
             this.$router.push({ name: "signIn" });
           } else {
             console.log("Fail");

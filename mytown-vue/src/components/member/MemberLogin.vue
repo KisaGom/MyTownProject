@@ -77,12 +77,7 @@
           ></b-form-input>
         </b-row>
         <b-row>
-          <b-button
-            block
-            type="button"
-            variant="success"
-            class="mt-3"
-            @click="onClickFindPwd"
+          <b-button block type="button" class="mt-3" @click="onClickFindPwd"
             >전송</b-button
           >
         </b-row>
@@ -116,7 +111,7 @@ export default {
   },
   mounted() {
     this.$root.$on("bv::modal::hidden", (bvEvent, modalId) => {
-      console.log("hide!", bvEvent, modalId);
+      // console.log("hide!", bvEvent, modalId);
       this.keyId = null;
       this.keyEmail = null;
       this.foundPwd = null;
@@ -143,7 +138,7 @@ export default {
       findPwd(
         finder,
         (response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data != "fail") {
             this.foundPwd = response.data;
           } else {

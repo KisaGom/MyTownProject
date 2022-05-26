@@ -22,6 +22,7 @@
               <b-form-input
                 id="userpwd"
                 required
+                type="password"
                 v-model="userpwd"
                 placeholder="새로운 비밀번호"
               ></b-form-input

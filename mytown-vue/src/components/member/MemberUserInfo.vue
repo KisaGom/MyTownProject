@@ -116,7 +116,7 @@ export default {
           (response) => {
             console.log(response);
             if (response.data === "success") {
-              alert("회원 정보가 삭제되었습니다.");
+              alert("탈퇴 되셨습니다. 이용해주셔서 감사합니다.");
               this.$router.push("logout");
             } else {
               console.log("Fail");

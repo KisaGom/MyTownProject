@@ -81,7 +81,7 @@ export default {
   methods: {
     //댓글 수정
     modifyComment(item) {
-      console.log("called modifyComment", item);
+      // console.log("called modifyComment", item);
       modifyComment(item, () => {
         this.$refs.dropdown.hide(true);
         alert("댓글이 수정되었습니다");
