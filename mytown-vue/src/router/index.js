@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "@/views/HomeView.vue";
+// import HomeView from "@/views/HomeView.vue";
 import LifeView from "@/views/LifeView";
 import MemberView from "@/views/MemberView.vue";
 import MemberLogin from "@/components/member/MemberLogin.vue";
@@ -33,13 +33,14 @@ const onlyAuthUser = async (to, from, next) => {
 };
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/life",
+    alias: ["/", "/life"],
     name: "life",
     component: LifeView,
   },

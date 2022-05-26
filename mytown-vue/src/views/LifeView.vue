@@ -148,6 +148,8 @@ export default {
   },
   created() {
     this.CLEAR_SIDO_LIST();
+    this.CLEAR_HOUSE_LIST();
+    this.CLEAR_COMM_LIST();
     this.getSido();
   },
   methods: {
@@ -176,6 +178,7 @@ export default {
     ]),
     gugunList() {
       this.CLEAR_HOUSE_LIST();
+      this.CLEAR_COMM_LIST();
       this.CLEAR_GUGUN_LIST();
       this.CLEAR_DONG_LIST();
       this.gugunCode = null;
@@ -184,6 +187,7 @@ export default {
     },
     dongList() {
       this.CLEAR_HOUSE_LIST();
+      this.CLEAR_COMM_LIST();
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);

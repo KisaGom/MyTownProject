@@ -48,7 +48,7 @@ const houseStore = {
       state.house = house;
     },
     CLEAR_COMM_LIST: (state) => {
-      state.houses = null;
+      state.comms = null;
     },
     SET_COMM_LIST: (state, comms) => {
       state.comms = comms;
